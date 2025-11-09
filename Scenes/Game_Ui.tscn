@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://baj1aa01vbsmk"]
+
+[ext_resource type="Script" uid="uid://djgn3m77ebsr7" path="res://Scripts/game_ui.gd" id="1_bs6ei"]
+[ext_resource type="FontFile" uid="uid://dp6y5fs1725mc" path="res://Assets/Pixel_Art/Public_Pixel_Font_1_24/PublicPixel.ttf" id="2_bs6ei"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_bs6ei")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 55.0
+offset_top = 5.0
+offset_right = 215.0
+offset_bottom = 21.0
+theme_override_fonts/font = ExtResource("2_bs6ei")
+theme_override_font_sizes/font_size = 16
+text = "Move
+Counter"
+horizontal_alignment = 1
+vertical_alignment = 1

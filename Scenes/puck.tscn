@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://debn026el0dau"]
+
+[ext_resource type="Script" uid="uid://cceeaaemcb67f" path="res://Rough/aa.gd" id="1_5cs87"]
+[ext_resource type="Script" uid="uid://llhe2yro7om2" path="res://Rough/ba.gd" id="2_8335h"]
+
+[node name="Puck" type="Node"]
+
+[node name="A" type="Node" parent="."]
+
+[node name="AA" type="Node" parent="A"]
+script = ExtResource("1_5cs87")
+
+[node name="B" type="Node" parent="."]
+
+[node name="BA" type="Node" parent="B"]
+script = ExtResource("2_8335h")
