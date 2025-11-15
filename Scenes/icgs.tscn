@@ -1,14 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://2735rvqj7iee"]
+[gd_scene load_steps=4 format=3 uid="uid://2735rvqj7iee"]
 
-[ext_resource type="FontFile" uid="uid://dp6y5fs1725mc" path="res://Assets/Pixel_Art/Public_Pixel_Font_1_24/PublicPixel.ttf" id="1_4lx01"]
+[ext_resource type="Script" uid="uid://cgy1vsedii1u4" path="res://Scripts/icgs.gd" id="1_lssav"]
+[ext_resource type="FontFile" uid="uid://dp6y5fs1725mc" path="res://Assets/Pixel_Art/Public_Pixel_Font_1_24/PublicPixel.ttf" id="2_xn7dl"]
+[ext_resource type="Script" uid="uid://ue47r4lcmnof" path="res://Scripts/game_state_logic.gd" id="3_xn7dl"]
 
-[node name="GameWindow1" type="Control"]
+[node name="ICGS" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_lssav")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -51,7 +54,7 @@ size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBoxContainer/Navigation/MoveCntr"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("1_4lx01")
+theme_override_fonts/font = ExtResource("2_xn7dl")
 theme_override_font_sizes/font_size = 16
 text = "Your Moves
 20
@@ -85,3 +88,15 @@ keep_pressed_outside = true
 layout_mode = 2
 size_flags_horizontal = 3
 keep_pressed_outside = true
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="GameStateLogic" type="Node" parent="."]
+script = ExtResource("3_xn7dl")
+
+[connection signal="pressed" from="VBoxContainer/GameControls/Slot1" to="." method="_on_slot_1_pressed"]
+[connection signal="pressed" from="VBoxContainer/GameControls/Slot2" to="." method="_on_slot_2_pressed"]
+[connection signal="pressed" from="VBoxContainer/GameControls/Slot3" to="." method="_on_slot_3_pressed"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

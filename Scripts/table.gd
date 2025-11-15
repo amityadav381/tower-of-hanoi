@@ -5,6 +5,8 @@ extends RigidBody2D
 func _ready() -> void:
 	pass # Replace with function body.
 
+func applyImpulseToTable()->void:
+	self.apply_central_impulse(Vector2(0,350))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta: float) -> void:

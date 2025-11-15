@@ -1,3 +1,10 @@
-[gd_scene format=3 uid="uid://c4np2vypy1wgd"]
+[gd_scene load_steps=3 format=3 uid="uid://c4np2vypy1wgd"]
+
+[ext_resource type="PackedScene" uid="uid://dwf8tw4knkwpc" path="res://Scenes/table_and_puck.tscn" id="1_bo1nx"]
+[ext_resource type="PackedScene" uid="uid://2735rvqj7iee" path="res://Scenes/icgs.tscn" id="2_8gbba"]
 
 [node name="Main" type="Node2D"]
+
+[node name="TableAndPuck" parent="." instance=ExtResource("1_bo1nx")]
+
+[node name="ICGS" parent="." instance=ExtResource("2_8gbba")]
