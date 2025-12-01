@@ -1,11 +1,10 @@
 extends Node
+class_name gameStateClass
 
+var slot_state : Array[slotState] = [slotState.new(0), slotState.new(1), slotState.new(2)]
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _init() -> void:
 	pass
+	#print("gameStateClass init called")
+	#print("NUMBER OF SLOTS in GAME = ", slot_state.size())
+	

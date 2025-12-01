@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://bxvru5y8qgmor"]
+
+[ext_resource type="Script" uid="uid://cm6oom1jwqt10" path="res://Rough/rough_buttons.gd" id="1_5hx7r"]
+[ext_resource type="Theme" uid="uid://b4yr8gk6t4ock" path="res://Rough/button_game.tres" id="2_1fxgx"]
+
+[node name="RoughButtons" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5hx7r")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_1fxgx")
+toggle_mode = true
+
+[node name="Button2" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_1fxgx")
+toggle_mode = true
+
+[node name="Button3" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_1fxgx")
+toggle_mode = true
+
+[node name="ResetTimer" type="Timer" parent="."]
+
+[connection signal="pressed" from="HBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="HBoxContainer/Button3" to="." method="_on_button_3_pressed"]

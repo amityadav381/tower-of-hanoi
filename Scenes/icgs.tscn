@@ -1,38 +1,29 @@
-[gd_scene load_steps=4 format=3 uid="uid://2735rvqj7iee"]
+[gd_scene load_steps=5 format=3 uid="uid://2735rvqj7iee"]
 
 [ext_resource type="Script" uid="uid://cgy1vsedii1u4" path="res://Scripts/icgs.gd" id="1_lssav"]
 [ext_resource type="FontFile" uid="uid://dp6y5fs1725mc" path="res://Assets/Pixel_Art/Public_Pixel_Font_1_24/PublicPixel.ttf" id="2_xn7dl"]
+[ext_resource type="Theme" uid="uid://b4yr8gk6t4ock" path="res://Rough/button_game.tres" id="3_deow7"]
 [ext_resource type="Script" uid="uid://ue47r4lcmnof" path="res://Scripts/game_state_logic.gd" id="3_xn7dl"]
 
-[node name="ICGS" type="Control"]
-layout_mode = 3
+[node name="ICGS" type="Container"]
+custom_minimum_size = Vector2(270, 480)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1_lssav")
-
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -94.0
-offset_top = -69.0
-offset_right = 97.0
-offset_bottom = 66.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.30426002, 0.053807326, 0.61041874, 1)
+metadata/_edit_use_anchors_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+custom_minimum_size = Vector2(270, 480)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+metadata/_edit_use_anchors_ = true
+metadata/_edit_group_ = true
 
 [node name="Navigation" type="HBoxContainer" parent="VBoxContainer"]
 custom_minimum_size = Vector2(270, 60)
@@ -40,30 +31,36 @@ layout_mode = 2
 alignment = 1
 
 [node name="Back" type="Button" parent="VBoxContainer/Navigation"]
-custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_xn7dl")
 keep_pressed_outside = true
 text = "B"
 icon_alignment = 1
 expand_icon = true
 
-[node name="MoveCntr" type="CenterContainer" parent="VBoxContainer/Navigation"]
-custom_minimum_size = Vector2(50, 50)
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Navigation"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="VBoxContainer/Navigation/MoveCntr"]
+[node name="Label" type="Label" parent="VBoxContainer/Navigation/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("2_xn7dl")
 theme_override_font_sizes/font_size = 16
-text = "Your Moves
-20
-----"
+horizontal_alignment = 1
+
+[node name="TimeLabel" type="Label" parent="VBoxContainer/Navigation/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("2_xn7dl")
+text = "Move Counter"
 horizontal_alignment = 1
 
 [node name="Settings" type="Button" parent="VBoxContainer/Navigation"]
-custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_xn7dl")
 keep_pressed_outside = true
 text = "S"
 icon_alignment = 1
@@ -72,25 +69,31 @@ expand_icon = true
 [node name="GameControls" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 5
+theme_override_constants/separation = 3
 
 [node name="Slot1" type="Button" parent="VBoxContainer/GameControls"]
 layout_mode = 2
 size_flags_horizontal = 3
-keep_pressed_outside = true
+theme = ExtResource("3_deow7")
+theme_override_colors/icon_hover_color = Color(0.057814546, 0.7695389, 0.8798221, 1)
+toggle_mode = true
 
 [node name="Slot2" type="Button" parent="VBoxContainer/GameControls"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("3_deow7")
+toggle_mode = true
 keep_pressed_outside = true
 
 [node name="Slot3" type="Button" parent="VBoxContainer/GameControls"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("3_deow7")
+toggle_mode = true
 keep_pressed_outside = true
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 2.5
 one_shot = true
 
 [node name="GameStateLogic" type="Node" parent="."]

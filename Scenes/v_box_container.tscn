@@ -1,0 +1,81 @@
+[gd_scene load_steps=3 format=3 uid="uid://dx5j0574b4hmt"]
+
+[ext_resource type="FontFile" uid="uid://dp6y5fs1725mc" path="res://Assets/Pixel_Art/Public_Pixel_Font_1_24/PublicPixel.ttf" id="1_sc6iu"]
+[ext_resource type="Theme" uid="uid://b4yr8gk6t4ock" path="res://Rough/button_game.tres" id="2_js4ii"]
+
+[node name="VBoxContainer" type="VBoxContainer"]
+custom_minimum_size = Vector2(270, 480)
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+metadata/_edit_use_anchors_ = true
+metadata/_edit_group_ = true
+
+[node name="Navigation" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(270, 60)
+layout_mode = 2
+alignment = 1
+
+[node name="Back" type="Button" parent="Navigation"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("1_sc6iu")
+keep_pressed_outside = true
+text = "B"
+icon_alignment = 1
+expand_icon = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Navigation"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Navigation/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("1_sc6iu")
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+
+[node name="TimeLabel" type="Label" parent="Navigation/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("1_sc6iu")
+text = "Move Counter"
+horizontal_alignment = 1
+
+[node name="Settings" type="Button" parent="Navigation"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("1_sc6iu")
+keep_pressed_outside = true
+text = "S"
+icon_alignment = 1
+expand_icon = true
+
+[node name="GameControls" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 3
+
+[node name="Slot1" type="Button" parent="GameControls"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_js4ii")
+theme_override_colors/icon_hover_color = Color(0.057814546, 0.7695389, 0.8798221, 1)
+toggle_mode = true
+
+[node name="Slot2" type="Button" parent="GameControls"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_js4ii")
+toggle_mode = true
+keep_pressed_outside = true
+
+[node name="Slot3" type="Button" parent="GameControls"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_js4ii")
+toggle_mode = true
+keep_pressed_outside = true

@@ -1,6 +1,7 @@
-extends Node2D
+extends Control
 
-@onready var character_name = $Label
+@export_file("*.tscn") var game_scene
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
@@ -8,7 +9,9 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	character_name.text = "Window Size = " + str(get_tree().root.size) +\
-	"\nContent Size = "+ str(get_tree().root.content_scale_size)
+	pass
 
-	
+
+func _on_button_button_up() -> void:
+	#print("ENTER THE GAME") # Replace with function body.
+	get_tree().change_scene_to_file(game_scene)

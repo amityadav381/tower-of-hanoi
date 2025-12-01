@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dwf8tw4knkwpc"]
+[gd_scene load_steps=21 format=3 uid="uid://dwf8tw4knkwpc"]
 
 [ext_resource type="Script" uid="uid://d3afsv3n3rkrl" path="res://Scripts/table.gd" id="1_gq6fh"]
 [ext_resource type="Script" uid="uid://c5amo3eslx2r8" path="res://Scripts/table_and_puck.gd" id="1_vu74o"]
@@ -14,6 +14,19 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yjjby"]
 size = Vector2(270, 222)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xxem2"]
+bg_color = Color(0, 0.2627451, 0.2627451, 1)
+corner_detail = 1
+
+[sub_resource type="Theme" id="Theme_xxem2"]
+Panel/styles/panel = SubResource("StyleBoxFlat_xxem2")
+
+[sub_resource type="Theme" id="Theme_m5qj8"]
+Panel/styles/panel = SubResource("StyleBoxFlat_xxem2")
+
+[sub_resource type="Theme" id="Theme_tlolg"]
+Panel/styles/panel = SubResource("StyleBoxFlat_xxem2")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0kv5q"]
 size = Vector2(270, 20)
@@ -43,6 +56,7 @@ position = Vector2(45, 205)
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Table/M13"]
+visible = false
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_xg6ra")
 
@@ -50,6 +64,7 @@ texture = ExtResource("3_xg6ra")
 position = Vector2(135, 205)
 
 [node name="Sprite2D" type="Sprite2D" parent="Table/M23"]
+visible = false
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_xg6ra")
 
@@ -58,28 +73,80 @@ position = Vector2(225, 205)
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Table/M33"]
+visible = false
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_xg6ra")
 
 [node name="M12" type="Marker2D" parent="Table"]
 position = Vector2(45, 185)
 
+[node name="Sprite2D" type="Sprite2D" parent="Table/M12"]
+visible = false
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_xg6ra")
+
 [node name="M22" type="Marker2D" parent="Table"]
 position = Vector2(135, 185)
+
+[node name="Sprite2D" type="Sprite2D" parent="Table/M22"]
+visible = false
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_xg6ra")
 
 [node name="M32" type="Marker2D" parent="Table"]
 position = Vector2(225, 185)
 
+[node name="Sprite2D" type="Sprite2D" parent="Table/M32"]
+visible = false
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_xg6ra")
+
 [node name="M11" type="Marker2D" parent="Table"]
 position = Vector2(45, 165)
+
+[node name="Sprite2D" type="Sprite2D" parent="Table/M11"]
+visible = false
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_xg6ra")
 
 [node name="M21" type="Marker2D" parent="Table"]
 position = Vector2(135, 165)
 
+[node name="Sprite2D" type="Sprite2D" parent="Table/M21"]
+visible = false
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_xg6ra")
+
 [node name="M31" type="Marker2D" parent="Table"]
 position = Vector2(225, 165)
 
+[node name="Sprite2D" type="Sprite2D" parent="Table/M31"]
+visible = false
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_xg6ra")
+
+[node name="Slot0" type="Panel" parent="Table"]
+offset_top = 215.0
+offset_right = 90.0
+offset_bottom = 235.0
+theme = SubResource("Theme_xxem2")
+
+[node name="Slot1" type="Panel" parent="Table"]
+offset_left = 90.0
+offset_top = 215.0
+offset_right = 180.0
+offset_bottom = 235.0
+theme = SubResource("Theme_m5qj8")
+
+[node name="Slot2" type="Panel" parent="Table"]
+offset_left = 180.0
+offset_top = 215.0
+offset_right = 270.0
+offset_bottom = 235.0
+theme = SubResource("Theme_tlolg")
+
 [node name="Ceiling" type="StaticBody2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ceiling"]
 position = Vector2(135, 10)
@@ -104,19 +171,21 @@ position = Vector2(-0.35750008, -28.217499)
 shape = SubResource("RectangleShape2D_vu74o")
 
 [node name="pin1" type="PinJoint2D" parent="."]
+visible = false
 position = Vector2(260, 40)
 node_a = NodePath("../Ceiling")
 node_b = NodePath("../Table")
-softness = 10.0
+softness = 5.0
 
 [node name="pin2" type="PinJoint2D" parent="."]
+visible = false
 position = Vector2(10, 40)
 node_a = NodePath("../Ceiling")
 node_b = NodePath("../Table")
-softness = 10.0
+softness = 5.0
 
 [node name="Puck1" type="CharacterBody2D" parent="."]
-position = Vector2(46.2, 137.5)
+position = Vector2(45, 165)
 collision_mask = 3
 script = ExtResource("4_xg6ra")
 metadata/_edit_group_ = true
@@ -125,7 +194,7 @@ metadata/_edit_group_ = true
 shape = ExtResource("9_m5qj8")
 
 [node name="Puck2" type="CharacterBody2D" parent="."]
-position = Vector2(46, 169)
+position = Vector2(227, 91)
 collision_mask = 3
 script = ExtResource("7_sw311")
 metadata/_edit_group_ = true
@@ -134,7 +203,7 @@ metadata/_edit_group_ = true
 shape = ExtResource("7_xxem2")
 
 [node name="Puck3" type="CharacterBody2D" parent="."]
-position = Vector2(44, 199)
+position = Vector2(225, 116)
 collision_mask = 3
 script = ExtResource("8_v2cif")
 metadata/_edit_group_ = true
