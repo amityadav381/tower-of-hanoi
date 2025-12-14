@@ -19,6 +19,7 @@ func processIICommand(_cmd:IntermediateInputCommand)->bool:
 	#print("IC RECEIVED")
 	var ic := InputCommand.new()
 	ic.is_right           = _cmd.slot_to > _cmd.slot_from
+	ic.slot_to            = _cmd.slot_to
 	ic.move_index         = _cmd.move_index
 	ic.puck_id            = GameInitModule.gameState[_cmd.slot_from].pop_back()
 	ic.puck_position_to   = \

@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://dfi8v6pyxlps0"]
+[gd_scene load_steps=5 format=3 uid="uid://dfi8v6pyxlps0"]
 
 [ext_resource type="Script" uid="uid://ck7hw88f6wmoc" path="res://Scripts/main_menu.gd" id="1_28flt"]
+[ext_resource type="Texture2D" uid="uid://bf1g3efs4014o" path="res://Assets/Pixel_Art/color_samples/blue_sun_set.jpg" id="2_48xlc"]
+[ext_resource type="FontFile" uid="uid://dp6y5fs1725mc" path="res://Assets/Pixel_Art/Public_Pixel_Font_1_24/PublicPixel.ttf" id="3_1ehe0"]
+
+[sub_resource type="Theme" id="Theme_ce3w2"]
+Button/fonts/font = ExtResource("3_1ehe0")
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -11,6 +16,11 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_28flt")
 game_scene = "uid://c4np2vypy1wgd"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.3668478, 0.36697248)
+texture = ExtResource("2_48xlc")
+centered = false
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -25,6 +35,7 @@ layout_mode = 2
 
 [node name="Button" type="Button" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
+theme = SubResource("Theme_ce3w2")
 text = "START_GAME"
 
 [connection signal="button_up" from="CenterContainer/VBoxContainer/Button" to="." method="_on_button_button_up"]

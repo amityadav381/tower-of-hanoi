@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bri2dv7o40kct"]
+
+[ext_resource type="Script" uid="uid://dbreg3arpung4" path="res://study_physics_process.gd" id="1_5autx"]
+[ext_resource type="Script" uid="uid://kab3ma6mvqc7" path="res://child.gd" id="2_rberw"]
+
+[node name="study_physics_process" type="Node"]
+script = ExtResource("1_5autx")
+
+[node name="child" type="Node" parent="."]
+script = ExtResource("2_rberw")

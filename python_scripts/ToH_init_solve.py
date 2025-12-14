@@ -5,7 +5,7 @@ from typing import List, Tuple
 PEG_A, PEG_B, PEG_C = 0, 1, 2
 PEG_NAMES = {PEG_A: "Peg A (0)", PEG_B: "Peg B (1)", PEG_C: "Peg C (2)"}
 
-def generate_random_state(min_disks: int = 3, max_disks: int = 8) -> Tuple[List[List[int]], int]:
+def generate_random_state(min_disks: int = 3, max_disks: int = 4) -> Tuple[List[List[int]], int]:
     """
     Generates a random valid state for the Tower of Hanoi puzzle using 3 lists.
 
@@ -151,7 +151,7 @@ def print_state_info(pegs: List[List[int]], target_peg: int):
 # --- Main Execution ---
 if __name__ == "__main__":
     # 1. Generate a random valid state (List of Lists)
-    pegs, target_peg = generate_random_state(min_disks=4, max_disks=6)
+    pegs, target_peg = generate_random_state(min_disks=3, max_disks=4)
     
     # 2. Display the generated state
     print_state_info(pegs, target_peg)

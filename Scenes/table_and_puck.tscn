@@ -1,35 +1,190 @@
-[gd_scene load_steps=21 format=3 uid="uid://dwf8tw4knkwpc"]
+[gd_scene load_steps=36 format=3 uid="uid://dwf8tw4knkwpc"]
 
-[ext_resource type="Script" uid="uid://d3afsv3n3rkrl" path="res://Scripts/table.gd" id="1_gq6fh"]
 [ext_resource type="Script" uid="uid://c5amo3eslx2r8" path="res://Scripts/table_and_puck.gd" id="1_vu74o"]
 [ext_resource type="Curve" uid="uid://8ogmmgm83v0k" path="res://Scenes/flip_animation_rotation_curve.tres" id="2_80brl"]
+[ext_resource type="Script" uid="uid://bbyrl4uuf1jc2" path="res://Scripts/animation_player.gd" id="2_m5qj8"]
+[ext_resource type="Shape2D" uid="uid://qulsx6pbu63f" path="res://Resources/slot_table.tres" id="3_m5qj8"]
 [ext_resource type="Texture2D" uid="uid://d0i6y3hib0j6c" path="res://icon.svg" id="3_xg6ra"]
 [ext_resource type="Script" uid="uid://tv4csuxabrof" path="res://Scripts/path_follow_2d.gd" id="4_vu74o"]
 [ext_resource type="Script" uid="uid://c4l1csqjpmypx" path="res://Scripts/character_body_2d.gd" id="4_xg6ra"]
+[ext_resource type="Theme" uid="uid://bytae2qg4d88w" path="res://Resources/slot_theme.tres" id="5_tlolg"]
 [ext_resource type="Script" uid="uid://do6mc4u7otef7" path="res://Scripts/character_body_2d_2.gd" id="7_sw311"]
 [ext_resource type="Shape2D" uid="uid://cqcc4qd73lqnb" path="res://Resources/puck2.tres" id="7_xxem2"]
 [ext_resource type="Script" uid="uid://d2ftblgr3xw01" path="res://Scripts/character_body_2d_3.gd" id="8_v2cif"]
 [ext_resource type="Shape2D" uid="uid://wqbabtweqsva" path="res://Resources/puck1.tres" id="9_m5qj8"]
 [ext_resource type="Shape2D" uid="uid://cc42soinuka1w" path="res://Resources/puck3.tres" id="10_m5qj8"]
+[ext_resource type="Texture2D" uid="uid://bf1g3efs4014o" path="res://Assets/Pixel_Art/color_samples/blue_sun_set.jpg" id="15_8cv2w"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_yjjby"]
-size = Vector2(270, 222)
+[sub_resource type="Animation" id="Animation_m5qj8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Table_0:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(45, 700)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Table_1:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(135, 700)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Table_2:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(225, 700)]
+}
+
+[sub_resource type="Animation" id="Animation_7m5j4"]
+resource_name = "initialization_animation"
+length = 2.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Table_0:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [Vector2(45, 700), Vector2(45, 400)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Table_1:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [Vector2(135, 700), Vector2(135, 400)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Table_2:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [Vector2(225, 700), Vector2(225, 400)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1.5, 2),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"placingPucks"
+}, {
+"args": [],
+"method": &"onGameStateReady"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_xxem2"]
+resource_name = "table_0"
+length = 0.6
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Table_0:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(400, -0.23723288, -80.65917, 0.1, 22.5, 400, -0.10000001, 25.5, 0.06666666, -12.5, 400, -0.100000024, 12.5, 0.060256302, -0.5, 400, -0.034778, 1.5, 0, 0),
+"times": PackedFloat32Array(0, 0.3, 0.4666667, 0.6)
+}
+
+[sub_resource type="Animation" id="Animation_tlolg"]
+resource_name = "table_1"
+length = 0.6
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Table_1:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(400, -0.23723288, -80.65917, 0.1, 22.5, 400, -0.10000001, 25.5, 0.06666666, -12.5, 400, -0.100000024, 12.5, 0.060256302, -0.5, 400, -0.034778, 1.5, 0, 0),
+"times": PackedFloat32Array(0, 0.3, 0.4666667, 0.6)
+}
+
+[sub_resource type="Animation" id="Animation_frh7q"]
+resource_name = "table_2"
+length = 0.6
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Table_2:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(400, -0.23723288, -80.65917, 0.1, 22.5, 400, -0.10000001, 25.5, 0.06666666, -12.5, 400, -0.100000024, 12.5, 0.060256302, -0.5, 400, -0.034778, 1.5, 0, 0),
+"times": PackedFloat32Array(0, 0.3, 0.4666667, 0.6)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_m5qj8"]
+_data = {
+&"RESET": SubResource("Animation_m5qj8"),
+&"initialization_animation": SubResource("Animation_7m5j4"),
+&"table_0": SubResource("Animation_xxem2"),
+&"table_1": SubResource("Animation_tlolg"),
+&"table_2": SubResource("Animation_frh7q")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_frh7q"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xxem2"]
-bg_color = Color(0, 0.2627451, 0.2627451, 1)
+bg_color = Color(0.011488871, 0.04679323, 0.112151064, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
 corner_detail = 1
 
 [sub_resource type="Theme" id="Theme_xxem2"]
 Panel/styles/panel = SubResource("StyleBoxFlat_xxem2")
 
-[sub_resource type="Theme" id="Theme_m5qj8"]
-Panel/styles/panel = SubResource("StyleBoxFlat_xxem2")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7m5j4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8cv2w"]
 
 [sub_resource type="Theme" id="Theme_tlolg"]
 Panel/styles/panel = SubResource("StyleBoxFlat_xxem2")
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_0kv5q"]
-size = Vector2(270, 20)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jf8pm"]
 size = Vector2(22, 314.53)
@@ -37,120 +192,175 @@ size = Vector2(22, 314.53)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vu74o"]
 size = Vector2(24.715, 306.435)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m5qj8"]
+bg_color = Color(1, 1, 1, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+
+[sub_resource type="Theme" id="Theme_frh7q"]
+Panel/styles/panel = SubResource("StyleBoxFlat_m5qj8")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tlolg"]
+bg_color = Color(0.85490197, 0.88235295, 0.9137255, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+
+[sub_resource type="Theme" id="Theme_7m5j4"]
+Panel/styles/panel = SubResource("StyleBoxFlat_tlolg")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_frh7q"]
+bg_color = Color(0.5294118, 0.60784316, 0.7137255, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+
+[sub_resource type="Theme" id="Theme_8cv2w"]
+Panel/styles/panel = SubResource("StyleBoxFlat_frh7q")
+
 [sub_resource type="Curve2D" id="Curve2D_jf8pm"]
 
 [node name="TableAndPuck" type="Node"]
 script = ExtResource("1_vu74o")
 
-[node name="Table" type="RigidBody2D" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_m5qj8")
+}
+script = ExtResource("2_m5qj8")
+
+[node name="Table_0" type="AnimatableBody2D" parent="."]
+position = Vector2(45, 700)
 collision_layer = 2
-collision_mask = 2
-script = ExtResource("1_gq6fh")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Table"]
-position = Vector2(135, 326)
-shape = SubResource("RectangleShape2D_yjjby")
-
-[node name="M13" type="Marker2D" parent="Table"]
-position = Vector2(45, 205)
+collision_mask = 3
 metadata/_edit_group_ = true
 
-[node name="Sprite2D" type="Sprite2D" parent="Table/M13"]
-visible = false
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("3_xg6ra")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Table_0"]
+shape = ExtResource("3_m5qj8")
 
-[node name="M23" type="Marker2D" parent="Table"]
-position = Vector2(135, 205)
-
-[node name="Sprite2D" type="Sprite2D" parent="Table/M23"]
-visible = false
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("3_xg6ra")
-
-[node name="M33" type="Marker2D" parent="Table"]
-position = Vector2(225, 205)
+[node name="M13" type="Marker2D" parent="Table_0"]
+position = Vector2(0, -121)
 metadata/_edit_group_ = true
 
-[node name="Sprite2D" type="Sprite2D" parent="Table/M33"]
+[node name="Sprite2D" type="Sprite2D" parent="Table_0/M13"]
 visible = false
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_xg6ra")
 
-[node name="M12" type="Marker2D" parent="Table"]
-position = Vector2(45, 185)
+[node name="M12" type="Marker2D" parent="Table_0"]
+position = Vector2(0, -141)
+metadata/_edit_group_ = true
 
-[node name="Sprite2D" type="Sprite2D" parent="Table/M12"]
+[node name="Sprite2D" type="Sprite2D" parent="Table_0/M12"]
 visible = false
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_xg6ra")
 
-[node name="M22" type="Marker2D" parent="Table"]
-position = Vector2(135, 185)
+[node name="M11" type="Marker2D" parent="Table_0"]
+position = Vector2(0, -161)
+metadata/_edit_group_ = true
 
-[node name="Sprite2D" type="Sprite2D" parent="Table/M22"]
+[node name="Sprite2D" type="Sprite2D" parent="Table_0/M11"]
 visible = false
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_xg6ra")
 
-[node name="M32" type="Marker2D" parent="Table"]
-position = Vector2(225, 185)
-
-[node name="Sprite2D" type="Sprite2D" parent="Table/M32"]
-visible = false
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("3_xg6ra")
-
-[node name="M11" type="Marker2D" parent="Table"]
-position = Vector2(45, 165)
-
-[node name="Sprite2D" type="Sprite2D" parent="Table/M11"]
-visible = false
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("3_xg6ra")
-
-[node name="M21" type="Marker2D" parent="Table"]
-position = Vector2(135, 165)
-
-[node name="Sprite2D" type="Sprite2D" parent="Table/M21"]
-visible = false
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("3_xg6ra")
-
-[node name="M31" type="Marker2D" parent="Table"]
-position = Vector2(225, 165)
-
-[node name="Sprite2D" type="Sprite2D" parent="Table/M31"]
-visible = false
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("3_xg6ra")
-
-[node name="Slot0" type="Panel" parent="Table"]
-offset_top = 215.0
-offset_right = 90.0
-offset_bottom = 235.0
+[node name="Slot0" type="Panel" parent="Table_0"]
+material = SubResource("ShaderMaterial_frh7q")
+offset_left = -45.0
+offset_top = -111.0
+offset_right = 45.0
+offset_bottom = 189.0
 theme = SubResource("Theme_xxem2")
 
-[node name="Slot1" type="Panel" parent="Table"]
-offset_left = 90.0
-offset_top = 215.0
-offset_right = 180.0
-offset_bottom = 235.0
-theme = SubResource("Theme_m5qj8")
+[node name="Table_1" type="AnimatableBody2D" parent="."]
+position = Vector2(135, 700)
+collision_layer = 2
+collision_mask = 3
+metadata/_edit_group_ = true
 
-[node name="Slot2" type="Panel" parent="Table"]
-offset_left = 180.0
-offset_top = 215.0
-offset_right = 270.0
-offset_bottom = 235.0
-theme = SubResource("Theme_tlolg")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Table_1"]
+shape = ExtResource("3_m5qj8")
 
-[node name="Ceiling" type="StaticBody2D" parent="."]
+[node name="M23" type="Marker2D" parent="Table_1"]
+position = Vector2(0, -121)
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Table_1/M23"]
 visible = false
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_xg6ra")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ceiling"]
-position = Vector2(135, 10)
-shape = SubResource("RectangleShape2D_0kv5q")
+[node name="M22" type="Marker2D" parent="Table_1"]
+position = Vector2(0, -141)
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Table_1/M22"]
+visible = false
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_xg6ra")
+
+[node name="M21" type="Marker2D" parent="Table_1"]
+position = Vector2(0, -161)
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Table_1/M21"]
+visible = false
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_xg6ra")
+
+[node name="Slot1" type="Panel" parent="Table_1"]
+material = SubResource("ShaderMaterial_7m5j4")
+offset_left = -45.0
+offset_top = -111.0
+offset_right = 45.0
+offset_bottom = 189.0
+theme = ExtResource("5_tlolg")
+
+[node name="Table_2" type="AnimatableBody2D" parent="."]
+position = Vector2(225, 700)
+collision_layer = 2
+collision_mask = 3
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Table_2"]
+shape = ExtResource("3_m5qj8")
+
+[node name="M33" type="Marker2D" parent="Table_2"]
+position = Vector2(0, -121)
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Table_2/M33"]
+visible = false
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_xg6ra")
+
+[node name="M32" type="Marker2D" parent="Table_2"]
+position = Vector2(0, -141)
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Table_2/M32"]
+visible = false
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_xg6ra")
+
+[node name="M31" type="Marker2D" parent="Table_2"]
+position = Vector2(0, -161)
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Table_2/M31"]
+visible = false
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_xg6ra")
+
+[node name="Slot2" type="Panel" parent="Table_2"]
+material = SubResource("ShaderMaterial_8cv2w")
+offset_left = -45.0
+offset_top = -111.0
+offset_right = 45.0
+offset_bottom = 189.0
+theme = SubResource("Theme_tlolg")
 
 [node name="Wall1" type="StaticBody2D" parent="."]
 position = Vector2(284.394, 341.53)
@@ -170,46 +380,67 @@ collision_mask = 3
 position = Vector2(-0.35750008, -28.217499)
 shape = SubResource("RectangleShape2D_vu74o")
 
-[node name="pin1" type="PinJoint2D" parent="."]
-visible = false
-position = Vector2(260, 40)
-node_a = NodePath("../Ceiling")
-node_b = NodePath("../Table")
-softness = 5.0
-
-[node name="pin2" type="PinJoint2D" parent="."]
-visible = false
-position = Vector2(10, 40)
-node_a = NodePath("../Ceiling")
-node_b = NodePath("../Table")
-softness = 5.0
-
 [node name="Puck1" type="CharacterBody2D" parent="."]
-position = Vector2(45, 165)
+position = Vector2(138, -98)
 collision_mask = 3
+motion_mode = 1
+platform_on_leave = 1
+safe_margin = 0.001
 script = ExtResource("4_xg6ra")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Puck1"]
 shape = ExtResource("9_m5qj8")
 
+[node name="Panel" type="Panel" parent="Puck1"]
+offset_left = -15.0
+offset_top = -10.0
+offset_right = 15.0
+offset_bottom = 10.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource("Theme_frh7q")
+metadata/_edit_use_anchors_ = true
+
 [node name="Puck2" type="CharacterBody2D" parent="."]
-position = Vector2(227, 91)
+position = Vector2(137, -72)
 collision_mask = 3
+motion_mode = 1
+safe_margin = 0.001
 script = ExtResource("7_sw311")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Puck2"]
 shape = ExtResource("7_xxem2")
 
+[node name="Panel" type="Panel" parent="Puck2"]
+offset_left = -25.0
+offset_top = -10.0
+offset_right = 25.0
+offset_bottom = 10.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource("Theme_7m5j4")
+
 [node name="Puck3" type="CharacterBody2D" parent="."]
-position = Vector2(225, 116)
+position = Vector2(135, -47)
 collision_mask = 3
+motion_mode = 1
+safe_margin = 0.001
 script = ExtResource("8_v2cif")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Puck3"]
 shape = ExtResource("10_m5qj8")
+
+[node name="Panel" type="Panel" parent="Puck3"]
+offset_left = -35.0
+offset_top = -10.0
+offset_right = 35.0
+offset_bottom = 10.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource("Theme_8cv2w")
 
 [node name="Path2D" type="Path2D" parent="."]
 curve = SubResource("Curve2D_jf8pm")
@@ -225,4 +456,9 @@ flip_anim = ExtResource("2_80brl")
 update_rotation = false
 update_scale = false
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("15_8cv2w")
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="animation_ended" from="Path2D/PathFollow2D" to="." method="_on_path_follow_2d_animation_ended"]

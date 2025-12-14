@@ -1,0 +1,23 @@
+[gd_resource type="AnimatedTexture" load_steps=5 format=3 uid="uid://br7xtd5dy7rea"]
+
+[ext_resource type="Gradient" uid="uid://r2u2rpkirwdr" path="res://Scenes/color_gradient.tres" id="1_37ew7"]
+[ext_resource type="FastNoiseLite" uid="uid://g7jeah8btn0u" path="res://Scenes/noise.tres" id="2_plb3d"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_0upk7"]
+width = 270
+height = 480
+noise = ExtResource("2_plb3d")
+color_ramp = ExtResource("1_37ew7")
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qpjh8"]
+width = 270
+height = 480
+noise = ExtResource("2_plb3d")
+color_ramp = ExtResource("1_37ew7")
+
+[resource]
+frames = 2
+frame_0/texture = SubResource("NoiseTexture2D_0upk7")
+frame_0/duration = 10.0
+frame_1/texture = SubResource("NoiseTexture2D_qpjh8")
+frame_1/duration = 1.0

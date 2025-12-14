@@ -7,6 +7,7 @@ var puck_position_to  :Vector2
 var puck_id           :int
 var move_index        :int
 var is_right          :bool
+var slot_to           :int
 
 func _init() -> void:
 	#puck_position_from = Vector2.ZERO
@@ -14,3 +15,4 @@ func _init() -> void:
 	puck_id            = 0
 	move_index         = 0
 	is_right           = false
+	slot_to            = 0

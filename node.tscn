@@ -1,6 +1,133 @@
-[gd_scene load_steps=2 format=3 uid="uid://dn4l4op01fd8d"]
+[gd_scene load_steps=12 format=3 uid="uid://dn4l4op01fd8d"]
 
 [ext_resource type="Script" uid="uid://ckyioroh7bk3g" path="res://Rough/node.gd" id="1_sy5k4"]
+[ext_resource type="Script" uid="uid://drunl81voft2l" path="res://Rough/character_body_2d.gd" id="2_j2q8x"]
+[ext_resource type="Script" uid="uid://dm6xx225s1s1d" path="res://animation_player.gd" id="3_112p8"]
+[ext_resource type="Script" uid="uid://dk0dkkaa1vyyy" path="res://Rough/character_body_2d_2.gd" id="4_e2u21"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j2q8x"]
+size = Vector2(50, 41)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_112p8"]
+size = Vector2(200, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e2u21"]
+size = Vector2(200, 35)
+
+[sub_resource type="Animation" id="Animation_j2q8x"]
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatableBody2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(142, 440)]
+}
+
+[sub_resource type="Animation" id="Animation_112p8"]
+resource_name = "swing_swing"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatableBody2D:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(2.4622874, 1.0000001),
+"update": 0,
+"values": [Vector2(142, 350), Vector2(138, 200)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CharacterBody2D")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"initiate_jump"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CharacterBody2D2")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"initiate_jump2"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_e2u21"]
+_data = {
+&"RESET": SubResource("Animation_j2q8x"),
+&"swing_swing": SubResource("Animation_112p8")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bss38"]
+size = Vector2(125, 46)
 
 [node name="Node" type="Node"]
 script = ExtResource("1_sy5k4")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+collision_mask = 7
+slide_on_ceiling = false
+platform_on_leave = 2
+safe_margin = 0.001
+script = ExtResource("2_j2q8x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(139, 116)
+shape = SubResource("RectangleShape2D_j2q8x")
+
+[node name="AnimatableBody2D" type="AnimatableBody2D" parent="."]
+position = Vector2(142, 440)
+collision_layer = 2
+collision_mask = 7
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D"]
+shape = SubResource("RectangleShape2D_112p8")
+
+[node name="Area2D" type="Area2D" parent="AnimatableBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D/Area2D"]
+shape = SubResource("RectangleShape2D_e2u21")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+deterministic = true
+libraries = {
+&"": SubResource("AnimationLibrary_e2u21")
+}
+script = ExtResource("3_112p8")
+
+[node name="CharacterBody2D2" type="CharacterBody2D" parent="."]
+collision_layer = 4
+collision_mask = 7
+slide_on_ceiling = false
+platform_on_leave = 2
+safe_margin = 0.001
+script = ExtResource("4_e2u21")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D2"]
+position = Vector2(145, 180)
+shape = SubResource("RectangleShape2D_bss38")
+
+[connection signal="area_entered" from="AnimatableBody2D/Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="AnimatableBody2D/Area2D" to="." method="_on_area_2d_body_entered"]

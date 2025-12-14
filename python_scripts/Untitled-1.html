@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Pixel Tower of Hanoi — UI Mockup</title>
+<style>
+  :root{
+    /* Palette: 3 colors + shades */
+    --bg: #071327;          /* deep navy */
+    --bg-2: #0b1b2b;
+    --main: #F2C94C;        /* warm gold */
+    --main-2: #e6bd3f;
+    --accent: #7EE7C0;      /* mint */
+    --accent-2: #5fd6a6;
+    --ui-ink: #071327;      /* text color (dark) */
+    --pixel-scale: 2;       /* scale factor for crisp pixel look */
+    --peg-width: 16px;
+    --peg-height: 160px;
+    --board-width: 520px;
+  }
+
+  /* Reset + pixel look */
+  *{box-sizing:border-box}
+  html,body{
+    height:100%;
+    margin:0;
+    background: linear-gradient(180deg,var(--bg),var(--bg-2));
+    color:var(--main);
+    font-family: "Press Start 2P", ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Center stage */
+  .wrap{
+    min-height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:28px;
+  }
+
+  .screen {
+    width: min(100%, calc(var(--board-width) + 40px));
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border: 6px solid rgba(255,255,255,0.04);
+    padding:18px;
+    box-shadow: 0 8px 0 rgba(0,0,0,0.6);
+    image-rendering: pixelated;
+  }
+
+  /* Top bar */
+  .topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    margin-bottom:12px;
+    color:var(--main);
+    font-size:12px;
+  }
+
+  .top-left{
+    display:flex; align-items:center; gap:10px;
+  }
+
+  .btn {
+    background: var(--accent);
+    border: 2px solid var(--main-2);
+    padding:8px 12px;
+    font-size:11px;
+    cursor:pointer;
+    user-select:none;
+    transform: translateZ(0);
+    image-rendering: pixelated;
+  }
+  .btn:active{ transform: translateY(1px) }
+
+  .moves {
+    background: linear-gradient(90deg, rgba(242,201,76,0.14), rgba(126,231,192,0.05));
+    padding:6px 10px;
+    border: 2px solid rgba(255,255,255,0.03);
+    font-size:12px;
+  }
+
+  /* Board area */
+  .board-wrap{
+    display:flex;
+    justify-content:center;
+    padding: 18px 6px 28px;
+  }
+
+  .board {
+    width:var(--board-width);
+    height: 280px;
+    position:relative;
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    padding:0 30px;
+    gap:10px;
+  }
+
+  /* Base platform */
+  .base {
+    position:absolute;
+    left:0; right:0; bottom:18px;
+    height:28px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.08), rgba(255,255,255,0.02));
+    border-top: 3px solid rgba(255,255,255,0.02);
+    box-shadow: 0 4px 0 rgba(0,0,0,0.3);
+  }
+
+  /* Peg */
+  .peg {
+    width: var(--peg-width);
+    height: var(--peg-height);
+    background:
+      linear-gradient(180deg, rgba(0,0,0,0.12), rgba(255,255,255,0.02));
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    margin-bottom: 18px;
+    cursor:pointer;
+    border-left:2px solid rgba(255,255,255,0.02);
+    border-right:2px solid rgba(0,0,0,0.12);
+    box-shadow: inset 0 -6px 0 rgba(0,0,0,0.12);
+  }
+
+  .peg.selected { outline: 4px solid rgba(126,231,192,0.12); box-shadow:0 6px 0 rgba(0,0,0,0.18) }
+
+  /* Disk (pixel-looking block with stepped edges using box shadows) */
+  .disk {
+    height:28px;
+    margin-bottom:6px;
+    position:relative;
+    display:block;
+    transform-origin:center bottom;
+    transition: transform 220ms cubic-bezier(.2,.9,.3,1), margin 160ms;
+    box-shadow: 
+      0 3px 0 rgba(0,0,0,0.18),
+      -6px 0 0 rgba(0,0,0,0.06),
+      6px 0 0 rgba(255,255,255,0.02);
+    border: 2px solid rgba(0,0,0,0.06);
+    image-rendering: pixelated;
+  }
+
+  /* disk width variants (integer px widths to preserve pixel feel) */
+  .d1{ width: 120px; background: linear-gradient(180deg, var(--main), var(--main-2)); }
+  .d2{ width: 160px; background: linear-gradient(180deg, #eed36a, #e6bd3f); }
+  .d3{ width: 200px; background: linear-gradient(180deg, #ffe89a, #f2c94c); }
+  .d4{ width: 240px; background: linear-gradient(180deg, #fff1c9, #f6d672); }
+
+  /* Add a thin mint highlight stripe on disks */
+  .disk::after{
+    content:"";
+    position:absolute;
+    left:6px; right:6px; top:4px; height:6px;
+    background: linear-gradient(90deg, rgba(126,231,192,0.16), rgba(126,231,192,0.06));
+    pointer-events:none;
+  }
+
+  /* small instruction text */
+  .hint {
+    text-align:center;
+    margin-top:10px;
+    color: rgba(242,201,76,0.9);
+    font-size:11px;
+    opacity:0.95;
+  }
+
+  /* responsive tweaks */
+  @media (max-width:520px){
+    :root{ --board-width: calc(100% - 40px) }
+    .d1{ width: 84px } .d2{ width:112px } .d3{ width:140px } .d4{ width:168px }
+    .peg{ height:120px }
+  }
+
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="screen" role="application" aria-label="Tower of Hanoi UI Mockup">
+      <div class="topbar">
+        <div class="top-left">
+          <div style="width:48px;height:36px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(255,255,255,0.02),transparent);border:2px solid rgba(255,255,255,0.02);">
+            <strong style="font-size:12px;color:var(--main)">Hⁿ</strong>
+          </div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-left:8px">
+            <div>Level: <strong style="color:var(--main)">4</strong></div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.45)">Classic • Pixel</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:12px;align-items:center">
+          <div class="moves">Moves: <span id="moves">0</span></div>
+          <button class="btn" id="resetBtn">RESET</button>
+        </div>
+      </div>
+
+      <div class="board-wrap">
+        <div class="board" id="board">
+          <!-- Peg columns -->
+          <div class="peg" data-peg="0" role="button" aria-label="Peg A"></div>
+          <div class="peg" data-peg="1" role="button" aria-label="Peg B"></div>
+          <div class="peg" data-peg="2" role="button" aria-label="Peg C"></div>
+
+          <div class="base" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <div class="hint">Click a peg to pick up the top disk, then click a target peg to place it. Valid moves only.</div>
+    </div>
+  </div>
+
+<script>
+  /* Small interactive logic to demonstrate UI (valid move only).
+     Keeps game logic simple and clear; can be expanded into full game loop easily. */
+  (function(){
+    const level = 4; // number of disks shown
+    const pegs = [[], [], []];
+    const board = document.getElementById('board');
+    const movesSpan = document.getElementById('moves');
+    const resetBtn = document.getElementById('resetBtn');
+    let selectedPeg = null;
+    let moves = 0;
+
+    function createDiskElement(sizeIndex){
+      const d = document.createElement('div');
+      d.className = 'disk d' + sizeIndex;
+      d.dataset.size = sizeIndex;
+      d.style.borderRadius = '2px';
+      return d;
+    }
+
+    function reset(newLevel){
+      // clear
+      const pegEls = board.querySelectorAll('.peg');
+      pegEls.forEach(p => p.innerHTML = '');
+      pegs[0]=[]; pegs[1]=[]; pegs[2]=[];
+      selectedPeg = null;
+      moves = 0; movesSpan.textContent = moves;
+      // populate left peg with descending sizes (biggest last)
+      for(let i=newLevel; i>=1; --i){
+        const el = createDiskElement( Math.min(4, i) );
+        pegs[0].push({size:i, el});
+        pegEls[0].appendChild(el);
+      }
+      highlight(null);
+    }
+
+    function highlight(pegIndex){
+      const pegEls = board.querySelectorAll('.peg');
+      pegEls.forEach((p,i) => {
+        if(i === pegIndex) p.classList.add('selected'); else p.classList.remove('selected');
+      });
+    }
+
+    function topSizeOf(pegIndex){
+      const arr = pegs[pegIndex];
+      return arr.length ? arr[arr.length-1].size : Infinity;
+    }
+
+    board.addEventListener('click', e=>{
+      const peg = e.target.closest('.peg');
+      if(!peg) return;
+      const idx = Number(peg.dataset.peg);
+      // if no selection, pick up
+      if(selectedPeg === null){
+        if(pegs[idx].length === 0) return; // nothing to pick
+        selectedPeg = idx;
+        highlight(idx);
+        return;
+      }
+      // if same peg clicked, cancel selection
+      if(selectedPeg === idx){
+        selectedPeg = null; highlight(null); return;
+      }
+      // attempt move from selectedPeg -> idx
+      const from = selectedPeg, to = idx;
+      const fromTop = topSizeOf(from), toTop = topSizeOf(to);
+      if(fromTop < toTop){
+        // move is valid
+        const obj = pegs[from].pop();
+        pegs[to].push(obj);
+        // remove element from dom and append to target peg
+        peg.appendChild(obj.el);
+        moves += 1; movesSpan.textContent = moves;
+        // small pop animation
+        obj.el.animate([
+          { transform: 'translateY(-8px) scale(1.02)'},
+          { transform: 'translateY(0) scale(1)' }
+        ], { duration: 200, easing: 'cubic-bezier(.2,.9,.3,1)' });
+        // check win (all disks on last peg)
+        if(pegs[2].length === level){
+          setTimeout(()=> alert('You solved it in ' + moves + ' moves!'), 120);
+        }
+      } else {
+        // invalid move feedback
+        const pEl = peg;
+        pEl.animate([{ transform: 'translateX(-6px)'},{ transform: 'translateX(6px)'},{transform:'translateX(0)'}],{duration:250});
+      }
+      selectedPeg = null; highlight(null);
+    });
+
+    resetBtn.addEventListener('click', ()=> reset(level));
+    // initialize
+    reset(level);
+  })();
+</script>
+</body>
+</html>

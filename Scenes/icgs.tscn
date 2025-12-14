@@ -1,9 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://2735rvqj7iee"]
+[gd_scene load_steps=11 format=3 uid="uid://2735rvqj7iee"]
 
 [ext_resource type="Script" uid="uid://cgy1vsedii1u4" path="res://Scripts/icgs.gd" id="1_lssav"]
+[ext_resource type="PackedScene" uid="uid://dj714acct4ueg" path="res://Scenes/parallax_thing.tscn" id="2_cmwsu"]
 [ext_resource type="FontFile" uid="uid://dp6y5fs1725mc" path="res://Assets/Pixel_Art/Public_Pixel_Font_1_24/PublicPixel.ttf" id="2_xn7dl"]
 [ext_resource type="Theme" uid="uid://b4yr8gk6t4ock" path="res://Rough/button_game.tres" id="3_deow7"]
 [ext_resource type="Script" uid="uid://ue47r4lcmnof" path="res://Scripts/game_state_logic.gd" id="3_xn7dl"]
+[ext_resource type="Script" uid="uid://oxdp4rvmhf0j" path="res://Scripts/back.gd" id="4_55tja"]
+[ext_resource type="Script" uid="uid://iq1c0kaonism" path="res://Scripts/settings.gd" id="5_jgw2d"]
+[ext_resource type="Script" uid="uid://dk2pdmrjwfor5" path="res://Scripts/slot_1.gd" id="5_ms8tu"]
+[ext_resource type="Script" uid="uid://g63p3gvkx0as" path="res://Scripts/slot_2.gd" id="6_v46xs"]
+[ext_resource type="Script" uid="uid://c27gjbo1llhxc" path="res://Scripts/slot_3.gd" id="7_jyxl1"]
 
 [node name="ICGS" type="Container"]
 custom_minimum_size = Vector2(270, 480)
@@ -16,6 +22,8 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_lssav")
 metadata/_edit_use_anchors_ = true
+
+[node name="ParallaxThing" parent="." instance=ExtResource("2_cmwsu")]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 custom_minimum_size = Vector2(270, 480)
@@ -38,24 +46,26 @@ keep_pressed_outside = true
 text = "B"
 icon_alignment = 1
 expand_icon = true
+script = ExtResource("4_55tja")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Navigation"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="VBoxContainer/Navigation/VBoxContainer"]
+[node name="MoveCnt" type="Label" parent="VBoxContainer/Navigation/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("2_xn7dl")
 theme_override_font_sizes/font_size = 16
+text = "Moves:"
 horizontal_alignment = 1
 
-[node name="TimeLabel" type="Label" parent="VBoxContainer/Navigation/VBoxContainer"]
+[node name="TimerCnt" type="Label" parent="VBoxContainer/Navigation/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("2_xn7dl")
-text = "Move Counter"
-horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+text = "Time :"
 
 [node name="Settings" type="Button" parent="VBoxContainer/Navigation"]
 layout_mode = 2
@@ -65,6 +75,7 @@ keep_pressed_outside = true
 text = "S"
 icon_alignment = 1
 expand_icon = true
+script = ExtResource("5_jgw2d")
 
 [node name="GameControls" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -77,6 +88,7 @@ size_flags_horizontal = 3
 theme = ExtResource("3_deow7")
 theme_override_colors/icon_hover_color = Color(0.057814546, 0.7695389, 0.8798221, 1)
 toggle_mode = true
+script = ExtResource("5_ms8tu")
 
 [node name="Slot2" type="Button" parent="VBoxContainer/GameControls"]
 layout_mode = 2
@@ -84,6 +96,7 @@ size_flags_horizontal = 3
 theme = ExtResource("3_deow7")
 toggle_mode = true
 keep_pressed_outside = true
+script = ExtResource("6_v46xs")
 
 [node name="Slot3" type="Button" parent="VBoxContainer/GameControls"]
 layout_mode = 2
@@ -91,6 +104,17 @@ size_flags_horizontal = 3
 theme = ExtResource("3_deow7")
 toggle_mode = true
 keep_pressed_outside = true
+script = ExtResource("7_jyxl1")
+
+[node name="CountDown" type="Label" parent="."]
+top_level = true
+custom_minimum_size = Vector2(270, 50)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_xn7dl")
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.5

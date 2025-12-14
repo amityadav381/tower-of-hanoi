@@ -8,14 +8,13 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 border_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tql31"]
-bg_color = Color(0.6, 0.6, 0.6, 0.14117648)
+bg_color = Color(0.6, 0.6, 0.6, 0.039215688)
 border_color = Color(0, 0, 0, 0.9647059)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8bfr5"]
 bg_color = Color(1, 1, 1, 0)
-border_width_top = 8
-border_width_bottom = 8
-border_color = Color(0, 0.52156866, 0.52156866, 1)
+border_width_top = 15
+border_color = Color(0.1254902, 0.26666668, 0.47058824, 1)
 
 [resource]
 Button/styles/focus = SubResource("StyleBoxFlat_gcqkd")
