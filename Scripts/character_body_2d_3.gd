@@ -3,7 +3,8 @@ extends CharacterBody2D
 
 
 func _ready() -> void:
-	visible = false
+	#visible = false
+	pass
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.

@@ -16,3 +16,7 @@ https://colorhunt.co/palettes/popular
 
 Main Background:
 https://in.pinterest.com/pin/66357794503809747/
+
+
+Important link I should have seen earlier:
+https://developer.android.com/games/engines/godot/godot-formfactor

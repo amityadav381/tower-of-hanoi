@@ -27,7 +27,7 @@ var styleBoxGreen     := styleBox.duplicate(true)
 @export var second_input := 0
 @export var inputHandlingState := 0
 #@export var input_command_index := 0
-@export var enable_signal_to_anim_module : bool
+#@export var enable_signal_to_anim_module : bool
 #@export var time_elapsed := 0.0
 
 var move_count_frmt_str := "Moves:%d"
@@ -52,7 +52,7 @@ func _ready() -> void:
 	second_input                 = 0
 	inputHandlingState           = 0
 	#input_command_index          = 0
-	enable_signal_to_anim_module = true
+	#enable_signal_to_anim_module = true
 	
 	styleBoxWhite.border_color   = Color.WHITE
 	styleBoxGreen.border_color   = Color.GREEN
@@ -82,7 +82,8 @@ func clearInputs()->void:
 	second_input = 0
 
 func on_animation_completed()->void:
-	enable_signal_to_anim_module = true
+	pass
+	#enable_signal_to_anim_module = true
 
 func handleUserInputs(_user_input: int)->void:
 	start_game_score_timer(true)
@@ -113,11 +114,12 @@ func handleUserInputs(_user_input: int)->void:
 				buttonTheme.set_stylebox("pressed", "Button", styleBoxWhite)
 			else:
 				buttonTheme.set_stylebox("pressed", "Button", styleBoxRed)
-			await get_tree().create_timer(0.05).timeout 
+			#await get_tree().create_timer(0.05).timeout 
 			resetButtonTheme()
-			if is_cmd_valid and enable_signal_to_anim_module:
+			#print("GameInitModule.inputCommands.is_empty() = ", GameInitModule.inputCommands.is_empty())
+			if is_cmd_valid and ( GameInitModule.inputCommands.size() == 1 ):  #enable_signal_to_anim_module:
 				inputCommandPopulated.emit()
-				enable_signal_to_anim_module = false
+				#enable_signal_to_anim_module = false
 			#emit signal to notify TableAndPuck scene
 			clearInputs()
 

@@ -6,6 +6,9 @@ extends Node
 @export var gameState :Array[Array] #= [[2,1,0],[],[]]
 @export var target_slot :int #= 2
 @export var gameWon : bool = false
+var minMoveCount := 0
+var goldScorepoints := 0.0
+var yourPoints := 0.0
 
 @export var move_count_main := 0
 @export var time_taken_main := 0.0
@@ -30,6 +33,47 @@ enum slot_t
 	MAX_SLOTS = SLOT3
 }
 
+## Computes the minimum number of moves to transfer all disks to the target peg.
+## pegs: Array of Arrays, e.g. [[3, 1], [2], []]
+## target_peg: The integer ID (0, 1, or 2) of the destination peg.
+func calculate_min_moves(pegs: Array[Array], target_peg: int) -> int:
+	var disk_pos := {}  # disk -> peg index
+	var max_disk := -1
+	
+	# Record disk positions and find largest disk
+	for peg_id in range(3):
+		for disk in pegs[peg_id]:
+			disk_pos[disk] = peg_id
+			max_disk = max(max_disk, disk)
+	
+	return _min_moves_recursive(max_disk, target_peg, disk_pos)
+
+func _min_moves_recursive(disk: int, target_peg: int, disk_pos: Dictionary) -> int:
+	if disk < 0:
+		return 0
+	
+	var current_peg = disk_pos[disk]
+	
+	# If disk already on target, just solve for smaller disks
+	if current_peg == target_peg:
+		return _min_moves_recursive(disk - 1, target_peg, disk_pos)
+	
+	# Find auxiliary peg
+	var aux_peg = 3 - current_peg - target_peg
+	
+	# Moves:
+	# 1. Move all smaller disks to aux peg
+	var moves := _min_moves_recursive(disk - 1, aux_peg, disk_pos)
+	
+	# 2. Move this disk to target peg
+	moves += 1
+	disk_pos[disk] = target_peg
+	
+	# 3. Move smaller disks from aux peg to target peg
+	moves += _min_moves_recursive(disk - 1, target_peg, disk_pos)
+	
+	return moves
+
 func _ready() -> void:
 	inputCommands.clear()
 	#intermediateInputCommands.clear()
@@ -51,6 +95,7 @@ func gameInitState()->void:
 		gameState[_slot].push_back(_puck)
 	gameStatePreserve = gameState.duplicate(true)
 	target_slot = randi_range(0, 2)
+	minMoveCount = calculate_min_moves(gameState, target_slot)
 
 func gameInitAtRestart()->void:
 	move_count_main = 0
@@ -58,31 +103,31 @@ func gameInitAtRestart()->void:
 	gameState       = gameStatePreserve.duplicate(true)
 	
 func connectToAniSys()->void:
-	print("Ani-Sys connected to Autoload")
+	#print("Ani-Sys connected to Autoload")
 	get_node("../Main/TableAndPuck").animationCompleted.connect(on_animation_completed)
 
 func connectToCountDownNode()->void:
-	print("CountDown node connected to Autoload")
+	#print("CountDown node connected to Autoload")
 	get_node("../Main/CountDownWindow").count_down_over.connect(on_count_down_over)
 
 func connectToMainGameLoaded()->void:
-	print("Main node connected to Autoload")
+	#print("Main node connected to Autoload")
 	get_node("../Main")._tree_entered.connect(on_main_node_entered)
 
 func connectTablePuckAnimationDone()->void:
-	print("tablePuckAnimationDone connected to Autoload")
+	#print("tablePuckAnimationDone connected to Autoload")
 	get_node("../Main/TableAndPuck").tablePuckAnimationDone.connect(on_table_puck_animation_complete)
 
 func connectRestartRequested()->void:
-	print("RestartRequested connected to Autoload")
+	#print("RestartRequested connected to Autoload")
 	get_node("../Main/GameScoreWindow").gameRestartReq.connect(on_gameRestartReq_sent)
 
 func connectNextGameRequested()->void:
-	print("connectNextGameRequested to Autoload")
+	#print("connectNextGameRequested to Autoload")
 	get_node("../Main/GameScoreWindow").nextGameRreq.connect(on_nextGameRreq_sent)
 
 func on_nextGameRreq_sent()->void:
-	get_node("../Main/TableAndPuck").makePuckInvisible()
+	#get_node("../Main/TableAndPuck").makePuckInvisible()
 	get_node("../Main/TableAndPuck").placePucksInResetPosition()
 	get_node("../Main/GameScoreWindow").visible = false
 	get_node("../Main/BlurAnimation").play("RESET")
@@ -91,7 +136,7 @@ func on_nextGameRreq_sent()->void:
 	on_main_node_entered()
 
 func on_gameRestartReq_sent()->void:
-	get_node("../Main/TableAndPuck").makePuckInvisible()
+	#get_node("../Main/TableAndPuck").makePuckInvisible()
 	get_node("../Main/TableAndPuck").placePucksInResetPosition()
 	get_node("../Main/GameScoreWindow").visible = false
 	get_node("../Main/BlurAnimation").play("RESET")
@@ -105,6 +150,7 @@ func on_animation_completed()->void:
 		gameWon = true
 		get_node("../Main/ICGS").disable_user_inputs()
 		get_node("../Main/ICGS").start_game_score_timer(false)
+		yourPoints = time_taken_main + move_count_main
 		get_node("../Main/GameScoreWindow").update_score_board(time_taken_main, move_count_main)
 		get_node("../Main/GameScoreWindow").visible = true
 		get_node("../Main/BlurAnimation").play("blur_animation")

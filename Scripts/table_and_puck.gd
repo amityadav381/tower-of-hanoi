@@ -106,7 +106,7 @@ func makePuckInvisible()->void:
 
 func placePucksInResetPosition()->void:
 	for i in range(3): #MAX PUCKS
-			puckObjects[i].global_position = Vector2(i*90, -100)
+			puckObjects[i].global_position = Vector2(45+ (i*90), 0)
 			slots_Array[GameInitModule.target_slot].material = null
 
 func onGameStateReady()->void:
@@ -116,9 +116,10 @@ func onGameStateReady()->void:
 		for _puck in GameInitModule.gameState[_slot].size():
 			var pos :Vector2 = puckPosition[_slot][_puck]
 			var pid :int = GameInitModule.gameState[_slot][_puck]
-			puckObjects[pid].global_position = Vector2(pos.x, pos.y - 300)
+			#puckObjects[pid].global_position = Vector2(pos.x, pos.y - 300)
+			puckObjects[pid].global_position = Vector2(pos.x, 0)
 			#puckObjects[pid].visible = true
-			print("OBJECTS PLACED!! = ", puckObjects[pid].global_position)
+			#print("OBJECTS PLACED!! = ", puckObjects[pid].global_position)
 	#runICQCommands()
 	await get_tree().create_timer(0.1).timeout
 	makePuckVisible()
@@ -174,7 +175,7 @@ func placingPucks()->void:
 	]
 
 func _ready() -> void:
-	print("Table and Puck node loaded")
+	#print("Table and Puck node loaded")
 	placingPucks()
 	slot_highlight_material.shader = slot_highlight_shader
 	slot_highlight_material.set_shader_parameter("stripe_width", 0.25)
@@ -208,7 +209,7 @@ func animateCommand()->void:
 		pathFollow2D.puck_ref = puckObjects[_pid]
 		path.curve = createParabolaCurve(puckObjects[_pid].global_position,\
 		puckPosition[_pto.x][_pto.y])
-		print("PUCK JUMP TO = ", puckPosition[_pto.x][_pto.y])
+		#print("PUCK JUMP TO = ", puckPosition[_pto.x][_pto.y])
 		remoteTransform.remote_path = puckObjects[_pid].get_path()
 		pathFollow2D.progress_ratio = 0
 		#await get_tree().create_timer(1.5).timeout

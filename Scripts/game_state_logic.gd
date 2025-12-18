@@ -25,6 +25,10 @@ func processIICommand(_cmd:IntermediateInputCommand)->bool:
 	ic.puck_position_to   = \
 		Vector2(_cmd.slot_to, GameInitModule.gameState[_cmd.slot_to].size())
 	
+	
+	#if (GameInitModule.inputCommands.is_empty()):  
+		#get_parent().inputCommandPopulated.emit()
+	
 	#PUSH THE COMMAND TO QUEUE
 	GameInitModule.inputCommands.push_back(ic)
 	#print("IC PUSHED TO ANI-SYS")
