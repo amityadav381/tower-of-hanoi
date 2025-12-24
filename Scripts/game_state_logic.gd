@@ -11,7 +11,7 @@ func processIICommand(_cmd:IntermediateInputCommand)->bool:
 		#print("ILLEGAL MOVE")
 		return false
 	elif ((GameInitModule.gameState[_cmd.slot_to].size() != 0) and \
-	(GameInitModule.gameState[_cmd.slot_from].back() > GameInitModule.gameState[_cmd.slot_to].back())):
+	(GameInitModule.gameState[_cmd.slot_from].back() < GameInitModule.gameState[_cmd.slot_to].back())):
 		#print("ILLEGAL MOVE")
 		return false
 	

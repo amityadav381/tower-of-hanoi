@@ -30,6 +30,8 @@ var styleBoxGreen     := styleBox.duplicate(true)
 #@export var enable_signal_to_anim_module : bool
 #@export var time_elapsed := 0.0
 
+@onready var wrong_move_sound := $WrongMoveSound
+
 var move_count_frmt_str := "Moves:%d"
 var timer_val_frmt_str  := " Time:%.2f"
 var count_down_frmt_str := "%d"
@@ -55,7 +57,7 @@ func _ready() -> void:
 	#enable_signal_to_anim_module = true
 	
 	styleBoxWhite.border_color   = Color.WHITE
-	styleBoxGreen.border_color   = Color.GREEN
+	#styleBoxGreen.border_color   = Color.GREEN
 	styleBoxRed.border_color     = Color.RED
 	
 func _process(delta: float) -> void:
@@ -111,10 +113,12 @@ func handleUserInputs(_user_input: int)->void:
 			#push the command to queue
 			var is_cmd_valid :bool = gSL.processIICommand(cmd)
 			if is_cmd_valid:
+				#print("????????VALID KYU NAHI CHAMKA??????")
 				buttonTheme.set_stylebox("pressed", "Button", styleBoxWhite)
 			else:
+				wrong_move_sound.play()
 				buttonTheme.set_stylebox("pressed", "Button", styleBoxRed)
-			#await get_tree().create_timer(0.05).timeout 
+			await get_tree().create_timer(0.05).timeout 
 			resetButtonTheme()
 			#print("GameInitModule.inputCommands.is_empty() = ", GameInitModule.inputCommands.is_empty())
 			if is_cmd_valid and ( GameInitModule.inputCommands.size() == 1 ):  #enable_signal_to_anim_module:

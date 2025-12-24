@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://q6nxag2ypup1"]
+
+[ext_resource type="Script" uid="uid://do6mc4u7otef7" path="res://Scripts/character_body_2d_2.gd" id="1_uufrq"]
+[ext_resource type="Shape2D" uid="uid://cqcc4qd73lqnb" path="res://Resources/puck2.tres" id="2_e2hen"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tlolg"]
+bg_color = Color(0.85490197, 0.88235295, 0.9137255, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+
+[sub_resource type="Theme" id="Theme_7m5j4"]
+Panel/styles/panel = SubResource("StyleBoxFlat_tlolg")
+
+[node name="Puck2" type="CharacterBody2D"]
+collision_mask = 3
+motion_mode = 1
+safe_margin = 0.001
+script = ExtResource("1_uufrq")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = ExtResource("2_e2hen")
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = -25.0
+offset_top = -10.0
+offset_right = 25.0
+offset_bottom = 10.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource("Theme_7m5j4")

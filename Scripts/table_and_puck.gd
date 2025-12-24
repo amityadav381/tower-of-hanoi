@@ -3,9 +3,12 @@ extends Node
 @onready var path := $Path2D
 @onready var pathFollow2D := $Path2D/PathFollow2D
 @onready var remoteTransform := $Path2D/PathFollow2D/RemoteTransform2D
-@onready var puck1 := $Puck1
-@onready var puck2 := $Puck2
-@onready var puck3 := $Puck3
+#var puck1 = null #$Puck1
+#var puck2 = null #$Puck2
+#var puck3 = null #$Puck3
+#Directly make an array of pucks
+@export var puck_scene :PackedScene
+
 @onready var AP    := $AnimationPlayer
 
 @onready var table  := $Table_0
@@ -16,17 +19,23 @@ extends Node
 @onready var slot2_mrkr := $Table_2/Slot2
 #Markers for all possible PUCK locations
 
+@onready var mrkr_10 := $Table_0/M10
 @onready var mrkr_11 := $Table_0/M11
 @onready var mrkr_12 := $Table_0/M12
 @onready var mrkr_13 := $Table_0/M13
 
+
+@onready var mrkr_20 := $Table_1/M20
 @onready var mrkr_21 := $Table_1/M21
 @onready var mrkr_22 := $Table_1/M22
 @onready var mrkr_23 := $Table_1/M23
 
+
+@onready var mrkr_30 := $Table_2/M30
 @onready var mrkr_31 := $Table_2/M31
 @onready var mrkr_32 := $Table_2/M32
 @onready var mrkr_33 := $Table_2/M33
+
 
 @export var time_elapsed := 0.0
 
@@ -34,6 +43,10 @@ extends Node
 @export var puckPosition   : Array = []
 @export var slots_Array    : Array = []
 @export var slotTableArray : Array = []
+
+@onready var puck_jump_audio := $PuckJump
+@onready var puck_land_audio := $PuckLand
+@onready var game_win_audio  := $GameWinSound
 var table_anim_callback    : Array
 var _input_command : InputCommand
 
@@ -41,13 +54,16 @@ var slot_highlight_shader      = preload("res://Resources/diagonal_lines.gdshade
 var slot_highlight_material    = ShaderMaterial.new()
 var _t                        := 0.0
 
+var puck_counter := 0
+
 signal animationCompleted
 signal tablePuckAnimationDone
 
 var slotPanelTheme    :Theme    = preload("res://Resources/slot_theme.tres")
-#var styleBox          :StyleBox = slotPanelTheme.get_stylebox("panel", "Panel")
+var styleBox          :StyleBox = slotPanelTheme.get_stylebox("panel", "Panel")
 #var styleBoxWhite     := styleBox.duplicate(true)
 #@export var inputCommands : Array[InputCommand]
+
 
 func createCommandForTest()->void:
 	var cmd  := InputCommand.new()
@@ -98,35 +114,168 @@ func createCommandForTest()->void:
 
 func makePuckVisible()->void:
 	for i in range(3): #MAX PUCKS
-			puckObjects[i].visible = true
+		puckObjects[i].visible = true
 
 func makePuckInvisible()->void:
 	for i in range(3): #MAX PUCKS
-			puckObjects[i].visible = false
+		puckObjects[i].visible = false
 
 func placePucksInResetPosition()->void:
-	for i in range(3): #MAX PUCKS
-			puckObjects[i].global_position = Vector2(45+ (i*90), 0)
-			slots_Array[GameInitModule.target_slot].material = null
+	#for i in range(GameInitModule.PUCK_COUNT_1INDEXD): #MAX PUCKS
+	if puck_counter == GameInitModule.PUCK_COUNT_1INDEXD:
+		printerr("Weird Puck count")
+	puckObjects.append(puck_scene.instantiate())
+	puckObjects[puck_counter].global_position = Vector2(-50, 100) #Vector2(-50 - (45*puck_counter), 100) #Vector2(270 - (45*i), 200) #
+	puckObjects[puck_counter].name = "Puck"+str(puck_counter)
+	add_child(puckObjects[puck_counter])
+	puckObjects[puck_counter].set_the_puck_visual_size(puck_counter)
+	puck_counter += 1
 
-func onGameStateReady()->void:
-	#slots_Array[GameInitModule.target_slot].theme.set_stylebox("panel", "Panel", styleBoxWhite)
+func resetTargetSlotVisual()->void:
+	#print("ALL SLOT VISUAL RESETTED")
+	for _s in range(3):
+		print("SLOT RESETTED = ", _s)
+		slots_Array[_s].material = null
+		slots_Array[_s].theme.set_stylebox("panel", "Panel", styleBox)
+	slot_highlight_material.shader = slot_highlight_shader
+	slot_highlight_material.set_shader_parameter("stripe_width", 0.25)
+	slot_highlight_material.set_shader_parameter("angle", 0.785)
+	#slot_highlight_material.set_shader_parameter("color_a", Color(0.03, 0.10, 0.22, 1.00))
+	#slot_highlight_material.set_shader_parameter("color_b", Color(0, 0, 0, 1.00))
+	slot_highlight_material.set_shader_parameter("color_a", Color(0.906, 0.325, 0.184, 1.0))
+	slot_highlight_material.set_shader_parameter("color_b", Color(0.98, 0.941, 0.894, 1.0))
+
+func visualizeTargetSlot()->void:
+	print("TARGET SLOT VISUALIZED = ", GameInitModule.target_slot)
 	slots_Array[GameInitModule.target_slot].material = slot_highlight_material
-	for _slot in GameInitModule.gameState.size():
-		for _puck in GameInitModule.gameState[_slot].size():
-			var pos :Vector2 = puckPosition[_slot][_puck]
-			var pid :int = GameInitModule.gameState[_slot][_puck]
-			#puckObjects[pid].global_position = Vector2(pos.x, pos.y - 300)
-			puckObjects[pid].global_position = Vector2(pos.x, 0)
-			#puckObjects[pid].visible = true
-			#print("OBJECTS PLACED!! = ", puckObjects[pid].global_position)
+
+func freeAllPucks()->void:
+	for i in range(GameInitModule.PUCK_COUNT_1INDEXD):
+		if puckObjects.size():
+			puckObjects[i].queue_free()
+	puckObjects.clear()
+
+func selectTargetSlot(_bigPuckSlot: int)->void:
+	var _add :int = randi_range(1,2)
+	var _tS  :int = _bigPuckSlot + _add
+	if _tS > 2: #MAX 3 slots only
+		_tS = _tS%3
+	GameInitModule.target_slot = _tS
+	GameInitModule.target_slot_perserve = GameInitModule.target_slot
+	visualizeTargetSlot()
+
+func calculateGameIndex()->void:
+	GameInitModule.gameIndex = 0
+	var temp_game_state :Array = GameInitModule.gameState_slotPreserve.duplicate(true)
+	for i in GameInitModule.PUCK_COUNT_1INDEXD:
+		GameInitModule.gameIndex += (temp_game_state.pop_front())*(3**i)
+	GameInitModule.gameIndex_preserve = GameInitModule.gameIndex
+	
+	if temp_game_state.size() != 0:
+		printerr("SOMWTHING WRONG WITH THE GAME STATE CALCULATIONS!!")
+
+func startNewGame()->void:
+	print("NEW GAME")
+	#GameInitModule.gameClearState()
+	for _p in range((GameInitModule.PUCK_COUNT_1INDEXD-1), -1, -1):
+		placePucksInResetPosition()
+		var _s :int = randi_range(0,2) #Fixed number of slots
+		if puck_counter == 1:
+			selectTargetSlot(_s)
+		GameInitModule.gameState_slotPreserve.push_back(_s)
+		await animatingThePucks(_s)
+		#GameInitModule.gameState[_s].push_back(puck_counter - 1)
+		#pathFollow2D.puck_ref = puckObjects[puck_counter - 1]
+		#path.curve = createParabolaCurve(puckObjects[puck_counter - 1].global_position, puckPosition[_s][GameInitModule.gameState[_s].size() -1])
+		#remoteTransform.remote_path = puckObjects[puck_counter - 1].get_path()
+		#pathFollow2D.progress_ratio = 0
+		##print("START FOLLOWING THE CURVE TO SLOT = ",_s)
+		#pathFollow2D.startFollowing(0, true, _s)
+		#await(pathFollow2D.animation_ended)
+		#table_anim_callback[_s].call()
+		#await(AP.animation_finished)
+	#tablePuckAnimationDone.emit()
+
+func restartLastGame()->void:
+	print("LAST PLAYED GAME")
+	visualizeTargetSlot()
+	#GameInitModule.gameInitAtRestart()
+	for _p in range((GameInitModule.PUCK_COUNT_1INDEXD-1), -1, -1):
+		placePucksInResetPosition()
+		var _s :int = GameInitModule.gameState_slot.pop_front()
+		#GameInitModule.gameStatePreserve.push_back(_s)
+		await animatingThePucks(_s)
+		#GameInitModule.gameState[_s].push_back(puck_counter - 1)
+		#pathFollow2D.puck_ref = puckObjects[puck_counter - 1]
+		#path.curve = createParabolaCurve(puckObjects[puck_counter - 1].global_position, puckPosition[_s][GameInitModule.gameState[_s].size() -1])
+		#remoteTransform.remote_path = puckObjects[puck_counter - 1].get_path()
+		#pathFollow2D.progress_ratio = 0
+		##print("START FOLLOWING THE CURVE TO SLOT = ",_s)
+		#pathFollow2D.startFollowing(0, true, _s)
+		#await(pathFollow2D.animation_ended)
+		#table_anim_callback[_s].call()
+		#await(AP.animation_finished)
+	#tablePuckAnimationDone.emit()
+
+func animatingThePucks(_s: int)->void:
+	GameInitModule.gameState[_s].push_back(puck_counter - 1)
+	pathFollow2D.puck_ref = puckObjects[puck_counter - 1]
+	path.curve = createParabolaCurve(puckObjects[puck_counter - 1].global_position, puckPosition[_s][GameInitModule.gameState[_s].size() -1])
+	remoteTransform.remote_path = puckObjects[puck_counter - 1].get_path()
+	pathFollow2D.progress_ratio = 0
+	#print("START FOLLOWING THE CURVE TO SLOT = ",_s)
+	pathFollow2D.startFollowing(0, true, _s)
+	puck_jump_audio.play()
+	await(pathFollow2D.animation_ended)
+	puck_land_audio.play()
+	table_anim_callback[_s].call()
+	await(AP.animation_finished)
+#func gameInitState()->void:
+	#move_count_main = 0
+	#time_taken_main = 0.0
+	#gameState = [[],[],[]]
+	#for _puck in range((PUCK_COUNT_1INDEXD-1), -1, -1):
+		#var _slot :int = randi_range(0, 2)
+		#gameState[_slot].push_back(_puck)
+	#gameStatePreserve = gameState.duplicate(true)
+	#target_slot = randi_range(0, 2)
+	#minMoveCount = calculate_min_moves(gameState, target_slot)
+	
+func onGameStateReady()->void:
+	puck_counter = 0
+	if GameInitModule.gameStartState == GameInitModule.GameStart.NEW_GAME:
+		await startNewGame()
+		await calculateGameIndex()
+	else:
+		await restartLastGame()
+	tablePuckAnimationDone.emit()
+	#slots_Array[GameInitModule.target_slot].theme.set_stylebox("panel", "Panel", styleBoxWhite)
+	#GameInitModule.gameInitState()
+	#for _p in range((GameInitModule.PUCK_COUNT_1INDEXD-1), -1, -1):
+		#placePucksInResetPosition()
+		#var _s :int = randi_range(0,2) #Fixed number of slots
+		#if puck_counter == 1:
+			#selectTargetSlot(_s)
+		#GameInitModule.gameStatePreserve.push_back(_s)
+		#GameInitModule.gameState[_s].push_back(puck_counter - 1)
+		#pathFollow2D.puck_ref = puckObjects[puck_counter - 1]
+		#path.curve = createParabolaCurve(puckObjects[puck_counter - 1].global_position, puckPosition[_s][GameInitModule.gameState[_s].size() -1])
+		#remoteTransform.remote_path = puckObjects[puck_counter - 1].get_path()
+		#pathFollow2D.progress_ratio = 0
+		##print("START FOLLOWING THE CURVE TO SLOT = ",_s)
+		#pathFollow2D.startFollowing(0, true, _s)
+		#await(pathFollow2D.animation_ended)
+		#table_anim_callback[_s].call()
+		#await(AP.animation_finished)
+	#tablePuckAnimationDone.emit()
+
 	#runICQCommands()
-	await get_tree().create_timer(0.1).timeout
-	makePuckVisible()
+	#await get_tree().create_timer(0.1).timeout
+	#makePuckVisible()
 
 func extractCommandFromCommandArray()->InputCommand:
 	if not GameInitModule.inputCommands.is_empty():
-		return GameInitModule.inputCommands.pop_front()
+		return GameInitModule.inputCommands.front()
 	else:
 		return null
 
@@ -136,25 +285,28 @@ func placingPucks()->void:
 		[
 			mrkr_13.global_position,
 			mrkr_12.global_position,
-			mrkr_11.global_position
+			mrkr_11.global_position,
+			mrkr_10.global_position
 		],
 		[
 			mrkr_23.global_position,
 			mrkr_22.global_position,
-			mrkr_21.global_position
+			mrkr_21.global_position,
+			mrkr_20.global_position
 		],
 		[
 			mrkr_33.global_position,
 			mrkr_32.global_position,
-			mrkr_31.global_position
+			mrkr_31.global_position,
+			mrkr_30.global_position
 		]
 	]
-	puckObjects = \
-	[
-		puck1,
-		puck2,
-		puck3
-	]
+	#puckObjects = \
+	#[
+		#puck1,
+		#puck2,
+		#puck3
+	#]
 	slots_Array = \
 	[
 		slot0_mrkr,
@@ -177,12 +329,14 @@ func placingPucks()->void:
 func _ready() -> void:
 	#print("Table and Puck node loaded")
 	placingPucks()
-	slot_highlight_material.shader = slot_highlight_shader
-	slot_highlight_material.set_shader_parameter("stripe_width", 0.25)
-	slot_highlight_material.set_shader_parameter("angle", 0.785)
-	slot_highlight_material.set_shader_parameter("color_a", Color(0.03, 0.10, 0.22, 1.00))
-	#slot_highlight_material.set_shader_parameter("color_a", Color(1, 1, 1, 1.00))
-	slot_highlight_material.set_shader_parameter("color_b", Color(0, 0, 0, 1.00))
+	#placePucksInResetPosition()
+	resetTargetSlotVisual()
+	#slot_highlight_material.shader = slot_highlight_shader
+	#slot_highlight_material.set_shader_parameter("stripe_width", 0.25)
+	#slot_highlight_material.set_shader_parameter("angle", 0.785)
+	#slot_highlight_material.set_shader_parameter("color_a", Color(0.03, 0.10, 0.22, 1.00))
+	##slot_highlight_material.set_shader_parameter("color_a", Color(1, 1, 1, 1.00))
+	#slot_highlight_material.set_shader_parameter("color_b", Color(0, 0, 0, 1.00))
 	#GameInitModule.gameStateReady.connect(onGameStateReady)
 	get_node("../ICGS").inputCommandPopulated.connect(runICQCommands)
 	GameInitModule.connectToAniSys()
@@ -210,10 +364,11 @@ func animateCommand()->void:
 		path.curve = createParabolaCurve(puckObjects[_pid].global_position,\
 		puckPosition[_pto.x][_pto.y])
 		#print("PUCK JUMP TO = ", puckPosition[_pto.x][_pto.y])
-		remoteTransform.remote_path = puckObjects[_pid].get_path()
+		remoteTransform.remote_path = await puckObjects[_pid].get_path()
 		pathFollow2D.progress_ratio = 0
 		#await get_tree().create_timer(1.5).timeout
 		#print("ANIMATION STARTED! _pid = ", _pid)
+		puck_jump_audio.play()
 		pathFollow2D.startFollowing(_pid+1, _input_command.is_right, _input_command.slot_to)
 
 func runICQCommands()->void:
@@ -229,14 +384,18 @@ func createParabolaCurve(_from_mrkr:Vector2, _to_mrkr:Vector2)-> Curve2D:
 	return temp_curve
 
 func _on_path_follow_2d_animation_ended(_slot_to : int) -> void:
+	puck_land_audio.play()
+	if puck_counter < GameInitModule.PUCK_COUNT_1INDEXD:
+		return
 	#print("ANIMATION ENDED!")
 	#slotTableArray[_input_command.slot_to].applyImpulseToTable(_puck_weight)
 	#print("_input_command.slot_to = ",_slot_to)
-	table_anim_callback[_slot_to].call()
+	await table_anim_callback[_slot_to].call()
 	animationCompleted.emit()
-	await get_tree().create_timer(0.6).timeout
-	animateCommand()
+	
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	#print("IS PUCK ANIMATION ENDING????? = ", anim_name)
 	if anim_name == "initialization_animation":
-		tablePuckAnimationDone.emit()
+		#print("---tablePuckAnimationDone---")
+		onGameStateReady()

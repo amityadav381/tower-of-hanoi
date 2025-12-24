@@ -1,11 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://dfi8v6pyxlps0"]
 
 [ext_resource type="Script" uid="uid://ck7hw88f6wmoc" path="res://Scripts/main_menu.gd" id="1_28flt"]
-[ext_resource type="Texture2D" uid="uid://bf1g3efs4014o" path="res://Assets/Pixel_Art/color_samples/blue_sun_set.jpg" id="2_48xlc"]
+[ext_resource type="Texture2D" uid="uid://qrwgjffq2bnq" path="res://Assets/Cat_wallpaper.jpg" id="2_1ehe0"]
 [ext_resource type="FontFile" uid="uid://dp6y5fs1725mc" path="res://Assets/Pixel_Art/Public_Pixel_Font_1_24/PublicPixel.ttf" id="3_1ehe0"]
-
-[sub_resource type="Theme" id="Theme_ce3w2"]
-Button/fonts/font = ExtResource("3_1ehe0")
+[ext_resource type="Theme" uid="uid://b2sdxr37sla6m" path="res://Resources/main_menu.tres" id="3_ce3w2"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -17,25 +15,47 @@ grow_vertical = 2
 script = ExtResource("1_28flt")
 game_scene = "uid://c4np2vypy1wgd"
 
+[node name="ColorRect" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(270, 570)
+layout_mode = 0
+offset_right = 270.0
+offset_bottom = 570.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0.1254902, 0.26666668, 0.47058824, 1)
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.3668478, 0.36697248)
-texture = ExtResource("2_48xlc")
+texture = ExtResource("2_1ehe0")
 centered = false
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.16800001
+anchor_right = 0.5
+anchor_bottom = 0.26000002
+offset_left = -60.0
+offset_top = 0.23999023
+offset_right = 60.0
+offset_bottom = -0.2000122
 grow_horizontal = 2
-grow_vertical = 2
+metadata/_edit_group_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
 
 [node name="Button" type="Button" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
-theme = SubResource("Theme_ce3w2")
-text = "START_GAME"
+theme = ExtResource("3_ce3w2")
+text = "3 PUCKS"
+
+[node name="Button2" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_ce3w2")
+theme_override_fonts/font = ExtResource("3_1ehe0")
+text = "4 PUCKS"
 
 [connection signal="button_up" from="CenterContainer/VBoxContainer/Button" to="." method="_on_button_button_up"]
+[connection signal="button_up" from="CenterContainer/VBoxContainer/Button2" to="." method="_on_button_2_button_up"]

@@ -1,19 +1,16 @@
-[gd_scene load_steps=36 format=3 uid="uid://dwf8tw4knkwpc"]
+[gd_scene load_steps=25 format=3 uid="uid://dwf8tw4knkwpc"]
 
 [ext_resource type="Script" uid="uid://c5amo3eslx2r8" path="res://Scripts/table_and_puck.gd" id="1_vu74o"]
 [ext_resource type="Curve" uid="uid://8ogmmgm83v0k" path="res://Scenes/flip_animation_rotation_curve.tres" id="2_80brl"]
 [ext_resource type="Script" uid="uid://bbyrl4uuf1jc2" path="res://Scripts/animation_player.gd" id="2_m5qj8"]
+[ext_resource type="PackedScene" uid="uid://hc81xfgustnq" path="res://Scenes/puck_3.tscn" id="2_v2cif"]
 [ext_resource type="Shape2D" uid="uid://qulsx6pbu63f" path="res://Resources/slot_table.tres" id="3_m5qj8"]
 [ext_resource type="Texture2D" uid="uid://d0i6y3hib0j6c" path="res://icon.svg" id="3_xg6ra"]
 [ext_resource type="Script" uid="uid://tv4csuxabrof" path="res://Scripts/path_follow_2d.gd" id="4_vu74o"]
-[ext_resource type="Script" uid="uid://c4l1csqjpmypx" path="res://Scripts/character_body_2d.gd" id="4_xg6ra"]
 [ext_resource type="Theme" uid="uid://bytae2qg4d88w" path="res://Resources/slot_theme.tres" id="5_tlolg"]
-[ext_resource type="Script" uid="uid://do6mc4u7otef7" path="res://Scripts/character_body_2d_2.gd" id="7_sw311"]
-[ext_resource type="Shape2D" uid="uid://cqcc4qd73lqnb" path="res://Resources/puck2.tres" id="7_xxem2"]
-[ext_resource type="Script" uid="uid://d2ftblgr3xw01" path="res://Scripts/character_body_2d_3.gd" id="8_v2cif"]
-[ext_resource type="Shape2D" uid="uid://wqbabtweqsva" path="res://Resources/puck1.tres" id="9_m5qj8"]
-[ext_resource type="Shape2D" uid="uid://cc42soinuka1w" path="res://Resources/puck3.tres" id="10_m5qj8"]
-[ext_resource type="Texture2D" uid="uid://bf1g3efs4014o" path="res://Assets/Pixel_Art/color_samples/blue_sun_set.jpg" id="15_8cv2w"]
+[ext_resource type="Texture2D" uid="uid://qrwgjffq2bnq" path="res://Assets/Cat_wallpaper.jpg" id="9_80brl"]
+[ext_resource type="AudioStream" uid="uid://b0mepfv6uutyp" path="res://Assets/sounds/8bit/nu/blipSelect.wav" id="10_xxem2"]
+[ext_resource type="AudioStream" uid="uid://b4nxftetagagn" path="res://Assets/sounds/8bit/nu/game-start-6104.mp3" id="12_tlolg"]
 
 [sub_resource type="Animation" id="Animation_m5qj8"]
 length = 0.001
@@ -56,7 +53,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_7m5j4"]
 resource_name = "initialization_animation"
-length = 2.5
+length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -100,14 +97,11 @@ tracks/3/path = NodePath(".")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(1.5, 2),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(1.5),
+"transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
 "method": &"placingPucks"
-}, {
-"args": [],
-"method": &"onGameStateReady"
 }]
 }
 
@@ -167,24 +161,9 @@ _data = {
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_frh7q"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xxem2"]
-bg_color = Color(0.011488871, 0.04679323, 0.112151064, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0, 0, 0, 1)
-corner_detail = 1
-
-[sub_resource type="Theme" id="Theme_xxem2"]
-Panel/styles/panel = SubResource("StyleBoxFlat_xxem2")
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7m5j4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8cv2w"]
-
-[sub_resource type="Theme" id="Theme_tlolg"]
-Panel/styles/panel = SubResource("StyleBoxFlat_xxem2")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jf8pm"]
 size = Vector2(22, 314.53)
@@ -192,37 +171,14 @@ size = Vector2(22, 314.53)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vu74o"]
 size = Vector2(24.715, 306.435)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m5qj8"]
-bg_color = Color(1, 1, 1, 1)
-border_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-
-[sub_resource type="Theme" id="Theme_frh7q"]
-Panel/styles/panel = SubResource("StyleBoxFlat_m5qj8")
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tlolg"]
-bg_color = Color(0.85490197, 0.88235295, 0.9137255, 1)
-border_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-
-[sub_resource type="Theme" id="Theme_7m5j4"]
-Panel/styles/panel = SubResource("StyleBoxFlat_tlolg")
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_frh7q"]
-bg_color = Color(0.5294118, 0.60784316, 0.7137255, 1)
-border_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-
-[sub_resource type="Theme" id="Theme_8cv2w"]
-Panel/styles/panel = SubResource("StyleBoxFlat_frh7q")
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_80brl"]
+size = Vector2(500, 40)
 
 [sub_resource type="Curve2D" id="Curve2D_jf8pm"]
 
 [node name="TableAndPuck" type="Node"]
 script = ExtResource("1_vu74o")
+puck_scene = ExtResource("2_v2cif")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -266,13 +222,23 @@ visible = false
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_xg6ra")
 
+[node name="M10" type="Marker2D" parent="Table_0"]
+position = Vector2(0, -181)
+
+[node name="Panel" type="Panel" parent="Table_0"]
+custom_minimum_size = Vector2(90, 80)
+offset_left = -45.0
+offset_top = -103.48999
+offset_right = 45.0
+offset_bottom = -23.48999
+
 [node name="Slot0" type="Panel" parent="Table_0"]
 material = SubResource("ShaderMaterial_frh7q")
 offset_left = -45.0
 offset_top = -111.0
 offset_right = 45.0
-offset_bottom = 189.0
-theme = SubResource("Theme_xxem2")
+offset_bottom = -31.0
+theme = ExtResource("5_tlolg")
 
 [node name="Table_1" type="AnimatableBody2D" parent="."]
 position = Vector2(135, 700)
@@ -310,12 +276,22 @@ visible = false
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_xg6ra")
 
+[node name="M20" type="Marker2D" parent="Table_1"]
+position = Vector2(0, -181)
+
+[node name="Panel" type="Panel" parent="Table_1"]
+custom_minimum_size = Vector2(90, 80)
+offset_left = -45.0
+offset_top = -103.48999
+offset_right = 45.0
+offset_bottom = -23.48999
+
 [node name="Slot1" type="Panel" parent="Table_1"]
 material = SubResource("ShaderMaterial_7m5j4")
 offset_left = -45.0
 offset_top = -111.0
 offset_right = 45.0
-offset_bottom = 189.0
+offset_bottom = -31.0
 theme = ExtResource("5_tlolg")
 
 [node name="Table_2" type="AnimatableBody2D" parent="."]
@@ -354,13 +330,23 @@ visible = false
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_xg6ra")
 
+[node name="M30" type="Marker2D" parent="Table_2"]
+position = Vector2(0, -181)
+
+[node name="Panel" type="Panel" parent="Table_2"]
+custom_minimum_size = Vector2(90, 80)
+offset_left = -45.0
+offset_top = -103.48999
+offset_right = 45.0
+offset_bottom = -23.48999
+
 [node name="Slot2" type="Panel" parent="Table_2"]
 material = SubResource("ShaderMaterial_8cv2w")
 offset_left = -45.0
 offset_top = -111.0
 offset_right = 45.0
-offset_bottom = 189.0
-theme = SubResource("Theme_tlolg")
+offset_bottom = -31.0
+theme = ExtResource("5_tlolg")
 
 [node name="Wall1" type="StaticBody2D" parent="."]
 position = Vector2(284.394, 341.53)
@@ -380,67 +366,12 @@ collision_mask = 3
 position = Vector2(-0.35750008, -28.217499)
 shape = SubResource("RectangleShape2D_vu74o")
 
-[node name="Puck1" type="CharacterBody2D" parent="."]
-position = Vector2(138, -98)
-collision_mask = 3
-motion_mode = 1
-platform_on_leave = 1
-safe_margin = 0.001
-script = ExtResource("4_xg6ra")
-metadata/_edit_group_ = true
+[node name="PuckRestingPlatform" type="StaticBody2D" parent="."]
+position = Vector2(-275.47, 168)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Puck1"]
-shape = ExtResource("9_m5qj8")
-
-[node name="Panel" type="Panel" parent="Puck1"]
-offset_left = -15.0
-offset_top = -10.0
-offset_right = 15.0
-offset_bottom = 10.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme = SubResource("Theme_frh7q")
-metadata/_edit_use_anchors_ = true
-
-[node name="Puck2" type="CharacterBody2D" parent="."]
-position = Vector2(137, -72)
-collision_mask = 3
-motion_mode = 1
-safe_margin = 0.001
-script = ExtResource("7_sw311")
-metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Puck2"]
-shape = ExtResource("7_xxem2")
-
-[node name="Panel" type="Panel" parent="Puck2"]
-offset_left = -25.0
-offset_top = -10.0
-offset_right = 25.0
-offset_bottom = 10.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme = SubResource("Theme_7m5j4")
-
-[node name="Puck3" type="CharacterBody2D" parent="."]
-position = Vector2(135, -47)
-collision_mask = 3
-motion_mode = 1
-safe_margin = 0.001
-script = ExtResource("8_v2cif")
-metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Puck3"]
-shape = ExtResource("10_m5qj8")
-
-[node name="Panel" type="Panel" parent="Puck3"]
-offset_left = -35.0
-offset_top = -10.0
-offset_right = 35.0
-offset_bottom = 10.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme = SubResource("Theme_8cv2w")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PuckRestingPlatform"]
+position = Vector2(0, 10)
+shape = SubResource("RectangleShape2D_80brl")
 
 [node name="Path2D" type="Path2D" parent="."]
 curve = SubResource("Curve2D_jf8pm")
@@ -458,7 +389,16 @@ update_scale = false
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
-texture = ExtResource("15_8cv2w")
+texture = ExtResource("9_80brl")
+
+[node name="PuckJump" type="AudioStreamPlayer2D" parent="."]
+volume_db = -80.0
+
+[node name="PuckLand" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_xxem2")
+
+[node name="GameWinSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("12_tlolg")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="animation_ended" from="Path2D/PathFollow2D" to="." method="_on_path_follow_2d_animation_ended"]

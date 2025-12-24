@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://hc81xfgustnq"]
+
+[ext_resource type="Script" uid="uid://d2ftblgr3xw01" path="res://Scripts/character_body_2d_3.gd" id="1_vbnnr"]
+[ext_resource type="Shape2D" uid="uid://cc42soinuka1w" path="res://Resources/puck3.tres" id="2_fh4p3"]
+[ext_resource type="Theme" uid="uid://djeh37uick0co" path="res://Resources/puck_3_.tres" id="3_fh4p3"]
+[ext_resource type="Texture2D" uid="uid://qrwgjffq2bnq" path="res://Assets/Cat_wallpaper.jpg" id="4_3f8be"]
+
+[node name="Puck3" type="CharacterBody2D"]
+collision_mask = 3
+motion_mode = 1
+safe_margin = 0.001
+script = ExtResource("1_vbnnr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = ExtResource("2_fh4p3")
+
+[node name="Panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(20, 20)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("3_fh4p3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-384, -71)
+texture = ExtResource("4_3f8be")

@@ -5,7 +5,11 @@ extends Node
 #@export var my_array : Array[Array]
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
+	print(" 4%3 = ", 4%3)
+	print(" 3%3 = ", 3%3)
+	print(" 2%3 = ", 2%3)
+	print(" 1%3 = ", 1%3)
+	print(" 0%3 = ", 0%3)
 	#print("Array size = ", my_array.size())
 	#my_array.push_back([2,1,0])
 	#my_array.push_back([])

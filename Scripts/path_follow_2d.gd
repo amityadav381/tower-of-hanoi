@@ -35,5 +35,5 @@ func _physics_process(_delta: float) -> void:
 	#print("sample = ", flip_anim.sample(progress_ratio))
 		
 	if progress_ratio >= 1:
-		animation_ended.emit(slot_to)
 		reachedEnd()
+		animation_ended.emit(slot_to)

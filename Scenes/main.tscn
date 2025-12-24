@@ -1,18 +1,20 @@
-[gd_scene load_steps=12 format=3 uid="uid://c4np2vypy1wgd"]
+[gd_scene load_steps=14 format=3 uid="uid://c4np2vypy1wgd"]
 
 [ext_resource type="PackedScene" uid="uid://dwf8tw4knkwpc" path="res://Scenes/table_and_puck.tscn" id="1_bo1nx"]
 [ext_resource type="Script" uid="uid://cr37c3xsqt0rt" path="res://Scenes/main.gd" id="1_jjvhh"]
 [ext_resource type="PackedScene" uid="uid://2735rvqj7iee" path="res://Scenes/icgs.tscn" id="2_8gbba"]
+[ext_resource type="PackedScene" uid="uid://dj714acct4ueg" path="res://Scenes/parallax_thing.tscn" id="2_344ge"]
 [ext_resource type="PackedScene" uid="uid://cp5ps37nhx5b2" path="res://Scenes/game_score_window.tscn" id="5_21xkr"]
 [ext_resource type="Shader" uid="uid://cup4c08wiwqyp" path="res://Resources/blurrr.gdshader" id="5_kry3j"]
 [ext_resource type="PackedScene" uid="uid://bi7nr1odhn445" path="res://count_down_window.tscn" id="6_21xkr"]
+[ext_resource type="AudioStream" uid="uid://xbelyrvbm08w" path="res://Assets/sounds/8bit/8bit_gb_music.mp3" id="7_6bp64"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_21xkr"]
 shader = ExtResource("5_kry3j")
 shader_parameter/lod = 0.0
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_jjvhh"]
-size = Vector2(270, 480)
+size = Vector2(270, 570)
 
 [sub_resource type="Animation" id="Animation_21xkr"]
 length = 0.001
@@ -54,10 +56,11 @@ _data = {
 [node name="Main" type="Node"]
 script = ExtResource("1_jjvhh")
 
+[node name="ParallaxThing" parent="." instance=ExtResource("2_344ge")]
+
 [node name="TableAndPuck" parent="." instance=ExtResource("1_bo1nx")]
 
 [node name="ICGS" parent="." instance=ExtResource("2_8gbba")]
-z_index = -1
 
 [node name="BlurBg" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_21xkr")
@@ -74,3 +77,9 @@ visible = false
 libraries = {
 &"": SubResource("AnimationLibrary_6bp64")
 }
+
+[node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_6bp64")
+volume_db = -4.0
+pitch_scale = 0.8
+autoplay = true

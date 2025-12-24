@@ -14,4 +14,10 @@ func _process(_delta: float) -> void:
 
 func _on_button_button_up() -> void:
 	#print("ENTER THE GAME") # Replace with function body.
+	GameInitModule.PUCK_COUNT_1INDEXD = 3
+	get_tree().change_scene_to_file(game_scene)
+
+
+func _on_button_2_button_up() -> void:
+	GameInitModule.PUCK_COUNT_1INDEXD = 4
 	get_tree().change_scene_to_file(game_scene)

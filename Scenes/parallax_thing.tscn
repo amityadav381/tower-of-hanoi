@@ -1,13 +1,19 @@
 [gd_scene load_steps=2 format=3 uid="uid://dj714acct4ueg"]
 
-[ext_resource type="Texture2D" uid="uid://bf1g3efs4014o" path="res://Assets/Pixel_Art/color_samples/blue_sun_set.jpg" id="1_2g6w3"]
+[ext_resource type="Texture2D" uid="uid://qrwgjffq2bnq" path="res://Assets/Cat_wallpaper.jpg" id="1_2g6w3"]
 
 [node name="ParallaxThing" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(270, 570)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0.72156864, 0.72156864, 0.6745098, 1)
 
 [node name="bg" type="Parallax2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="bg"]
-position = Vector2(135, 240)
-rotation = 3.1415927
-scale = Vector2(0.3668478, 0.3669725)
+visible = false
+position = Vector2(135, 285)
+scale = Vector2(0.3668478, 0.35804018)
 texture = ExtResource("1_2g6w3")

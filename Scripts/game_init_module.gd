@@ -5,7 +5,15 @@ extends Node
 #@export var gameState := gameStateClass.new()
 @export var gameState :Array[Array] #= [[2,1,0],[],[]]
 @export var target_slot :int #= 2
+@export var target_slot_perserve :int
 @export var gameWon : bool = false
+
+@export var puck_struct : Array[Array] 
+#EXample
+#[[2,],[],[]] 3 pucks
+
+@export var PUCK_COUNT_1INDEXD := 0
+
 var minMoveCount := 0
 var goldScorepoints := 0.0
 var yourPoints := 0.0
@@ -13,25 +21,18 @@ var yourPoints := 0.0
 @export var move_count_main := 0
 @export var time_taken_main := 0.0
 
-var gameStatePreserve :Array[Array]
+var gameState_slotPreserve :Array
+var gameState_slot :Array
 
 #signal gameStateReady
+enum GameStart {NEW_GAME = 0, RESTART_GAME}
+var gameStartState : GameStart
 
-enum puck_t
-{
-	PUCK1 = 1,
-	PUCK2,
-	PUCK3,
-	MAX_PUCKS = PUCK3,	
-}
-
-enum slot_t
-{
-	SLOT1 = 1,
-	SLOT2,
-	SLOT3,
-	MAX_SLOTS = SLOT3
-}
+const SAVE_PATH := "user://saved_game_state.tres"
+var save_game   :SaveGame = null
+#var stateAndScore :GameStateAndScores
+var gameIndex : int
+var gameIndex_preserve : int
 
 ## Computes the minimum number of moves to transfer all disks to the target peg.
 ## pegs: Array of Arrays, e.g. [[3, 1], [2], []]
@@ -74,7 +75,24 @@ func _min_moves_recursive(disk: int, target_peg: int, disk_pos: Dictionary) -> i
 	
 	return moves
 
+
+
+func write_savegame() -> void:
+	var error_code := ResourceSaver.save(save_game, SAVE_PATH)
+	if error_code != OK:
+		push_error("Failed to save game: " + error_string(error_code))
+	else:
+		print("SAVED SUCCESSFULLY")
+
+
 func _ready() -> void:
+	if ResourceLoader.exists(SAVE_PATH):
+		print("FILE DID DO EXIST")
+		save_game = ResourceLoader.load(SAVE_PATH, "", ResourceLoader.CACHE_MODE_IGNORE)
+	else:
+		print("FILE DID NOT EXIST")
+		save_game = SaveGame.new()
+	
 	inputCommands.clear()
 	#intermediateInputCommands.clear()
 	#await get_tree().create_timer(5).timeout
@@ -82,25 +100,38 @@ func _ready() -> void:
 	#gameStateReady.emit()
 	move_count_main = 0
 	time_taken_main = 0.0
-	gameInitState()
+	gameClearState()
 	#print("GAME STATE AT INIT = ",gameState)
 	#print("TARGET SLOT (zero indexed) = ", target_slot)
 
-func gameInitState()->void:
-	move_count_main = 0
-	time_taken_main = 0.0
-	gameState = [[],[],[]]
-	for _puck in range((puck_t.MAX_PUCKS-1), -1, -1):
-		var _slot :int = randi_range(0, 2)
-		gameState[_slot].push_back(_puck)
-	gameStatePreserve = gameState.duplicate(true)
-	target_slot = randi_range(0, 2)
+func gameClearState()->void:
+	move_count_main      = 0
+	time_taken_main      = 0.0
+	gameIndex            = 0
+	gameIndex_preserve   = 0
+	gameState            = [[],[],[]]
+	minMoveCount         = 0
+	target_slot          = 0
+	target_slot_perserve = 0
+	gameState_slotPreserve.clear()
+	gameStartState       = GameStart.NEW_GAME
+	#for _puck in range((PUCK_COUNT_1INDEXD-1), -1, -1):
+		#var _slot :int = randi_range(0, 2)
+		#gameState[_slot].push_back(_puck)
+	#gameStatePreserve = gameState.duplicate(true)
+	
+func cal_minimum_moves_to_win()->void:
 	minMoveCount = calculate_min_moves(gameState, target_slot)
 
 func gameInitAtRestart()->void:
-	move_count_main = 0
-	time_taken_main = 0
-	gameState       = gameStatePreserve.duplicate(true)
+	#gameInitState()
+	move_count_main  = 0
+	time_taken_main  = 0.0
+	gameState        = [[],[],[]]
+	minMoveCount     = 0
+	target_slot      = target_slot_perserve
+	gameIndex        = gameIndex_preserve
+	gameState_slot   = gameState_slotPreserve.duplicate(true)
 	
 func connectToAniSys()->void:
 	#print("Ani-Sys connected to Autoload")
@@ -128,16 +159,22 @@ func connectNextGameRequested()->void:
 
 func on_nextGameRreq_sent()->void:
 	#get_node("../Main/TableAndPuck").makePuckInvisible()
-	get_node("../Main/TableAndPuck").placePucksInResetPosition()
+	gameStartState = GameStart.NEW_GAME
+	get_node("../Main/TableAndPuck").freeAllPucks()
+	get_node("../Main/TableAndPuck").resetTargetSlotVisual()
+	#get_node("../Main/TableAndPuck").placePucksInResetPosition()
 	get_node("../Main/GameScoreWindow").visible = false
 	get_node("../Main/BlurAnimation").play("RESET")
-	gameInitState()
+	gameClearState()
 	get_node("../Main/ICGS").reset_ingame_counters()
 	on_main_node_entered()
 
 func on_gameRestartReq_sent()->void:
+	gameStartState = GameStart.RESTART_GAME
+	get_node("../Main/TableAndPuck").freeAllPucks()
+	get_node("../Main/TableAndPuck").resetTargetSlotVisual()
 	#get_node("../Main/TableAndPuck").makePuckInvisible()
-	get_node("../Main/TableAndPuck").placePucksInResetPosition()
+	#get_node("../Main/TableAndPuck").placePucksInResetPosition()
 	get_node("../Main/GameScoreWindow").visible = false
 	get_node("../Main/BlurAnimation").play("RESET")
 	gameInitAtRestart()
@@ -145,18 +182,57 @@ func on_gameRestartReq_sent()->void:
 	on_main_node_entered()
 
 func on_animation_completed()->void:
-	if (gameState[target_slot].size() == 3) && (GameInitModule.inputCommands.size() == 0):
-		print("!!!WIN!!!")
-		gameWon = true
+	inputCommands.pop_front()
+	get_node("../Main/TableAndPuck").animateCommand()
+	if gameState[target_slot].size() == PUCK_COUNT_1INDEXD :
 		get_node("../Main/ICGS").disable_user_inputs()
 		get_node("../Main/ICGS").start_game_score_timer(false)
-		yourPoints = time_taken_main + move_count_main
-		get_node("../Main/GameScoreWindow").update_score_board(time_taken_main, move_count_main)
-		get_node("../Main/GameScoreWindow").visible = true
-		get_node("../Main/BlurAnimation").play("blur_animation")
+		updatedSaveGameResources()
+		if GameInitModule.inputCommands.size() == 0:
+			print("!!!WIN!!!")
+			gameWon = true
+			#get_node("../Main/BestScorePopUp").visible = false
+			yourPoints = time_taken_main + move_count_main
+			get_node("../Main/GameScoreWindow").update_score_board(time_taken_main, move_count_main)
+			get_node("../Main/BackgroundMusic").stop()
+			await get_tree().create_timer(0.5).timeout
+			get_node("../Main/TableAndPuck").game_win_audio.play()
+			get_node("../Main/GameScoreWindow").visible = true
+			get_node("../Main/BlurAnimation").play("blur_animation")
+
+func updatedSaveGameResources()->void:
+	if PUCK_COUNT_1INDEXD == 3:
+		print("\n\n\n\nsave_game.threePuckTable[gameIndex].bestMoveCount = ", save_game.threePuckTable[gameIndex].bestMoveCount)
+		print("move_count_main = ", move_count_main)
+		print("gameIndex = ", gameIndex)
+		if save_game.threePuckTable[gameIndex].bestMoveCount > move_count_main:
+			save_game.threePuckTable[gameIndex].bestMoveCount = move_count_main
+			print("!!!!!NEW HIGHER SCORE!!!!!")
+		else:
+			print("NATCHO BEST SCORE")
+		if save_game.threePuckTable[gameIndex].bestTimeTaken > time_taken_main:
+			save_game.threePuckTable[gameIndex].bestTimeTaken = time_taken_main
+			
+
+		save_game.threePuckTable[gameIndex].gameStatePersist = gameState_slot.duplicate(true)
+		save_game.threePuckTable[gameIndex].targetSlotPersist = target_slot
+	else:
+		if save_game.fourPuckTable[gameIndex].bestMoveCount > move_count_main:
+			save_game.fourPuckTable[gameIndex].bestMoveCount = move_count_main
+		if save_game.fourPuckTable[gameIndex].bestTimeTaken > time_taken_main:
+			save_game.fourPuckTable[gameIndex].bestTimeTaken = time_taken_main
+		save_game.fourPuckTable[gameIndex].gameStatePersist = gameState_slot.duplicate(true)
+		save_game.fourPuckTable[gameIndex].targetSlotPersist = target_slot
+ 
+	#stateAndScore.bestMoveCount         = move_count_main
+	#stateAndScore.bestTimeTaken         = time_taken_main
+	#stateAndScore.gameStatePersist      = gameState_slotPreserve.duplicate(true)
+	#stateAndScore.targetSlotPersist     = target_slot_perserve
+	write_savegame()
 
 func on_main_node_entered()->void:
 	print("on_main_node_entered")
+	get_node("../Main/BackgroundMusic").play()
 	get_node("../Main/ICGS").disable_user_inputs()
 	get_node("../Main/TableAndPuck").play_initial_puck_slot_animation()
 	
@@ -166,6 +242,13 @@ func on_count_down_over()->void:
 	#Here I need to start the game timer and enable user input.
 	#Upto this point no user inputs should be allowed.
 	get_node("../Main/CountDownWindow").visible = false
+	#if PUCK_COUNT_1INDEXD == 3:
+		#get_node("../Main/BestScorePopUp").update_score_popup\
+		#(save_game.threePuckTable[gameIndex].bestTimeTaken, save_game.threePuckTable[gameIndex].bestMoveCount)
+	#else:
+		#get_node("../Main/BestScorePopUp").update_score_popup\
+		#(save_game.fourPuckTable[gameIndex].bestTimeTaken, save_game.fourPuckTable[gameIndex].bestMoveCount)
+	print("USER INPUTS ENABLED!")
 	get_node("../Main/ICGS").enable_user_inputs()
 	#get_node("../Main/ICGS").start_game_score_timer(true)
 

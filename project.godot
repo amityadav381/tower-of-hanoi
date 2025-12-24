@@ -23,9 +23,10 @@ GodotPlayGameServices="*res://addons/GodotPlayGameServices/scripts/autoloads/god
 [display]
 
 window/size/viewport_width=270
-window/size/viewport_height=480
+window/size/viewport_height=570
 window/size/always_on_top=true
 window/stretch/mode="viewport"
+window/stretch/scale_mode="integer"
 window/handheld/orientation=1
 
 [editor_plugins]
@@ -61,7 +62,6 @@ pointing/emulate_touch_from_mouse=true
 
 [physics]
 
-2d/default_gravity=100.0
 common/physics_interpolation=true
 
 [rendering]
