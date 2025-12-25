@@ -24,8 +24,8 @@ func reachedEnd()->void:
 	set_physics_process(false)
 	
 func _physics_process(_delta: float) -> void:
-	progress_ratio += 0.03
-	if progress_ratio >= 0.70:
+	progress_ratio += 0.04
+	if progress_ratio >= 0.60:
 		progress_ratio += 0.06
 	if is_right:
 		puck_ref.rotation = flip_anim.sample(progress_ratio) - 0.5

@@ -64,7 +64,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(0.5, 1),
 "update": 0,
-"values": [Vector2(45, 700), Vector2(45, 400)]
+"values": [Vector2(45, 700), Vector2(45, 500)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -76,7 +76,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(0.5, 1),
 "update": 0,
-"values": [Vector2(135, 700), Vector2(135, 400)]
+"values": [Vector2(135, 700), Vector2(135, 500)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -88,7 +88,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(0.5, 1),
 "update": 0,
-"values": [Vector2(225, 700), Vector2(225, 400)]
+"values": [Vector2(225, 700), Vector2(225, 500)]
 }
 tracks/3/type = "method"
 tracks/3/imported = false
@@ -107,7 +107,7 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id="Animation_xxem2"]
 resource_name = "table_0"
-length = 0.6
+length = 0.5
 tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -116,13 +116,13 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0, 0),
-"points": PackedFloat32Array(400, -0.23723288, -80.65917, 0.1, 22.5, 400, -0.10000001, 25.5, 0.06666666, -12.5, 400, -0.100000024, 12.5, 0.060256302, -0.5, 400, -0.034778, 1.5, 0, 0),
-"times": PackedFloat32Array(0, 0.3, 0.4666667, 0.6)
+"points": PackedFloat32Array(500, -0.23723288, -80.65917, 0.1, 22.5, 500, -0.10000001, 25.5, 0.06666666, -12.5, 500, -0.100000024, 12.5, 0.060256302, -0.5, 500, -0.034778, 1.5, 0, 0),
+"times": PackedFloat32Array(0, 0.2, 0.3667, 0.5)
 }
 
 [sub_resource type="Animation" id="Animation_tlolg"]
 resource_name = "table_1"
-length = 0.6
+length = 0.5
 tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -131,13 +131,13 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0, 0),
-"points": PackedFloat32Array(400, -0.23723288, -80.65917, 0.1, 22.5, 400, -0.10000001, 25.5, 0.06666666, -12.5, 400, -0.100000024, 12.5, 0.060256302, -0.5, 400, -0.034778, 1.5, 0, 0),
-"times": PackedFloat32Array(0, 0.3, 0.4666667, 0.6)
+"points": PackedFloat32Array(500, -0.23723288, -80.65917, 0.1, 22.5, 500, -0.10000001, 25.5, 0.06666666, -12.5, 500, -0.100000024, 12.5, 0.060256302, -0.5, 500, -0.034778, 1.5, 0, 0),
+"times": PackedFloat32Array(0, 0.2, 0.3667, 0.5)
 }
 
 [sub_resource type="Animation" id="Animation_frh7q"]
 resource_name = "table_2"
-length = 0.6
+length = 0.5
 tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -146,8 +146,8 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0, 0),
-"points": PackedFloat32Array(400, -0.23723288, -80.65917, 0.1, 22.5, 400, -0.10000001, 25.5, 0.06666666, -12.5, 400, -0.100000024, 12.5, 0.060256302, -0.5, 400, -0.034778, 1.5, 0, 0),
-"times": PackedFloat32Array(0, 0.3, 0.4666667, 0.6)
+"points": PackedFloat32Array(500, -0.23723288, -80.65917, 0.1, 22.5, 500, -0.10000001, 25.5, 0.06666666, -12.5, 500, -0.100000024, 12.5, 0.060256302, -0.5, 500, -0.034778, 1.5, 0, 0),
+"times": PackedFloat32Array(0, 0.2, 0.3667, 0.5)
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_m5qj8"]

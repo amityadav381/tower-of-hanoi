@@ -245,7 +245,7 @@ func onGameStateReady()->void:
 	puck_counter = 0
 	if GameInitModule.gameStartState == GameInitModule.GameStart.NEW_GAME:
 		await startNewGame()
-		await calculateGameIndex()
+		calculateGameIndex()
 	else:
 		await restartLastGame()
 	tablePuckAnimationDone.emit()
@@ -390,8 +390,10 @@ func _on_path_follow_2d_animation_ended(_slot_to : int) -> void:
 	#print("ANIMATION ENDED!")
 	#slotTableArray[_input_command.slot_to].applyImpulseToTable(_puck_weight)
 	#print("_input_command.slot_to = ",_slot_to)
-	await table_anim_callback[_slot_to].call()
-	animationCompleted.emit()
+	table_anim_callback[_slot_to].call()
+	#animationCompleted.emit()
+	#await table_anim_callback[_slot_to].call()
+	#animationCompleted.emit()
 	
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
@@ -399,3 +401,5 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "initialization_animation":
 		#print("---tablePuckAnimationDone---")
 		onGameStateReady()
+	elif (anim_name == "table_0") or (anim_name == "table_1") or (anim_name == "table_2"):
+		animationCompleted.emit()

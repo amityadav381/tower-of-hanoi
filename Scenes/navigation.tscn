@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=3 uid="uid://b1ln4tx337g74"]
+
+[ext_resource type="Script" uid="uid://ccdmntkg2wuq1" path="res://Scripts/navigation.gd" id="1_gxgjm"]
+[ext_resource type="Theme" uid="uid://b2sdxr37sla6m" path="res://Resources/main_menu.tres" id="1_ut0uc"]
+[ext_resource type="FontFile" uid="uid://dp6y5fs1725mc" path="res://Assets/Pixel_Art/Public_Pixel_Font_1_24/PublicPixel.ttf" id="2_5pagq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ut0uc"]
+bg_color = Color(0.60038817, 0.60038817, 0.60038817, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gxgjm"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[node name="Navigation" type="HBoxContainer"]
+z_index = 10
+z_as_relative = false
+custom_minimum_size = Vector2(270, 45)
+anchors_preset = -1
+anchor_right = 1.0
+offset_left = -2.0
+offset_top = 4.0
+offset_right = 2.0
+offset_bottom = 44.0
+grow_horizontal = 2
+theme_override_constants/separation = 3
+alignment = 1
+script = ExtResource("1_gxgjm")
+main_menu_scene = "uid://dfi8v6pyxlps0"
+
+[node name="Panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(195, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ut0uc")
+
+[node name="Back" type="Button" parent="."]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+theme = ExtResource("1_ut0uc")
+theme_override_fonts/font = ExtResource("2_5pagq")
+keep_pressed_outside = true
+text = "B"
+icon_alignment = 1
+expand_icon = true
+
+[node name="Settings" type="Button" parent="."]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+theme = ExtResource("1_ut0uc")
+theme_override_fonts/font = ExtResource("2_5pagq")
+keep_pressed_outside = true
+text = "S"
+icon_alignment = 1
+expand_icon = true
+
+[node name="Panel2" type="Panel" parent="."]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gxgjm")
+
+[connection signal="button_up" from="Back" to="." method="_on_back_button_up"]

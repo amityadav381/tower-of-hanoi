@@ -113,22 +113,23 @@ vertical_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 4
 
 [node name="RestartButton" type="Button" parent="VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(0, 20)
+custom_minimum_size = Vector2(100, 20)
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("1_tqysd")
 theme_override_font_sizes/font_size = 8
-text = "Restart Game"
+text = "Restart"
 
 [node name="NextGame" type="Button" parent="VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(0, 20)
+custom_minimum_size = Vector2(100, 20)
 layout_mode = 2
-size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("1_tqysd")
 theme_override_font_sizes/font_size = 8
-text = "Next Game"
+text = "Next"
 
 [connection signal="button_up" from="VBoxContainer/HBoxContainer/RestartButton" to="." method="_on_restart_button_button_up"]
 [connection signal="button_up" from="VBoxContainer/HBoxContainer/NextGame" to="." method="_on_next_game_button_up"]

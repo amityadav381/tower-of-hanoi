@@ -3,15 +3,15 @@ extends Control
 @onready var slot1           := $VBoxContainer/GameControls/Slot1
 @onready var slot2           := $VBoxContainer/GameControls/Slot2
 @onready var slot3           := $VBoxContainer/GameControls/Slot3
-@onready var back_button     := $VBoxContainer/Navigation/Back
-@onready var settings_button := $VBoxContainer/Navigation/Settings
+#@onready var back_button     := $VBoxContainer/Navigation/Back
+#@onready var settings_button := $VBoxContainer/Navigation/Settings
 
 
 @onready var commandTimer := $Timer
 @onready var gSL          := $GameStateLogic
 
-@onready var move_cnt_label        := $VBoxContainer/Navigation/VBoxContainer/MoveCnt
-@onready var time_cnt_label        := $VBoxContainer/Navigation/VBoxContainer/TimerCnt
+@onready var move_cnt_label        := $VBoxContainer/HBoxContainer/VBoxContainer/MoveCnt
+@onready var time_cnt_label        := $VBoxContainer/HBoxContainer/VBoxContainer/TimerCnt
 
 @onready var button_a := $VBoxContainer/GameControls/Slot1
 @onready var button_b := $VBoxContainer/GameControls/Slot2
@@ -33,7 +33,7 @@ var styleBoxGreen     := styleBox.duplicate(true)
 @onready var wrong_move_sound := $WrongMoveSound
 
 var move_count_frmt_str := "Moves:%d"
-var timer_val_frmt_str  := " Time:%.2f"
+var timer_val_frmt_str  := "Time :%.2f"
 var count_down_frmt_str := "%d"
 var count_down          := 3
 
@@ -69,15 +69,15 @@ func disable_user_inputs()->void:
 	slot1.disable_button()
 	slot2.disable_button()
 	slot3.disable_button()
-	back_button.disable_button()
-	settings_button.disable_button()
+	#back_button.disable_button()
+	#settings_button.disable_button()
 
 func enable_user_inputs()->void:
 	slot1.enable_button()
 	slot2.enable_button()
 	slot3.enable_button()
-	back_button.enable_button()
-	settings_button.enable_button()
+	#back_button.enable_button()
+	#settings_button.enable_button()
 
 func clearInputs()->void:
 	first_input = 0
