@@ -214,6 +214,7 @@ func restartLastGame()->void:
 	#GameInitModule.gameInitAtRestart()
 	for _p in range((GameInitModule.PUCK_COUNT_1INDEXD-1), -1, -1):
 		placePucksInResetPosition()
+		print("GameInitModule.gameState_slot = ", GameInitModule.gameState_slot)
 		var _s :int = GameInitModule.gameState_slot.pop_front()
 		#GameInitModule.gameStatePreserve.push_back(_s)
 		await animatingThePucks(_s)

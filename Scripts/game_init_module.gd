@@ -27,7 +27,7 @@ var gameState_slot :Array
 
 #signal gameStateReady
 enum GameStart {NEW_GAME = 0, RESTART_GAME}
-enum GameLevels {GAME_INIT = 0, GAME_3PUCK = 1, GAME_5PUCK = 2, GAME_7PUCK = 3}
+enum GameLevels {GAME_3PUCK = 0, GAME_5PUCK = 1, GAME_7PUCK = 2, GAME_OVER = 3}
 var gameStartState : GameStart
 var gameLevel := 0 
 
@@ -140,6 +140,7 @@ func gameInitAtRestart()->void:
 	minMoveCount     = 0
 	target_slot      = target_slot_perserve
 	gameIndex        = gameIndex_preserve
+	print("gameState_slotPreserve = ", gameState_slotPreserve)
 	gameState_slot   = gameState_slotPreserve.duplicate(true)
 	
 func connectToAniSys()->void:
@@ -155,8 +156,8 @@ func connectToCountDownNode()->void:
 
 func connectToMainGameLoaded()->void:
 	#print("Main node connected to Autoload")
-	#get_node("../Main")._tree_entered.connect(on_main_node_entered)
-	get_node("../Main")._tree_entered.connect(on_nextGameRreq_sent)
+	get_node("../Main")._tree_entered.connect(on_main_node_entered)
+	#get_node("../Main")._tree_entered.connect(on_nextGameRreq_sent)
 
 func connectTablePuckAnimationDone()->void:
 	#print("tablePuckAnimationDone connected to Autoload")
@@ -171,11 +172,10 @@ func connectNextGameRequested()->void:
 	get_node("../Main/GameScoreWindow").nextGameRreq.connect(on_nextGameRreq_sent)
 
 func on_nextGameRreq_sent()->void:
-	#get_node("../Main/TableAndPuck").makePuckInvisible()
-	gameStartState = GameStart.NEW_GAME
-	gameLevel += 1
+	get_node("../Main/CountDownWindow").gameState_.visible = false
 	get_node("../Main/TableAndPuck").freeAllPucks()
 	PUCK_COUNT_1INDEXD += 2
+	gameLevel += 1
 	print("gameLevel = ", gameLevel)
 	print("PUCK_COUNT_1INDEXD = ", PUCK_COUNT_1INDEXD)
 	
@@ -185,7 +185,9 @@ func on_nextGameRreq_sent()->void:
 	get_node("../Main/BlurAnimation").play("RESET")
 	gameClearState()
 	get_node("../Main/ICGS").reset_ingame_counters()
-	on_main_node_entered()
+	get_node("../Main/BackgroundMusic").play()
+	get_node("../Main/ICGS").disable_user_inputs()
+	get_node("../Main/TableAndPuck").play_initial_puck_slot_animation()
 
 func on_gameRestartReq_sent()->void:
 	gameStartState = GameStart.RESTART_GAME
@@ -197,7 +199,9 @@ func on_gameRestartReq_sent()->void:
 	get_node("../Main/BlurAnimation").play("RESET")
 	gameInitAtRestart()
 	get_node("../Main/ICGS").reset_ingame_counters()
-	on_main_node_entered()
+	get_node("../Main/BackgroundMusic").play()
+	get_node("../Main/ICGS").disable_user_inputs()
+	get_node("../Main/TableAndPuck").play_initial_puck_slot_animation()
 
 func icgs_pushed_cmd()->void:
 	if gameState[target_slot].size() == PUCK_COUNT_1INDEXD :
@@ -230,6 +234,7 @@ func on_animation_completed()->void:
 			get_node("../Main/TableAndPuck").game_win_audio.play()
 			get_node("../Main/GameScoreWindow").visible = true
 			get_node("../Main/BlurAnimation").play("blur_animation")
+			get_node("../Main/TableAndPuck").freeAllPucks()
 			
 			#get_node("../Main/BestScorePopUp").reset_all()
 			#if gameStartState == GameStart.RESTART_GAME:
@@ -270,7 +275,11 @@ func updatedSaveGameResources()->void:
 
 func on_main_node_entered()->void:
 	print("on_main_node_entered")
-	#get_node("../Main/GameScoreWindow").visible = false
+	get_node("../Main/GameScoreWindow").visible = false
+	get_node("../Main/TableAndPuck").resetTargetSlotVisual()
+	get_node("../Main/BlurAnimation").play("RESET")
+	gameClearState()
+	get_node("../Main/ICGS").reset_ingame_counters()
 	get_node("../Main/BackgroundMusic").play()
 	get_node("../Main/ICGS").disable_user_inputs()
 	get_node("../Main/TableAndPuck").play_initial_puck_slot_animation()
@@ -280,7 +289,7 @@ func on_count_down_over()->void:
 	#print("on_count_down_over")
 	#Here I need to start the game timer and enable user input.
 	#Upto this point no user inputs should be allowed.
-	get_node("../Main/CountDownWindow").visible = false
+	#                      get_node("../Main/CountDownWindow").visible = false
 	#if PUCK_COUNT_1INDEXD == 3:
 		#get_node("../Main/BestScorePopUp").update_score_popup\
 		#(save_game.threePuckTable[gameIndex].bestTimeTaken, save_game.threePuckTable[gameIndex].bestMoveCount)
