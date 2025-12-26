@@ -15,47 +15,61 @@ grow_vertical = 2
 script = ExtResource("1_28flt")
 game_scene = "uid://c4np2vypy1wgd"
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="."]
 custom_minimum_size = Vector2(270, 570)
 layout_mode = 0
 offset_right = 270.0
 offset_bottom = 570.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-color = Color(0.1254902, 0.26666668, 0.47058824, 1)
+color = Color(0.98039216, 0.9411765, 0.89411765, 1)
+
+[node name="RankHighlight" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 40.0
+offset_right = 216.0
+offset_bottom = 296.0
+color = Color(0.9019608, 0.32156864, 0.18039216, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 scale = Vector2(0.3668478, 0.36697248)
 texture = ExtResource("2_1ehe0")
 centered = false
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
-anchors_preset = -1
+anchors_preset = 7
 anchor_left = 0.5
-anchor_top = 0.16800001
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.26000002
-offset_left = -60.0
-offset_top = 0.23999023
-offset_right = 60.0
-offset_bottom = -0.2000122
+anchor_bottom = 1.0
+offset_left = -87.0
+offset_top = -154.0
+offset_right = 77.0
+offset_bottom = -110.0
 grow_horizontal = 2
+grow_vertical = 0
 metadata/_edit_group_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="StartGame" type="Button" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("3_ce3w2")
-text = "3 PUCKS"
+text = "Start Game"
 
-[node name="Button2" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="Resume" type="Button" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("3_ce3w2")
 theme_override_fonts/font = ExtResource("3_1ehe0")
-text = "4 PUCKS"
+text = "Resume"
 
-[connection signal="button_up" from="CenterContainer/VBoxContainer/Button" to="." method="_on_button_button_up"]
-[connection signal="button_up" from="CenterContainer/VBoxContainer/Button2" to="." method="_on_button_2_button_up"]
+[node name="Settings" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[connection signal="button_up" from="CenterContainer/VBoxContainer/StartGame" to="." method="_on_start_game_button_up"]
+[connection signal="button_up" from="CenterContainer/VBoxContainer/Resume" to="." method="_on_resume_button_up"]
+[connection signal="button_up" from="CenterContainer/VBoxContainer/Settings" to="." method="_on_settings_button_up"]

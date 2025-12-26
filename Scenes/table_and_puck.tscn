@@ -195,8 +195,17 @@ metadata/_edit_group_ = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Table_0"]
 shape = ExtResource("3_m5qj8")
 
-[node name="M13" type="Marker2D" parent="Table_0"]
+[node name="M16" type="Marker2D" parent="Table_0"]
 position = Vector2(0, -121)
+
+[node name="M15" type="Marker2D" parent="Table_0"]
+position = Vector2(0, -141)
+
+[node name="M14" type="Marker2D" parent="Table_0"]
+position = Vector2(0, -161)
+
+[node name="M13" type="Marker2D" parent="Table_0"]
+position = Vector2(0, -181)
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Table_0/M13"]
@@ -205,7 +214,7 @@ scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_xg6ra")
 
 [node name="M12" type="Marker2D" parent="Table_0"]
-position = Vector2(0, -141)
+position = Vector2(0, -201)
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Table_0/M12"]
@@ -214,7 +223,7 @@ scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_xg6ra")
 
 [node name="M11" type="Marker2D" parent="Table_0"]
-position = Vector2(0, -161)
+position = Vector2(0, -221)
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Table_0/M11"]
@@ -223,7 +232,7 @@ scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_xg6ra")
 
 [node name="M10" type="Marker2D" parent="Table_0"]
-position = Vector2(0, -181)
+position = Vector2(0, -241)
 
 [node name="Panel" type="Panel" parent="Table_0"]
 custom_minimum_size = Vector2(90, 80)
@@ -249,8 +258,17 @@ metadata/_edit_group_ = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Table_1"]
 shape = ExtResource("3_m5qj8")
 
-[node name="M23" type="Marker2D" parent="Table_1"]
+[node name="M26" type="Marker2D" parent="Table_1"]
 position = Vector2(0, -121)
+
+[node name="M25" type="Marker2D" parent="Table_1"]
+position = Vector2(0, -141)
+
+[node name="M24" type="Marker2D" parent="Table_1"]
+position = Vector2(0, -161)
+
+[node name="M23" type="Marker2D" parent="Table_1"]
+position = Vector2(0, -181)
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Table_1/M23"]
@@ -259,7 +277,7 @@ scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_xg6ra")
 
 [node name="M22" type="Marker2D" parent="Table_1"]
-position = Vector2(0, -141)
+position = Vector2(0, -201)
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Table_1/M22"]
@@ -268,7 +286,7 @@ scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_xg6ra")
 
 [node name="M21" type="Marker2D" parent="Table_1"]
-position = Vector2(0, -161)
+position = Vector2(0, -221)
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Table_1/M21"]
@@ -277,7 +295,7 @@ scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_xg6ra")
 
 [node name="M20" type="Marker2D" parent="Table_1"]
-position = Vector2(0, -181)
+position = Vector2(0, -241)
 
 [node name="Panel" type="Panel" parent="Table_1"]
 custom_minimum_size = Vector2(90, 80)
@@ -303,8 +321,17 @@ metadata/_edit_group_ = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Table_2"]
 shape = ExtResource("3_m5qj8")
 
-[node name="M33" type="Marker2D" parent="Table_2"]
+[node name="M36" type="Marker2D" parent="Table_2"]
 position = Vector2(0, -121)
+
+[node name="M35" type="Marker2D" parent="Table_2"]
+position = Vector2(0, -141)
+
+[node name="M34" type="Marker2D" parent="Table_2"]
+position = Vector2(0, -161)
+
+[node name="M33" type="Marker2D" parent="Table_2"]
+position = Vector2(0, -181)
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Table_2/M33"]
@@ -313,7 +340,7 @@ scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_xg6ra")
 
 [node name="M32" type="Marker2D" parent="Table_2"]
-position = Vector2(0, -141)
+position = Vector2(0, -201)
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Table_2/M32"]
@@ -322,7 +349,7 @@ scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_xg6ra")
 
 [node name="M31" type="Marker2D" parent="Table_2"]
-position = Vector2(0, -161)
+position = Vector2(0, -221)
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Table_2/M31"]
@@ -331,7 +358,7 @@ scale = Vector2(0.1, 0.1)
 texture = ExtResource("3_xg6ra")
 
 [node name="M30" type="Marker2D" parent="Table_2"]
-position = Vector2(0, -181)
+position = Vector2(0, -241)
 
 [node name="Panel" type="Panel" parent="Table_2"]
 custom_minimum_size = Vector2(90, 80)

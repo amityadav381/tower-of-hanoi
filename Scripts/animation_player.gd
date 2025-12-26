@@ -16,6 +16,6 @@ func play_animation_table2()->void:
 
 func play_initialization_animation()->void:
 	play("initialization_animation")
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
+
+func play_reset_all()->void:
+	play("RESET")

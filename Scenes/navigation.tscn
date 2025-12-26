@@ -14,7 +14,7 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 z_index = 10
 z_as_relative = false
 custom_minimum_size = Vector2(270, 45)
-anchors_preset = -1
+anchors_preset = 10
 anchor_right = 1.0
 offset_left = -2.0
 offset_top = 4.0
@@ -26,11 +26,6 @@ alignment = 1
 script = ExtResource("1_gxgjm")
 main_menu_scene = "uid://dfi8v6pyxlps0"
 
-[node name="Panel" type="Panel" parent="."]
-custom_minimum_size = Vector2(195, 0)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_ut0uc")
-
 [node name="Back" type="Button" parent="."]
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
@@ -40,6 +35,11 @@ keep_pressed_outside = true
 text = "B"
 icon_alignment = 1
 expand_icon = true
+
+[node name="Panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(195, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ut0uc")
 
 [node name="Settings" type="Button" parent="."]
 custom_minimum_size = Vector2(30, 0)

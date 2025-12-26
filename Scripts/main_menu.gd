@@ -2,22 +2,23 @@ extends Control
 
 @export_file("*.tscn") var game_scene
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
+
+func _on_settings_button_up() -> void:
 	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
-
-
-func _on_button_button_up() -> void:
+func _on_start_game_button_up() -> void:
 	#print("ENTER THE GAME") # Replace with function body.
-	GameInitModule.PUCK_COUNT_1INDEXD = 3
+	GameInitModule.gameLevel = GameInitModule.GameLevels.GAME_INIT
+	GameInitModule.PUCK_COUNT_1INDEXD = 1
 	get_tree().change_scene_to_file(game_scene)
 
 
-func _on_button_2_button_up() -> void:
-	GameInitModule.PUCK_COUNT_1INDEXD = 4
+func _on_resume_button_up() -> void:
+	if GameInitModule.gameLevel == GameInitModule.GameLevels.GAME_3PUCK:
+		GameInitModule.PUCK_COUNT_1INDEXD = 3
+	elif GameInitModule.gameLevel == GameInitModule.GameLevels.GAME_5PUCK:
+		GameInitModule.PUCK_COUNT_1INDEXD = 5
+	elif GameInitModule.gameLevel == GameInitModule.GameLevels.GAME_7PUCK:
+		GameInitModule.PUCK_COUNT_1INDEXD = 7
 	get_tree().change_scene_to_file(game_scene)

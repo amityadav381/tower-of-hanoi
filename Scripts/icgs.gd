@@ -38,6 +38,7 @@ var count_down_frmt_str := "%d"
 var count_down          := 3
 
 signal inputCommandPopulated
+signal cmd_pushed_autoload
  
 enum inputHandlingState_t
 {
@@ -49,7 +50,8 @@ enum inputHandlingState_t
 func _ready() -> void:
 	start_game_score_timer(false)
 	disable_user_inputs()
-	get_node("../TableAndPuck").animationCompleted.connect(on_animation_completed)
+	#get_node("../TableAndPuck").animationCompleted.connect(on_animation_completed)
+	GameInitModule.connectToICGS()
 	first_input                  = 0
 	second_input                 = 0
 	inputHandlingState           = 0
@@ -83,8 +85,8 @@ func clearInputs()->void:
 	first_input = 0
 	second_input = 0
 
-func on_animation_completed()->void:
-	pass
+#func on_animation_completed()->void:
+	#pass
 	#enable_signal_to_anim_module = true
 
 func handleUserInputs(_user_input: int)->void:
@@ -115,6 +117,7 @@ func handleUserInputs(_user_input: int)->void:
 			if is_cmd_valid:
 				#print("????????VALID KYU NAHI CHAMKA??????")
 				buttonTheme.set_stylebox("pressed", "Button", styleBoxWhite)
+				cmd_pushed_autoload.emit()
 			else:
 				wrong_move_sound.play()
 				buttonTheme.set_stylebox("pressed", "Button", styleBoxRed)

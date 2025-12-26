@@ -39,12 +39,12 @@ metadata/_edit_group_ = true
 layout_mode = 2
 
 [node name="Panel" type="Panel" parent="VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(2, 0)
+custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_jyxl1")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(180, 50)
+custom_minimum_size = Vector2(120, 50)
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_43lmx")

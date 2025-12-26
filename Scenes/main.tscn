@@ -1,10 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://c4np2vypy1wgd"]
+[gd_scene load_steps=15 format=3 uid="uid://c4np2vypy1wgd"]
 
 [ext_resource type="PackedScene" uid="uid://dwf8tw4knkwpc" path="res://Scenes/table_and_puck.tscn" id="1_bo1nx"]
 [ext_resource type="Script" uid="uid://cr37c3xsqt0rt" path="res://Scenes/main.gd" id="1_jjvhh"]
 [ext_resource type="PackedScene" uid="uid://2735rvqj7iee" path="res://Scenes/icgs.tscn" id="2_8gbba"]
 [ext_resource type="PackedScene" uid="uid://dj714acct4ueg" path="res://Scenes/parallax_thing.tscn" id="2_344ge"]
-[ext_resource type="PackedScene" uid="uid://bcwps0d1q3oy6" path="res://Scenes/best_score_pop_up.tscn" id="3_hptm8"]
 [ext_resource type="PackedScene" uid="uid://cp5ps37nhx5b2" path="res://Scenes/game_score_window.tscn" id="5_21xkr"]
 [ext_resource type="Shader" uid="uid://cup4c08wiwqyp" path="res://Resources/blurrr.gdshader" id="5_kry3j"]
 [ext_resource type="PackedScene" uid="uid://bi7nr1odhn445" path="res://count_down_window.tscn" id="6_21xkr"]
@@ -46,7 +45,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 2.8284268),
 "update": 0,
-"values": [0.0, 2.000000095]
+"values": [0.0, 3.50000016625]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6bp64"]
@@ -63,8 +62,6 @@ script = ExtResource("1_jjvhh")
 [node name="TableAndPuck" parent="." instance=ExtResource("1_bo1nx")]
 
 [node name="ICGS" parent="." instance=ExtResource("2_8gbba")]
-
-[node name="BestScorePopUp" parent="." instance=ExtResource("3_hptm8")]
 
 [node name="BlurBg" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_21xkr")
@@ -89,4 +86,3 @@ pitch_scale = 0.8
 autoplay = true
 
 [node name="Navigation" parent="." instance=ExtResource("9_ynf5e")]
-anchors_preset = 10

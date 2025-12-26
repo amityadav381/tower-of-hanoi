@@ -4,6 +4,7 @@ extends Node
 #@export var intermediateInputCommands :Array[IntermediateInputCommand]
 #@export var gameState := gameStateClass.new()
 @export var gameState :Array[Array] #= [[2,1,0],[],[]]
+@export var gameState_Preserve :Array[Array]
 @export var target_slot :int #= 2
 @export var target_slot_perserve :int
 @export var gameWon : bool = false
@@ -15,8 +16,8 @@ extends Node
 @export var PUCK_COUNT_1INDEXD := 0
 
 var minMoveCount := 0
-var goldScorepoints := 0.0
-var yourPoints := 0.0
+var players_best_mv := 1000
+var players_best_tm := 1000.0
 
 @export var move_count_main := 0
 @export var time_taken_main := 0.0
@@ -26,7 +27,15 @@ var gameState_slot :Array
 
 #signal gameStateReady
 enum GameStart {NEW_GAME = 0, RESTART_GAME}
+enum GameLevels {GAME_INIT = 0, GAME_3PUCK = 1, GAME_5PUCK = 2, GAME_7PUCK = 3}
 var gameStartState : GameStart
+var gameLevel := 0 
+
+#1 is BRONZE
+#2 is SILVER
+#3 is GOLD
+#4 is PRO
+var gameLevelRanks :Array = [0,0,0]
 
 const SAVE_PATH := "user://saved_game_state.tres"
 var save_game   :SaveGame = null
@@ -75,8 +84,6 @@ func _min_moves_recursive(disk: int, target_peg: int, disk_pos: Dictionary) -> i
 	
 	return moves
 
-
-
 func write_savegame() -> void:
 	var error_code := ResourceSaver.save(save_game, SAVE_PATH)
 	if error_code != OK:
@@ -84,15 +91,13 @@ func write_savegame() -> void:
 	else:
 		print("SAVED SUCCESSFULLY")
 
-
 func _ready() -> void:
-	if ResourceLoader.exists(SAVE_PATH):
-		print("FILE DID DO EXIST")
-		save_game = ResourceLoader.load(SAVE_PATH, "", ResourceLoader.CACHE_MODE_IGNORE)
-	else:
-		print("FILE DID NOT EXIST")
-		save_game = SaveGame.new()
-	
+	#if ResourceLoader.exists(SAVE_PATH):
+		#print("FILE DID DO EXIST")
+		#save_game = ResourceLoader.load(SAVE_PATH, "", ResourceLoader.CACHE_MODE_IGNORE)
+	#else:
+		#print("FILE DID NOT EXIST")
+		#save_game = SaveGame.new()
 	inputCommands.clear()
 	#intermediateInputCommands.clear()
 	#await get_tree().create_timer(5).timeout
@@ -120,8 +125,12 @@ func gameClearState()->void:
 		#gameState[_slot].push_back(_puck)
 	#gameStatePreserve = gameState.duplicate(true)
 	
-func cal_minimum_moves_to_win()->void:
-	minMoveCount = calculate_min_moves(gameState, target_slot)
+func cal_minimum_moves_to_win()->int:
+	#print("gameState = ", gameState)
+	#print("target_slot = ", target_slot)
+	minMoveCount = calculate_min_moves2()
+	#print("minMoveCount = ", minMoveCount)
+	return minMoveCount
 
 func gameInitAtRestart()->void:
 	#gameInitState()
@@ -137,13 +146,17 @@ func connectToAniSys()->void:
 	#print("Ani-Sys connected to Autoload")
 	get_node("../Main/TableAndPuck").animationCompleted.connect(on_animation_completed)
 
+func connectToICGS()->void:
+	get_node("../Main/ICGS").cmd_pushed_autoload.connect(icgs_pushed_cmd)
+
 func connectToCountDownNode()->void:
 	#print("CountDown node connected to Autoload")
 	get_node("../Main/CountDownWindow").count_down_over.connect(on_count_down_over)
 
 func connectToMainGameLoaded()->void:
 	#print("Main node connected to Autoload")
-	get_node("../Main")._tree_entered.connect(on_main_node_entered)
+	#get_node("../Main")._tree_entered.connect(on_main_node_entered)
+	get_node("../Main")._tree_entered.connect(on_nextGameRreq_sent)
 
 func connectTablePuckAnimationDone()->void:
 	#print("tablePuckAnimationDone connected to Autoload")
@@ -160,7 +173,12 @@ func connectNextGameRequested()->void:
 func on_nextGameRreq_sent()->void:
 	#get_node("../Main/TableAndPuck").makePuckInvisible()
 	gameStartState = GameStart.NEW_GAME
+	gameLevel += 1
 	get_node("../Main/TableAndPuck").freeAllPucks()
+	PUCK_COUNT_1INDEXD += 2
+	print("gameLevel = ", gameLevel)
+	print("PUCK_COUNT_1INDEXD = ", PUCK_COUNT_1INDEXD)
+	
 	get_node("../Main/TableAndPuck").resetTargetSlotVisual()
 	#get_node("../Main/TableAndPuck").placePucksInResetPosition()
 	get_node("../Main/GameScoreWindow").visible = false
@@ -181,24 +199,44 @@ func on_gameRestartReq_sent()->void:
 	get_node("../Main/ICGS").reset_ingame_counters()
 	on_main_node_entered()
 
-func on_animation_completed()->void:
-	inputCommands.pop_front()
-	get_node("../Main/TableAndPuck").animateCommand()
+func icgs_pushed_cmd()->void:
 	if gameState[target_slot].size() == PUCK_COUNT_1INDEXD :
 		get_node("../Main/ICGS").disable_user_inputs()
 		get_node("../Main/ICGS").start_game_score_timer(false)
-		updatedSaveGameResources()
+
+func on_animation_completed()->void:
+	inputCommands.pop_front()
+	get_node("../Main/TableAndPuck").animateCommand()
+	#print("GAME STATE1111 = ", gameState)
+	#print("GAME TARGET_SLOT111 = ", target_slot)
+	if gameState[target_slot].size() == PUCK_COUNT_1INDEXD :
+		#updatedSaveGameResources()
 		if GameInitModule.inputCommands.size() == 0:
 			print("!!!WIN!!!")
 			gameWon = true
 			#get_node("../Main/BestScorePopUp").visible = false
-			yourPoints = time_taken_main + move_count_main
-			get_node("../Main/GameScoreWindow").update_score_board(time_taken_main, move_count_main)
+			#yourPoints = time_taken_main + move_count_main
+			if players_best_mv >= move_count_main:
+				players_best_mv = move_count_main
+				if players_best_tm > time_taken_main:
+					players_best_tm = time_taken_main
+			cal_minimum_moves_to_win()
+			get_node("../Main/GameScoreWindow").update_score_board\
+			(time_taken_main, players_best_tm, move_count_main, \
+			players_best_mv, minMoveCount, (gameStartState == GameStart.RESTART_GAME))
+			
 			get_node("../Main/BackgroundMusic").stop()
 			await get_tree().create_timer(0.5).timeout
 			get_node("../Main/TableAndPuck").game_win_audio.play()
 			get_node("../Main/GameScoreWindow").visible = true
 			get_node("../Main/BlurAnimation").play("blur_animation")
+			
+			#get_node("../Main/BestScorePopUp").reset_all()
+			#if gameStartState == GameStart.RESTART_GAME:
+				#get_node("../Main/BestScorePopUp").played_game(players_best_tm,players_best_mv,minMoveCount)
+				#gameStartState = GameStart.NEW_GAME
+			#else:
+				#get_node("../Main/BestScorePopUp").new_game(minMoveCount)
 
 func updatedSaveGameResources()->void:
 	if PUCK_COUNT_1INDEXD == 3:
@@ -228,17 +266,18 @@ func updatedSaveGameResources()->void:
 	#stateAndScore.bestTimeTaken         = time_taken_main
 	#stateAndScore.gameStatePersist      = gameState_slotPreserve.duplicate(true)
 	#stateAndScore.targetSlotPersist     = target_slot_perserve
-	write_savegame()
+	#write_savegame()
 
 func on_main_node_entered()->void:
 	print("on_main_node_entered")
+	#get_node("../Main/GameScoreWindow").visible = false
 	get_node("../Main/BackgroundMusic").play()
 	get_node("../Main/ICGS").disable_user_inputs()
 	get_node("../Main/TableAndPuck").play_initial_puck_slot_animation()
 	
 
 func on_count_down_over()->void:
-	print("on_count_down_over")
+	#print("on_count_down_over")
 	#Here I need to start the game timer and enable user input.
 	#Upto this point no user inputs should be allowed.
 	get_node("../Main/CountDownWindow").visible = false
@@ -248,9 +287,56 @@ func on_count_down_over()->void:
 	#else:
 		#get_node("../Main/BestScorePopUp").update_score_popup\
 		#(save_game.fourPuckTable[gameIndex].bestTimeTaken, save_game.fourPuckTable[gameIndex].bestMoveCount)
-	print("USER INPUTS ENABLED!")
+	#print("USER INPUTS ENABLED!")
 	get_node("../Main/ICGS").enable_user_inputs()
 	#get_node("../Main/ICGS").start_game_score_timer(true)
 
 func on_table_puck_animation_complete()->void:
+	#print(" Minimum Moves to solve this game = ", count_min_moves())
+	#print("Gold score requirement moves = ", cal_minimum_moves_to_win())
+	gameState_Preserve = gameState.duplicate(true)
 	get_node("../Main/CountDownWindow").start_count_down()
+
+
+## Computes minimum moves for "Inverted" Disk IDs
+## (0 = Biggest Disk, Higher Numbers = Smaller Disks)
+func calculate_min_moves2() -> int:
+	var disk_locations: Dictionary = {}
+	var total_disks: int = 0
+	
+	# 1. Map locations and count the total number of disks
+	for peg_id in range(gameState_Preserve.size()):
+		var stack: Array = gameState_Preserve[peg_id]
+		total_disks += stack.size()
+		for disk_id in stack:
+			disk_locations[disk_id] = peg_id
+	
+	var min_moves: int = 0
+	var current_target: int = target_slot
+
+	# 2. Iterate from the Largest Disk (0) down to the Smallest (total - 1)
+	# logic: In Hanoi, we always process the largest disk first.
+	for i in range(0, total_disks):
+		
+		# Safety check: if a disk ID is missing, skip to avoid crash
+		if not disk_locations.has(i):
+			continue
+			
+		var current_peg: int = disk_locations[i]
+
+		if current_peg != current_target:
+			# LOGIC CHANGE HERE:
+			# Because ID 0 is the biggest, its "weight" is the highest.
+			# For a 4-disk game:
+			# Disk 0 (Big) needs 2^3 moves
+			# Disk 3 (Small) needs 2^0 moves
+			# Formula: (total_disks - 1) - current_disk_id
+			var power_of_two: int = (total_disks - 1) - i
+			
+			# Add moves (using bitwise shift for 2^n)
+			min_moves += (1 << power_of_two)
+
+			# Switch the target to the auxiliary peg
+			current_target = 3 - current_peg - current_target
+			
+	return min_moves
