@@ -14,7 +14,7 @@ signal count_down_over
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	GameInitModule.on_animation_completed()
+	#GameInitModule.on_animation_completed()
 	GameInitModule.connectToCountDownNode()
 	count_down_var = COUNT_DOWN_CONST
 	label.text     = count_down_frmt_str % COUNT_DOWN_CONST

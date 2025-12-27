@@ -211,8 +211,8 @@ func icgs_pushed_cmd()->void:
 func on_animation_completed()->void:
 	inputCommands.pop_front()
 	get_node("../Main/TableAndPuck").animateCommand()
-	#print("GAME STATE1111 = ", gameState)
-	#print("GAME TARGET_SLOT111 = ", target_slot)
+	print("on_animation_completed gameState = ", gameState)
+	print("on_animation_completed target_slot = ", target_slot)
 	if gameState[target_slot].size() == PUCK_COUNT_1INDEXD :
 		#updatedSaveGameResources()
 		if GameInitModule.inputCommands.size() == 0:
@@ -275,6 +275,7 @@ func updatedSaveGameResources()->void:
 
 func on_main_node_entered()->void:
 	print("on_main_node_entered")
+	gameState        = [[],[],[]]
 	get_node("../Main/GameScoreWindow").visible = false
 	get_node("../Main/TableAndPuck").resetTargetSlotVisual()
 	get_node("../Main/BlurAnimation").play("RESET")
