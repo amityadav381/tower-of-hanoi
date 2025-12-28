@@ -19,7 +19,7 @@ signal gameRestartReq
 signal nextGameRreq
 
 func update_score_board(_time: float, player_best_tm:float, \
-_moves: int, player_best_mv:int, min_move: int, replaying:bool)->void:
+_moves: int, player_best_mv:int, min_move: int, replaying:bool)->String:
 	
 	mov_cnt_label.text     = mv_cnt_frmt_lbl % _moves
 	time_taken_label.text  = time_tkn_frmt_lbl % _time
@@ -32,32 +32,43 @@ _moves: int, player_best_mv:int, min_move: int, replaying:bool)->void:
 	
 	
 	if _moves <= min_move:
-		if _time <= min_move*0.75:
+		if _time <= (min_move*(GameInitModule.rank_factor[GameInitModule.gameLevel][0])):
 			panel_stylebox.bg_color = Color.html("#715ABC")
 			rank_label.text = "PRO!"
 			rank_label.add_theme_stylebox_override("normal", panel_stylebox)
-		elif _time <= min_move:
+			return "Pro!"
+		elif _time <= (min_move*(GameInitModule.rank_factor[GameInitModule.gameLevel][1])):
 			panel_stylebox.bg_color = Color.GOLD
 			rank_label.text = "GOLD!"
 			rank_label.add_theme_stylebox_override("normal", panel_stylebox)
-		else:
+			return "Gold"
+		elif _time <= (min_move*(GameInitModule.rank_factor[GameInitModule.gameLevel][2])):
 			panel_stylebox.bg_color = Color.SILVER
 			rank_label.text = "SILVER!"
 			rank_label.add_theme_stylebox_override("normal", panel_stylebox)
-
-	elif _moves <= (min_move*1.5) :
-		if _time <= (min_move*1.5):
-			panel_stylebox.bg_color = Color.SILVER
-			rank_label.text = "SILVER!"
-			rank_label.add_theme_stylebox_override("normal", panel_stylebox)
+			return "Silver"
 		else:
 			panel_stylebox.bg_color = Color.SADDLE_BROWN
 			rank_label.text = "BRONZE!"
 			rank_label.add_theme_stylebox_override("normal", panel_stylebox)
+			return "Bronze"
+
+	elif _moves <= (min_move*1.5):
+		if _time <= (min_move*1.5):
+			panel_stylebox.bg_color = Color.SILVER
+			rank_label.text = "SILVER!"
+			rank_label.add_theme_stylebox_override("normal", panel_stylebox)
+			return "Silver"
+		else:
+			panel_stylebox.bg_color = Color.SADDLE_BROWN
+			rank_label.text = "BRONZE!"
+			rank_label.add_theme_stylebox_override("normal", panel_stylebox)
+			return "Bronze"
 	else:
 		panel_stylebox.bg_color = Color.SADDLE_BROWN
 		rank_label.text = "BRONZE!"
 		rank_label.add_theme_stylebox_override("normal", panel_stylebox)
+		return "Bronze"
 
 
 # Called when the node enters the scene tree for the first time.

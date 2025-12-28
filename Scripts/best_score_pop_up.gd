@@ -56,16 +56,16 @@ func played_game(_time: float, _moves: int, _best_move_cnt: int)->void:
 func best_scoreboard_update(_best_move_cnt: int)->void:
 	
 	pro_mv.text         = pro_move_str  % (_best_move_cnt)
-	pro_tm.text         = pro_time_str  % (_best_move_cnt/2.00)
+	pro_tm.text         = pro_time_str  % (_best_move_cnt*(GameInitModule.rank_factor[GameInitModule.gameLevel][0]))
 		
 	best_gold_mv.text   = gold_move_str   % (_best_move_cnt)
-	best_gold_tm.text   = gold_time_str   % (_best_move_cnt)
+	best_gold_tm.text   = gold_time_str   % (_best_move_cnt*(GameInitModule.rank_factor[GameInitModule.gameLevel][1]))
 	
-	best_silver_mv.text = silver_move_str % (_best_move_cnt*1.5)
-	best_silver_tm.text = silver_time_str % (_best_move_cnt*1.5)
+	#best_silver_mv.text = silver_move_str % (_best_move_cnt*1.5)
+	#best_silver_tm.text = silver_time_str % (_best_move_cnt*1.5)
 	
-	best_bronze_mv.text = bronze_move_str % (_best_move_cnt*2)
-	best_bronze_tm.text = bronze_time_str % (_best_move_cnt*2)
+	#best_bronze_mv.text = bronze_move_str % (_best_move_cnt*2)
+	#best_bronze_tm.text = bronze_time_str % (_best_move_cnt*2)
 	#best_player.play("pop_in_best")
 
 #func reset_all()->void:

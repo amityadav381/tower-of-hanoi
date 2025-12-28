@@ -26,6 +26,12 @@ var gameState_slotPreserve :Array
 var gameState_slot :Array
 
 #signal gameStateReady
+var ranking_factor_3puck := [0.5, 1.0, 2.0]
+var ranking_factor_5puck := [1.2, 2.4, 4.2]
+var ranking_factor_7puck := [2.5, 3.0, 6.0]
+
+var rank_factor := [ranking_factor_3puck, ranking_factor_5puck, ranking_factor_7puck]
+
 enum GameStart {NEW_GAME = 0, RESTART_GAME}
 enum GameLevels {GAME_3PUCK = 0, GAME_5PUCK = 1, GAME_7PUCK = 2, GAME_OVER = 3}
 var gameStartState : GameStart
@@ -35,10 +41,10 @@ var gameLevel := 0
 #2 is SILVER
 #3 is GOLD
 #4 is PRO
-var gameLevelRanks :Array = [0,0,0]
+var gameLevelRanks :Array = ["", "", ""]
 
 const SAVE_PATH := "user://saved_game_state.tres"
-var save_game   :SaveGame = null
+var save_game   :SaveGame
 #var stateAndScore :GameStateAndScores
 var gameIndex : int
 var gameIndex_preserve : int
@@ -92,12 +98,12 @@ func write_savegame() -> void:
 		print("SAVED SUCCESSFULLY")
 
 func _ready() -> void:
-	#if ResourceLoader.exists(SAVE_PATH):
-		#print("FILE DID DO EXIST")
-		#save_game = ResourceLoader.load(SAVE_PATH, "", ResourceLoader.CACHE_MODE_IGNORE)
-	#else:
-		#print("FILE DID NOT EXIST")
-		#save_game = SaveGame.new()
+	if ResourceLoader.exists(SAVE_PATH):
+		print("FILE DID DO EXIST")
+		save_game = ResourceLoader.load(SAVE_PATH, "", ResourceLoader.CACHE_MODE_IGNORE)
+	else:
+		print("FILE DID NOT EXIST")
+		save_game = SaveGame.new()
 	inputCommands.clear()
 	#intermediateInputCommands.clear()
 	#await get_tree().create_timer(5).timeout
@@ -175,7 +181,6 @@ func on_nextGameRreq_sent()->void:
 	get_node("../Main/CountDownWindow").gameState_.visible = false
 	get_node("../Main/TableAndPuck").freeAllPucks()
 	PUCK_COUNT_1INDEXD += 2
-	gameLevel += 1
 	print("gameLevel = ", gameLevel)
 	print("PUCK_COUNT_1INDEXD = ", PUCK_COUNT_1INDEXD)
 	
@@ -208,11 +213,16 @@ func icgs_pushed_cmd()->void:
 		get_node("../Main/ICGS").disable_user_inputs()
 		get_node("../Main/ICGS").start_game_score_timer(false)
 
+func updated_save_game_file(rank_:String)->void:
+	save_game.currentGameLevel = gameLevel
+	save_game.gameLevelRankArray[gameLevel] = rank_
+	write_savegame()
+
 func on_animation_completed()->void:
 	inputCommands.pop_front()
 	get_node("../Main/TableAndPuck").animateCommand()
-	print("on_animation_completed gameState = ", gameState)
-	print("on_animation_completed target_slot = ", target_slot)
+	#print("on_animation_completed gameState = ", gameState)
+	#print("on_animation_completed target_slot = ", target_slot)
 	if gameState[target_slot].size() == PUCK_COUNT_1INDEXD :
 		#updatedSaveGameResources()
 		if GameInitModule.inputCommands.size() == 0:
@@ -225,10 +235,12 @@ func on_animation_completed()->void:
 				if players_best_tm > time_taken_main:
 					players_best_tm = time_taken_main
 			cal_minimum_moves_to_win()
-			get_node("../Main/GameScoreWindow").update_score_board\
+			var rank_ : String = ""
+			rank_ = get_node("../Main/GameScoreWindow").update_score_board\
 			(time_taken_main, players_best_tm, move_count_main, \
 			players_best_mv, minMoveCount, (gameStartState == GameStart.RESTART_GAME))
-			
+			updated_save_game_file(rank_)
+			gameLevel += 1
 			get_node("../Main/BackgroundMusic").stop()
 			await get_tree().create_timer(0.5).timeout
 			get_node("../Main/TableAndPuck").game_win_audio.play()
@@ -243,35 +255,6 @@ func on_animation_completed()->void:
 			#else:
 				#get_node("../Main/BestScorePopUp").new_game(minMoveCount)
 
-func updatedSaveGameResources()->void:
-	if PUCK_COUNT_1INDEXD == 3:
-		print("\n\n\n\nsave_game.threePuckTable[gameIndex].bestMoveCount = ", save_game.threePuckTable[gameIndex].bestMoveCount)
-		print("move_count_main = ", move_count_main)
-		print("gameIndex = ", gameIndex)
-		if save_game.threePuckTable[gameIndex].bestMoveCount > move_count_main:
-			save_game.threePuckTable[gameIndex].bestMoveCount = move_count_main
-			print("!!!!!NEW HIGHER SCORE!!!!!")
-		else:
-			print("NATCHO BEST SCORE")
-		if save_game.threePuckTable[gameIndex].bestTimeTaken > time_taken_main:
-			save_game.threePuckTable[gameIndex].bestTimeTaken = time_taken_main
-			
-
-		save_game.threePuckTable[gameIndex].gameStatePersist = gameState_slot.duplicate(true)
-		save_game.threePuckTable[gameIndex].targetSlotPersist = target_slot
-	else:
-		if save_game.fourPuckTable[gameIndex].bestMoveCount > move_count_main:
-			save_game.fourPuckTable[gameIndex].bestMoveCount = move_count_main
-		if save_game.fourPuckTable[gameIndex].bestTimeTaken > time_taken_main:
-			save_game.fourPuckTable[gameIndex].bestTimeTaken = time_taken_main
-		save_game.fourPuckTable[gameIndex].gameStatePersist = gameState_slot.duplicate(true)
-		save_game.fourPuckTable[gameIndex].targetSlotPersist = target_slot
- 
-	#stateAndScore.bestMoveCount         = move_count_main
-	#stateAndScore.bestTimeTaken         = time_taken_main
-	#stateAndScore.gameStatePersist      = gameState_slotPreserve.duplicate(true)
-	#stateAndScore.targetSlotPersist     = target_slot_perserve
-	#write_savegame()
 
 func on_main_node_entered()->void:
 	print("on_main_node_entered")

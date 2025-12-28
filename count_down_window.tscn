@@ -16,6 +16,8 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_bottom = -570.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_ch44e")
 
 [node name="GameState" type="Label" parent="."]
@@ -29,8 +31,6 @@ offset_right = 20.0
 offset_bottom = 109.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("1_sycn6")
 
 [node name="Label" type="Label" parent="."]

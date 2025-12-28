@@ -1,0 +1,159 @@
+[gd_scene load_steps=8 format=3 uid="uid://b0ibpjygbyyp0"]
+
+[ext_resource type="Script" uid="uid://3mf0gojbx1ul" path="res://Scripts/local_leaderboard.gd" id="1_swykv"]
+[ext_resource type="Theme" uid="uid://b07xhep27g0p7" path="res://Resources/best_score_pop_up.tres" id="1_yrxg5"]
+[ext_resource type="FontFile" uid="uid://dp6y5fs1725mc" path="res://Assets/Pixel_Art/Public_Pixel_Font_1_24/PublicPixel.ttf" id="2_1jp75"]
+[ext_resource type="Theme" uid="uid://c6ptlt3plhp66" path="res://Resources/mini_board.tres" id="2_swykv"]
+[ext_resource type="Shader" uid="uid://dtf1f3rwo0ypr" path="res://Resources/player_rank.gdshader" id="3_1jp75"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1jp75"]
+shader = ExtResource("3_1jp75")
+shader_parameter/Line_Smoothness = 0.045
+shader_parameter/Line_Width = 0.09
+shader_parameter/Brightness = 3.0
+shader_parameter/Rotation_deg = 30.0
+shader_parameter/Distortion = 1.8
+shader_parameter/Speed = 0.7
+shader_parameter/Position = 0.0
+shader_parameter/Position_Min = 0.25
+shader_parameter/Position_Max = 0.5
+shader_parameter/Alpha = 1.0
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_avotj"]
+
+[node name="LocalLeaderboard" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_swykv")
+
+[node name="LeaderBoards" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(230, 350)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.614
+offset_left = 8.0
+offset_top = 10.0
+offset_right = -6.0
+offset_bottom = 0.019989014
+grow_horizontal = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LeaderBoards"]
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 50
+
+[node name="title" type="Label" parent="LeaderBoards/VBoxContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("2_1jp75")
+theme_override_font_sizes/font_size = 32
+text = "Welcome
+To
+
+Tower
+Of
+Hanoi
+Fastest
+Solvers"
+horizontal_alignment = 1
+
+[node name="MiniBoard" type="HBoxContainer" parent="LeaderBoards"]
+custom_minimum_size = Vector2(230, 50)
+layout_mode = 2
+
+[node name="box1" type="VBoxContainer" parent="LeaderBoards/MiniBoard"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 1
+
+[node name="Level" type="Label" parent="LeaderBoards/MiniBoard/box1"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme = ExtResource("1_yrxg5")
+text = "Game1-rank"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Game1" type="Button" parent="LeaderBoards/MiniBoard/box1"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("2_swykv")
+text = "Silver"
+
+[node name="PuckCount" type="Label" parent="LeaderBoards/MiniBoard/box1"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme = ExtResource("1_yrxg5")
+text = "3 Pucks"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="box2" type="VBoxContainer" parent="LeaderBoards/MiniBoard"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 1
+
+[node name="Level" type="Label" parent="LeaderBoards/MiniBoard/box2"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme = ExtResource("1_yrxg5")
+text = "Game2-rank"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Game2" type="Button" parent="LeaderBoards/MiniBoard/box2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("2_swykv")
+text = "Gold"
+
+[node name="PuckCount" type="Label" parent="LeaderBoards/MiniBoard/box2"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme = ExtResource("1_yrxg5")
+text = "5 Pucks"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="box3" type="VBoxContainer" parent="LeaderBoards/MiniBoard"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 1
+
+[node name="Level" type="Label" parent="LeaderBoards/MiniBoard/box3"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme = ExtResource("1_yrxg5")
+text = "Game3-rank"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Game3" type="Button" parent="LeaderBoards/MiniBoard/box3"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("2_swykv")
+text = "Bronze"
+
+[node name="PuckCount" type="Label" parent="LeaderBoards/MiniBoard/box3"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme = ExtResource("1_yrxg5")
+text = "7Pucks"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Shader" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_1jp75")
+position = Vector2(132, 153)
+scale = Vector2(232, 286)
+texture = SubResource("CanvasTexture_avotj")

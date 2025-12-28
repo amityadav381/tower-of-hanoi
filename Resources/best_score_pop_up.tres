@@ -9,7 +9,7 @@ bg_color = Color(0, 0, 0, 1)
 bg_color = Color(0.7332413, 0.22895825, 0.10818312, 1)
 
 [resource]
-Label/colors/font_color = Color(1, 1, 1, 1)
+Label/colors/font_color = Color(0, 0, 0, 1)
 Label/font_sizes/font_size = 8
 Label/fonts/font = ExtResource("1_3re5g")
 Label/styles/focus = SubResource("StyleBoxFlat_d50my")

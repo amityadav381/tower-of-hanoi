@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://dfi8v6pyxlps0"]
 
 [ext_resource type="Script" uid="uid://ck7hw88f6wmoc" path="res://Scripts/main_menu.gd" id="1_28flt"]
-[ext_resource type="Texture2D" uid="uid://qrwgjffq2bnq" path="res://Assets/Cat_wallpaper.jpg" id="2_1ehe0"]
 [ext_resource type="FontFile" uid="uid://dp6y5fs1725mc" path="res://Assets/Pixel_Art/Public_Pixel_Font_1_24/PublicPixel.ttf" id="3_1ehe0"]
 [ext_resource type="Theme" uid="uid://b2sdxr37sla6m" path="res://Resources/main_menu.tres" id="3_ce3w2"]
+[ext_resource type="PackedScene" uid="uid://b0ibpjygbyyp0" path="res://Scenes/local_leaderboard.tscn" id="4_ce3w2"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -22,21 +22,18 @@ offset_right = 270.0
 offset_bottom = 570.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-color = Color(0.72156864, 0.72156864, 0.6745098, 1)
+color = Color(0.5297783, 0.15269947, 0.06804913, 1)
 
 [node name="RankHighlight" type="ColorRect" parent="."]
 layout_mode = 0
 offset_left = 7.0
 offset_top = 7.0
 offset_right = 264.0
-offset_bottom = 263.0
-color = Color(0.9019608, 0.32156864, 0.18039216, 1)
+offset_bottom = 304.0
+color = Color(0, 0, 0, 1)
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-visible = false
-scale = Vector2(0.3668478, 0.36697248)
-texture = ExtResource("2_1ehe0")
-centered = false
+[node name="LocalLeaderboard" parent="." instance=ExtResource("4_ce3w2")]
+layout_mode = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -46,16 +43,16 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -123.0
-offset_top = -200.0
+offset_top = -198.0
 offset_right = 123.0
-offset_bottom = -32.0
+offset_bottom = -21.0
 grow_horizontal = 2
 grow_vertical = 0
 metadata/_edit_group_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 15
 
 [node name="StartGame" type="Button" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2

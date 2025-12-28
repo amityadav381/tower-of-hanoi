@@ -1,0 +1,26 @@
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://c6ptlt3plhp66"]
+
+[ext_resource type="FontFile" uid="uid://dp6y5fs1725mc" path="res://Assets/Pixel_Art/Public_Pixel_Font_1_24/PublicPixel.ttf" id="1_ijtun"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wpasd"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hjub8"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ijtun"]
+bg_color = Color(1, 1, 1, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j7tln"]
+bg_color = Color(1, 1, 1, 0.143)
+
+[resource]
+Button/colors/font_color = Color(0.875, 0.875, 0.875, 1)
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/constants/outline_size = 4
+Button/font_sizes/font_size = 8
+Button/fonts/font = ExtResource("1_ijtun")
+Button/styles/focus = SubResource("StyleBoxFlat_wpasd")
+Button/styles/hover = SubResource("StyleBoxFlat_hjub8")
+Button/styles/normal = SubResource("StyleBoxFlat_ijtun")
+Button/styles/pressed = SubResource("StyleBoxFlat_j7tln")

@@ -65,11 +65,11 @@ func set_the_puck_visual_size(_size_id: int)->void:
 		_size = 5
 	else:
 		_size = 90 - 15*(_size_id)
-	print("_size_id = ", _size_id)
-	print("_size = ", _size)
+	#print("_size_id = ", _size_id)
+	#print("_size = ", _size)
 	#print("PUCK SIZE = ",_size)
 	var _half_size :float = _size/2.0
-	print("_half_size = ", _half_size)
+	#print("_half_size = ", _half_size)
 	#var pwr = 1.5**_size_id
 	#var add = 80*_size_id
 	if GameInitModule.PUCK_COUNT_1INDEXD == 3:

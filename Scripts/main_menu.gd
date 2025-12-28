@@ -2,6 +2,20 @@ extends Control
 
 @export_file("*.tscn") var game_scene
 
+@onready var leader_board := $LocalLeaderboard
+
+func _ready() -> void:
+	var cur_lvl := GameInitModule.save_game.currentGameLevel
+	#print("ready called from MainMenu cur_lvl = ", cur_lvl)
+	if cur_lvl == 0:
+		for j in 3:
+			leader_board.update_leader_board(j,"No Rank")
+	else:
+		for i in (cur_lvl+1):
+			#print("MINI BOARD UPDATING")
+			await get_tree().create_timer(1).timeout
+			leader_board.update_leader_board(i,GameInitModule.save_game.gameLevelRankArray[i])
+
 
 func _on_settings_button_up() -> void:
 	pass # Replace with function body.

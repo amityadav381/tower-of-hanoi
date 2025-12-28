@@ -129,9 +129,11 @@ layout_mode = 2
 theme = ExtResource("3_sfc3c")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_syucg")
-text = "Moves:%d"
+text = "SILVER"
+horizontal_alignment = 1
 
 [node name="Time" type="Label" parent="VBoxContainer2/Best/Silver"]
+visible = false
 layout_mode = 2
 theme = ExtResource("3_sfc3c")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -146,10 +148,11 @@ theme_override_constants/separation = 1
 layout_mode = 2
 theme = ExtResource("3_sfc3c")
 theme_override_styles/normal = SubResource("StyleBoxFlat_gda3n")
-text = "Moves:%d"
+text = "BRONZE"
+horizontal_alignment = 1
 
 [node name="Time" type="Label" parent="VBoxContainer2/Best/Bronze"]
+visible = false
 layout_mode = 2
 theme = ExtResource("3_sfc3c")
 theme_override_styles/normal = SubResource("StyleBoxFlat_rabe8")
-text = "Time: %0.2f"

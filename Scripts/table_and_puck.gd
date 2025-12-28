@@ -404,8 +404,8 @@ func createParabolaCurve(_from_mrkr:Vector2, _to_mrkr:Vector2)-> Curve2D:
 	var temp_curve = Curve2D.new()
 	#print("\ncurv:_from_mrkr", _from_mrkr)
 	#print("curv:_to_mrkr", _to_mrkr)
-	temp_curve.add_point(_from_mrkr, Vector2.ZERO, Vector2(0,-100))
-	temp_curve.add_point(_to_mrkr, Vector2(0,-150), Vector2.ZERO)
+	temp_curve.add_point(_from_mrkr, Vector2.ZERO, Vector2(0,-150))
+	temp_curve.add_point(_to_mrkr, Vector2(0,-200), Vector2.ZERO)
 	
 	return temp_curve
 
@@ -423,7 +423,7 @@ func _on_path_follow_2d_animation_ended(_slot_to : int) -> void:
 	
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
-	print("IS PUCK ANIMATION ENDING????? = ", anim_name)
+	#print("IS PUCK ANIMATION ENDING????? = ", anim_name)
 	if anim_name == "initialization_animation":
 		#print("---tablePuckAnimationDone---")
 		onGameStateReady()

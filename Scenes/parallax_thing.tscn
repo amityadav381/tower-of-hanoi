@@ -1,14 +1,32 @@
-[gd_scene load_steps=2 format=3 uid="uid://dj714acct4ueg"]
+[gd_scene load_steps=7 format=3 uid="uid://dj714acct4ueg"]
 
+[ext_resource type="Gradient" uid="uid://r2u2rpkirwdr" path="res://Scenes/color_gradient.tres" id="1_0upk7"]
 [ext_resource type="Texture2D" uid="uid://qrwgjffq2bnq" path="res://Assets/Cat_wallpaper.jpg" id="1_2g6w3"]
+[ext_resource type="FastNoiseLite" uid="uid://g7jeah8btn0u" path="res://Scenes/noise.tres" id="2_vpidg"]
+[ext_resource type="Texture2D" uid="uid://ppj12jo0rxl4" path="res://Assets/background_work/Sprite-0001.png" id="4_vpidg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2g6w3"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qpjh8"]
+width = 270
+height = 570
+noise = ExtResource("2_vpidg")
+color_ramp = ExtResource("1_0upk7")
 
 [node name="ParallaxThing" type="Node2D"]
 
 [node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_2g6w3")
 custom_minimum_size = Vector2(270, 570)
 size_flags_horizontal = 3
 size_flags_vertical = 3
-color = Color(0.72156864, 0.72156864, 0.6745098, 1)
+color = Color(0.7254902, 0.7137255, 0.6784314, 1)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("NoiseTexture2D_qpjh8")
 
 [node name="bg" type="Parallax2D" parent="."]
 
@@ -17,3 +35,7 @@ visible = false
 position = Vector2(135, 285)
 scale = Vector2(0.3668478, 0.35804018)
 texture = ExtResource("1_2g6w3")
+
+[node name="sp1" type="Sprite2D" parent="bg"]
+texture = ExtResource("4_vpidg")
+centered = false

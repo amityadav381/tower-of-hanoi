@@ -1,11 +1,26 @@
-[gd_scene load_steps=6 format=3 uid="uid://b1ln4tx337g74"]
+[gd_scene load_steps=7 format=3 uid="uid://b1ln4tx337g74"]
 
 [ext_resource type="Script" uid="uid://ccdmntkg2wuq1" path="res://Scripts/navigation.gd" id="1_gxgjm"]
 [ext_resource type="Theme" uid="uid://b2sdxr37sla6m" path="res://Resources/main_menu.tres" id="1_ut0uc"]
-[ext_resource type="FontFile" uid="uid://dp6y5fs1725mc" path="res://Assets/Pixel_Art/Public_Pixel_Font_1_24/PublicPixel.ttf" id="2_5pagq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5pagq"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 8
+border_color = Color(0.99116415, 0.99116427, 0.99116415, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ut0uc"]
 bg_color = Color(0.60038817, 0.60038817, 0.60038817, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ekuf8"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 1
+border_width_right = 2
+border_width_bottom = 8
+border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gxgjm"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -30,9 +45,10 @@ main_menu_scene = "uid://dfi8v6pyxlps0"
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 theme = ExtResource("1_ut0uc")
-theme_override_fonts/font = ExtResource("2_5pagq")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_5pagq")
 keep_pressed_outside = true
-text = "B"
+text = "<"
 icon_alignment = 1
 expand_icon = true
 
@@ -45,9 +61,10 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_ut0uc")
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 theme = ExtResource("1_ut0uc")
-theme_override_fonts/font = ExtResource("2_5pagq")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_ekuf8")
 keep_pressed_outside = true
-text = "S"
+text = "@"
 icon_alignment = 1
 expand_icon = true
 
