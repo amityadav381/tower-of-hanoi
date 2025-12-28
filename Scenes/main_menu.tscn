@@ -57,7 +57,7 @@ theme_override_constants/separation = 15
 [node name="StartGame" type="Button" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("3_ce3w2")
-text = "START GAME"
+text = "NEW GAME"
 
 [node name="Resume" type="Button" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
@@ -70,7 +70,7 @@ layout_mode = 2
 theme = ExtResource("3_ce3w2")
 text = "SETTINGS"
 
-[node name="Button" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="Quit" type="Button" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("3_ce3w2")
 text = "QUIT"
@@ -78,3 +78,4 @@ text = "QUIT"
 [connection signal="button_up" from="CenterContainer/VBoxContainer/StartGame" to="." method="_on_start_game_button_up"]
 [connection signal="button_up" from="CenterContainer/VBoxContainer/Resume" to="." method="_on_resume_button_up"]
 [connection signal="button_up" from="CenterContainer/VBoxContainer/Settings" to="." method="_on_settings_button_up"]
+[connection signal="button_up" from="CenterContainer/VBoxContainer/Quit" to="." method="_on_quit_button_up"]

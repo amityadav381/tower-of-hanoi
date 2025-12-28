@@ -6,7 +6,7 @@
 bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i6xir"]
-bg_color = Color(0.7332413, 0.22895825, 0.10818312, 1)
+bg_color = Color(1, 1, 1, 1)
 
 [resource]
 Label/colors/font_color = Color(0, 0, 0, 1)

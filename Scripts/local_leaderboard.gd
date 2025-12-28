@@ -44,9 +44,9 @@ func _ready() -> void:
 	stylbox_array = [game1_stylbox, game2_stylbox, game3_stylbox]
 
 func reset_all():
-	gmae1.text = "no rank"
-	gmae2.text = "no rank"
-	gmae3.text = "no rank"
+	gmae1.text = "No Rank"
+	gmae2.text = "No Rank"
+	gmae3.text = "No Rank"
 
 func update_leader_board(lvl_idx_ :int, rank_:String)->void:
 	print("update_leader_board = ",lvl_idx_, rank_)
@@ -60,6 +60,8 @@ func update_leader_board(lvl_idx_ :int, rank_:String)->void:
 		stylbox_array[lvl_idx_].bg_color = color_silver
 	elif rank_ == "Bronze":
 		stylbox_array[lvl_idx_].bg_color = color_bronze
+	else:
+		lvl_array[lvl_idx_].text = "No Rank"
 		
 	#print("Color assignment not working")
 	lvl_array[lvl_idx_].add_theme_stylebox_override("normal", stylbox_array[lvl_idx_])

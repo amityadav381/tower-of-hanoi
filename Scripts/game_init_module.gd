@@ -27,8 +27,8 @@ var gameState_slot :Array
 
 #signal gameStateReady
 var ranking_factor_3puck := [0.5, 1.0, 2.0]
-var ranking_factor_5puck := [1.2, 2.4, 4.2]
-var ranking_factor_7puck := [2.5, 3.0, 6.0]
+var ranking_factor_5puck := [1.05, 2.0, 4.0]
+var ranking_factor_7puck := [2.4, 3.0, 6.0]
 
 var rank_factor := [ranking_factor_3puck, ranking_factor_5puck, ranking_factor_7puck]
 
@@ -196,6 +196,15 @@ func on_nextGameRreq_sent()->void:
 
 func on_gameRestartReq_sent()->void:
 	gameStartState = GameStart.RESTART_GAME
+	gameLevel -= 1
+	if gameLevel == 0:
+		PUCK_COUNT_1INDEXD = 3
+	elif gameLevel == 1:
+		PUCK_COUNT_1INDEXD = 5
+	elif gameLevel == 2:
+		PUCK_COUNT_1INDEXD = 7
+	else:
+		printerr("DAFAQ!?")
 	get_node("../Main/TableAndPuck").freeAllPucks()
 	get_node("../Main/TableAndPuck").resetTargetSlotVisual()
 	#get_node("../Main/TableAndPuck").makePuckInvisible()
@@ -241,6 +250,7 @@ func on_animation_completed()->void:
 			players_best_mv, minMoveCount, (gameStartState == GameStart.RESTART_GAME))
 			updated_save_game_file(rank_)
 			gameLevel += 1
+			updated_save_game_file("No Rank")
 			get_node("../Main/BackgroundMusic").stop()
 			await get_tree().create_timer(0.5).timeout
 			get_node("../Main/TableAndPuck").game_win_audio.play()

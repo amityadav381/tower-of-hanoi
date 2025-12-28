@@ -60,9 +60,9 @@ To
 Tower
 Of
 Hanoi
-Fastest
-Solvers"
+"
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="MiniBoard" type="HBoxContainer" parent="LeaderBoards"]
 custom_minimum_size = Vector2(230, 50)
@@ -86,7 +86,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("2_swykv")
-text = "Silver"
 
 [node name="PuckCount" type="Label" parent="LeaderBoards/MiniBoard/box1"]
 custom_minimum_size = Vector2(0, 12)
@@ -114,7 +113,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("2_swykv")
-text = "Gold"
 
 [node name="PuckCount" type="Label" parent="LeaderBoards/MiniBoard/box2"]
 custom_minimum_size = Vector2(0, 12)
@@ -142,7 +140,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("2_swykv")
-text = "Bronze"
 
 [node name="PuckCount" type="Label" parent="LeaderBoards/MiniBoard/box3"]
 custom_minimum_size = Vector2(0, 12)
