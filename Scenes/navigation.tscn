@@ -58,7 +58,7 @@ icon_alignment = 1
 expand_icon = true
 
 [node name="Panel" type="Panel" parent="."]
-custom_minimum_size = Vector2(170, 0)
+custom_minimum_size = Vector2(165, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ut0uc")
 
