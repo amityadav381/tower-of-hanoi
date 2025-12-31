@@ -59,10 +59,34 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 #90 is the max puck size
+#func set_the_puck_visual_size(_size_id: int)->void:
+	#var _size :int = 0
+	#if _size_id == 6:
+		#_size = 5
+	#else:
+		#_size = 90 - 15*(_size_id)
+	##print("_size_id = ", _size_id)
+	##print("_size = ", _size)
+	##print("PUCK SIZE = ",_size)
+	#var _half_size :float = _size/2.0
+	##print("_half_size = ", _half_size)
+	##var pwr = 1.5**_size_id
+	##var add = 80*_size_id
+	#if GameInitModule.PUCK_COUNT_1INDEXD == 3:
+		#new_stylebox_normal.bg_color = color_array3[_size_id]
+	#elif GameInitModule.PUCK_COUNT_1INDEXD == 5:
+		#new_stylebox_normal.bg_color = color_array5[_size_id]
+	#else:
+		#new_stylebox_normal.bg_color = color_array7[_size_id]
+	##new_stylebox_normal.bg_color = Color(172 + add, 188 + add, 208 + add)
+	#panel_size.add_theme_stylebox_override("panel", new_stylebox_normal)
+	#panel_size.size.x = _size
+	#panel_size.position = Vector2(-_half_size, -10)
+	
 func set_the_puck_visual_size(_size_id: int)->void:
 	var _size :int = 0
 	if _size_id == 6:
-		_size = 5
+		_size = 10
 	else:
 		_size = 90 - 15*(_size_id)
 	#print("_size_id = ", _size_id)

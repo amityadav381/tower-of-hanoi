@@ -39,7 +39,7 @@ metadata/_edit_group_ = true
 layout_mode = 2
 
 [node name="Panel" type="Panel" parent="VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(40, 0)
+custom_minimum_size = Vector2(35, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_jyxl1")
 
@@ -58,7 +58,7 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_xn7dl")
 theme_override_font_sizes/font_size = 16
 text = "Moves:0"
-vertical_alignment = 1
+vertical_alignment = 2
 
 [node name="TimerCnt" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -66,9 +66,8 @@ size_flags_vertical = 3
 theme = ExtResource("5_ulqsn")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_xn7dl")
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 8
 text = "Time :0.00"
-vertical_alignment = 1
 
 [node name="GameControls" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2

@@ -30,8 +30,8 @@ border_width_bottom = 2
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8bfr5"]
 bg_color = Color(1, 1, 1, 0)
-border_width_top = 30
-border_width_bottom = 30
+border_width_top = 40
+border_width_bottom = 40
 border_color = Color(1, 1, 1, 1)
 
 [resource]

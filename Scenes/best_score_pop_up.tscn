@@ -92,12 +92,14 @@ theme_override_constants/separation = 1
 [node name="Move" type="Label" parent="VBoxContainer2/Best/Pro"]
 layout_mode = 2
 theme = ExtResource("3_sfc3c")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_7ud46")
 text = "Moves:%d"
 
 [node name="Time" type="Label" parent="VBoxContainer2/Best/Pro"]
 layout_mode = 2
 theme = ExtResource("3_sfc3c")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_864mf")
 text = "Time:%0.2f"
 
@@ -147,6 +149,7 @@ theme_override_constants/separation = 1
 [node name="Move" type="Label" parent="VBoxContainer2/Best/Bronze"]
 layout_mode = 2
 theme = ExtResource("3_sfc3c")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_gda3n")
 text = "BRONZE"
 horizontal_alignment = 1

@@ -22,8 +22,13 @@ border_width_right = 2
 border_width_bottom = 8
 border_color = Color(1, 1, 1, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gxgjm"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wi6jk"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 1
+border_width_right = 2
+border_width_bottom = 8
+border_color = Color(1, 1, 1, 1)
 
 [node name="Navigation" type="HBoxContainer"]
 z_index = 10
@@ -53,11 +58,11 @@ icon_alignment = 1
 expand_icon = true
 
 [node name="Panel" type="Panel" parent="."]
-custom_minimum_size = Vector2(195, 0)
+custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ut0uc")
 
-[node name="Settings" type="Button" parent="."]
+[node name="Restart" type="Button" parent="."]
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 theme = ExtResource("1_ut0uc")
@@ -68,8 +73,16 @@ text = "@"
 icon_alignment = 1
 expand_icon = true
 
-[node name="Panel2" type="Panel" parent="."]
+[node name="Pause" type="Button" parent="."]
+custom_minimum_size = Vector2(15, 0)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_gxgjm")
+theme = ExtResource("1_ut0uc")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_wi6jk")
+text = "P"
+alignment = 0
+autowrap_trim_flags = 192
 
 [connection signal="button_up" from="Back" to="." method="_on_back_button_up"]
+[connection signal="button_up" from="Restart" to="." method="_on_restart_button_up"]
+[connection signal="button_up" from="Pause" to="." method="_on_pause_button_up"]

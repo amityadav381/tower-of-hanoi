@@ -4,24 +4,26 @@ extends Control
 @onready var gmae2 := $LeaderBoards/MiniBoard/box2/Game2
 @onready var gmae3 := $LeaderBoards/MiniBoard/box3/Game3
 
+@onready var title_ := $LeaderBoards/VBoxContainer/title
+
 #@onready var meme_img := $LeaderBoards/VBoxContainer/Meme
 
-var pro_meme    :Array = \
-[
-	
-]
-var gold_meme   :Array = \
-[
-	
-]
-var silver_meme :Array = \
-[
-	
-]
-var bronze_meme :Array = \
-[
-	"res://Assets/bronze_meme/p1.png"
-]
+#var pro_meme    :Array = \
+#[
+	#
+#]
+#var gold_meme   :Array = \
+#[
+	#
+#]
+#var silver_meme :Array = \
+#[
+	#
+#]
+#var bronze_meme :Array = \
+#[
+	#"res://Assets/bronze_meme/p1.png"
+#]
 
 var game1_stylbox          :StyleBox
 var game2_stylbox          :StyleBox
@@ -65,5 +67,11 @@ func update_leader_board(lvl_idx_ :int, rank_:String)->void:
 		
 	#print("Color assignment not working")
 	lvl_array[lvl_idx_].add_theme_stylebox_override("normal", stylbox_array[lvl_idx_])
-	var _new_texture = load(bronze_meme[0])
+	#var _new_texture = load(bronze_meme[0])
 	#meme_img.texture = _new_texture
+
+func reset_welcome_text()->void:
+	title_.text = "Welcome\nTo\n\nTower\nOf\nHanoi"
+	
+func winning_title_text()->void:
+	title_.text = "Thanks\nFor\nPlaying\n\nChamp!"

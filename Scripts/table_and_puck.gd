@@ -131,6 +131,7 @@ func makePuckVisible()->void:
 
 func placePucksInResetPosition()->void:
 	#for i in range(GameInitModule.PUCK_COUNT_1INDEXD): #MAX PUCKS
+	print("placePucksInResetPosition puck_counter = ", puck_counter)
 	if puck_counter >= GameInitModule.PUCK_COUNT_1INDEXD:
 		printerr("Weird Puck count")
 	puckObjects.append(puck_scene.instantiate())
@@ -162,6 +163,7 @@ func freeAllPucks()->void:
 	for i in range(GameInitModule.PUCK_COUNT_1INDEXD):
 		if puckObjects.size():
 			puckObjects[i].queue_free()
+			print("PUCKS FREED = ", i)
 	puckObjects.clear()
 
 func selectTargetSlot(_bigPuckSlot: int)->void:
@@ -214,7 +216,7 @@ func restartLastGame()->void:
 	#GameInitModule.gameInitAtRestart()
 	for _p in range((GameInitModule.PUCK_COUNT_1INDEXD-1), -1, -1):
 		placePucksInResetPosition()
-		print("GameInitModule.gameState_slot = ", GameInitModule.gameState_slot)
+		#print("GameInitModule.gameState_slot = ", GameInitModule.gameState_slot)
 		var _s :int = GameInitModule.gameState_slot.pop_front()
 		#GameInitModule.gameStatePreserve.push_back(_s)
 		await animatingThePucks(_s)

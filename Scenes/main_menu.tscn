@@ -43,9 +43,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -123.0
-offset_top = -198.0
+offset_top = -213.0
 offset_right = 123.0
-offset_bottom = -21.0
+offset_bottom = -36.0
 grow_horizontal = 2
 grow_vertical = 0
 metadata/_edit_group_ = true
@@ -55,6 +55,7 @@ layout_mode = 2
 theme_override_constants/separation = 15
 
 [node name="StartGame" type="Button" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(230, 0)
 layout_mode = 2
 theme = ExtResource("3_ce3w2")
 text = "NEW GAME"
@@ -66,6 +67,7 @@ theme_override_fonts/font = ExtResource("3_1ehe0")
 text = "RESUME"
 
 [node name="Settings" type="Button" parent="CenterContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 theme = ExtResource("3_ce3w2")
 text = "SETTINGS"
@@ -74,6 +76,26 @@ text = "SETTINGS"
 layout_mode = 2
 theme = ExtResource("3_ce3w2")
 text = "QUIT"
+
+[node name="SecretMessage" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -115.0
+offset_top = -44.0
+offset_right = 115.0
+offset_bottom = -21.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("3_1ehe0")
+theme_override_font_sizes/font_size = 8
+text = "Get Pro in all 3 games to unlock
+a message from the developer"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="button_up" from="CenterContainer/VBoxContainer/StartGame" to="." method="_on_start_game_button_up"]
 [connection signal="button_up" from="CenterContainer/VBoxContainer/Resume" to="." method="_on_resume_button_up"]

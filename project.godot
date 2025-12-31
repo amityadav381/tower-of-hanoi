@@ -13,7 +13,11 @@ config_version=5
 config/name="TowerOfHanoi"
 run/main_scene="uid://dfi8v6pyxlps0"
 config/features=PackedStringArray("4.5", "Mobile")
-config/icon="res://icon.svg"
+boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/fullsize=false
+boot_splash/image="uid://bdfask7vxnhb2"
+config/icon="uid://bnn2ig601semg"
+boot_splash/minimum_display_time=2000
 
 [autoload]
 

@@ -54,13 +54,6 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("2_1jp75")
 theme_override_font_sizes/font_size = 32
-text = "Welcome
-To
-
-Tower
-Of
-Hanoi
-"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -151,6 +144,6 @@ vertical_alignment = 1
 
 [node name="Shader" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_1jp75")
-position = Vector2(132, 153)
+position = Vector2(134, 154.99998)
 scale = Vector2(232, 286)
 texture = SubResource("CanvasTexture_avotj")

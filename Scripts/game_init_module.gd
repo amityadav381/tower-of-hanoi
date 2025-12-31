@@ -101,6 +101,7 @@ func _ready() -> void:
 	if ResourceLoader.exists(SAVE_PATH):
 		print("FILE DID DO EXIST")
 		save_game = ResourceLoader.load(SAVE_PATH, "", ResourceLoader.CACHE_MODE_IGNORE)
+		gameLevel = save_game.currentGameLevel
 	else:
 		print("FILE DID NOT EXIST")
 		save_game = SaveGame.new()
@@ -178,8 +179,10 @@ func connectNextGameRequested()->void:
 	get_node("../Main/GameScoreWindow").nextGameRreq.connect(on_nextGameRreq_sent)
 
 func on_nextGameRreq_sent()->void:
+	get_node("../Main/Navigation").disable_pause_button()
+	get_node("../Main/Navigation").disable_restart_from_navigation()
 	get_node("../Main/CountDownWindow").gameState_.visible = false
-	get_node("../Main/TableAndPuck").freeAllPucks()
+	await get_node("../Main/TableAndPuck").freeAllPucks()
 	PUCK_COUNT_1INDEXD += 2
 	print("gameLevel = ", gameLevel)
 	print("PUCK_COUNT_1INDEXD = ", PUCK_COUNT_1INDEXD)
@@ -195,8 +198,11 @@ func on_nextGameRreq_sent()->void:
 	get_node("../Main/TableAndPuck").play_initial_puck_slot_animation()
 
 func on_gameRestartReq_sent()->void:
+	get_node("../Main/Navigation").disable_pause_button()
+	get_node("../Main/Navigation").disable_restart_from_navigation()
 	gameStartState = GameStart.RESTART_GAME
 	gameLevel -= 1
+	print("on_gameRestartReq_sent gameLevel = ",gameLevel)
 	if gameLevel == 0:
 		PUCK_COUNT_1INDEXD = 3
 	elif gameLevel == 1:
@@ -215,6 +221,33 @@ func on_gameRestartReq_sent()->void:
 	get_node("../Main/ICGS").reset_ingame_counters()
 	get_node("../Main/BackgroundMusic").play()
 	get_node("../Main/ICGS").disable_user_inputs()
+	get_node("../Main/TableAndPuck").play_initial_puck_slot_animation()
+
+func on_gameRestart_Navigation()->void:
+	get_node("../Main/Navigation").disable_pause_button()
+	get_node("../Main/Navigation").disable_restart_from_navigation()
+	get_node("../Main/ICGS").start_game_score_timer(false)
+	gameStartState = GameStart.RESTART_GAME
+	print("on_gameRestart_Navigation gameLevel = ",gameLevel)
+	if gameLevel == 0:
+		PUCK_COUNT_1INDEXD = 3
+	elif gameLevel == 1:
+		PUCK_COUNT_1INDEXD = 5
+	elif gameLevel == 2:
+		PUCK_COUNT_1INDEXD = 7
+	else:
+		printerr("DAFAQ!?")
+	await get_node("../Main/TableAndPuck").freeAllPucks()
+	await get_node("../Main/TableAndPuck").resetTargetSlotVisual()
+	#get_node("../Main/TableAndPuck").makePuckInvisible()
+	#get_node("../Main/TableAndPuck").placePucksInResetPosition()
+	get_node("../Main/GameScoreWindow").visible = false
+	get_node("../Main/BlurAnimation").play("RESET")
+	gameInitAtRestart()
+	get_node("../Main/ICGS").reset_ingame_counters()
+	get_node("../Main/BackgroundMusic").play()
+	get_node("../Main/ICGS").disable_user_inputs()
+	await get_tree().create_timer(1).timeout
 	get_node("../Main/TableAndPuck").play_initial_puck_slot_animation()
 
 func icgs_pushed_cmd()->void:
@@ -236,6 +269,8 @@ func on_animation_completed()->void:
 		#updatedSaveGameResources()
 		if GameInitModule.inputCommands.size() == 0:
 			print("!!!WIN!!!")
+			get_node("../Main/Navigation").disable_pause_button()
+			get_node("../Main/Navigation").disable_restart_from_navigation()
 			gameWon = true
 			#get_node("../Main/BestScorePopUp").visible = false
 			#yourPoints = time_taken_main + move_count_main
@@ -250,13 +285,14 @@ func on_animation_completed()->void:
 			players_best_mv, minMoveCount, (gameStartState == GameStart.RESTART_GAME))
 			updated_save_game_file(rank_)
 			gameLevel += 1
-			updated_save_game_file("No Rank")
+			if gameLevel < 3:
+				updated_save_game_file("No Rank")
 			get_node("../Main/BackgroundMusic").stop()
 			await get_tree().create_timer(0.5).timeout
 			get_node("../Main/TableAndPuck").game_win_audio.play()
 			get_node("../Main/GameScoreWindow").visible = true
 			get_node("../Main/BlurAnimation").play("blur_animation")
-			get_node("../Main/TableAndPuck").freeAllPucks()
+			await get_node("../Main/TableAndPuck").freeAllPucks()
 			
 			#get_node("../Main/BestScorePopUp").reset_all()
 			#if gameStartState == GameStart.RESTART_GAME:
@@ -275,6 +311,8 @@ func on_main_node_entered()->void:
 	gameClearState()
 	get_node("../Main/ICGS").reset_ingame_counters()
 	get_node("../Main/BackgroundMusic").play()
+	get_node("../Main/Navigation").disable_restart_from_navigation()
+	get_node("../Main/Navigation").disable_pause_button()
 	get_node("../Main/ICGS").disable_user_inputs()
 	get_node("../Main/TableAndPuck").play_initial_puck_slot_animation()
 	
@@ -292,7 +330,19 @@ func on_count_down_over()->void:
 		#(save_game.fourPuckTable[gameIndex].bestTimeTaken, save_game.fourPuckTable[gameIndex].bestMoveCount)
 	#print("USER INPUTS ENABLED!")
 	get_node("../Main/ICGS").enable_user_inputs()
+	get_node("../Main/Navigation").enable_restart_from_navigation()
+	get_node("../Main/Navigation").enable_pause_button()
 	#get_node("../Main/ICGS").start_game_score_timer(true)
+
+func pause_the_timer()->void:
+	get_node("../Main/ICGS").disable_user_inputs()
+	get_node("../Main/Navigation").disable_restart_from_navigation()
+	get_node("../Main/ICGS").start_game_score_timer(false)
+
+func unpause_the_timer()->void:
+	get_node("../Main/ICGS").enable_user_inputs()
+	get_node("../Main/Navigation").enable_restart_from_navigation()
+	get_node("../Main/ICGS").start_game_score_timer(true)
 
 func on_table_puck_animation_complete()->void:
 	#print(" Minimum Moves to solve this game = ", count_min_moves())
